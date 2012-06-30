@@ -1,0 +1,1 @@
+Email Anda telah diaktifkan, silakan melakukan login

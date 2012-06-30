@@ -1,0 +1,1 @@
+berhasil mengirimkan link aktifasi, silakan cek email anda kemudian lakukan aktivasi
