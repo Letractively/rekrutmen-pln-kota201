@@ -15,8 +15,9 @@
   </tr>
 <?php  
 $i=1;
-foreach($kursus->result() as $row){ ?>
-<!--<?php $id[$i] = $row->ID_KURSUS; ?>-->
+foreach($kursus->result() as $row){ 
+if(isset($row->ID_KURSUS)){
+?>
   <tr>
     <td><div align="center"><?php echo $i ?></div></td>
     <td><div align="left"><?php echo $row->NAMAPENDIDIKANINFORMAL; ?></div></td>
@@ -26,6 +27,7 @@ foreach($kursus->result() as $row){ ?>
   </tr>
   <?php
   $i++;
+  }
  } ?>
 </table>
 <?php echo anchor ('pelamar/inputKursus', '[+]Tambah Kursus');?>

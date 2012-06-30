@@ -4,10 +4,14 @@
 </head>
 
 <body>
-<?php echo form_open('pelamar/inputKursus');?>
-<table width="532" height="153" border="0" cellpadding="2" cellspacing="2">
+<?php if(isset($form['idkursus'])) {
+			echo form_open('pelamar/editKursus/'.$form['idkursus']) ;
+		}else{
+			echo form_open('pelamar/inputKursus');
+         }?>
+<table width="532" height="151" border="0" cellpadding="2" cellspacing="2">
   <tr>
-    <td width="164">Nama Kursus</td>
+    <td width="164" height="26">Nama Kursus</td>
     <td width="153"> 
       <input type="text" name="nama" id="nama" value="<?php echo set_value('nama',(isset($form['nama'])) ? $form['nama'] : '');?>"/>
     </td>
@@ -43,6 +47,6 @@
     <td>&nbsp;</td>
   </tr>
 </table>
-          <?php echo form_close(); ?>
+<?php echo form_close(); ?>
 </body>
 </html>
