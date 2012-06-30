@@ -35,8 +35,6 @@ class Pelamar extends BaseController{
 			$data['form'] = $getData;
 			$data['option_kota1'] = $this->MPelamar->getKotaList($getData['provinsi']);
 			$data['option_kota2'] = $this->MPelamar->getKotaList($getData['provinsi2']);
-//			echo $getData['provinsi'];
-//			echo $getData['provinsi2'];
 			$idem = $this->input->post('idem');
 			if($this->cekFieldKosong()){	      		
 				$this->MPelamar->editPelamar($data);
@@ -63,15 +61,15 @@ class Pelamar extends BaseController{
 		
 	}
         
-//      function submit(){
-//      		$data = array( 'email' => $this->session->userdata('email'),
-//      						'id_akun' => $this->session->userdata('id_akun'));
-//      		if($this->cekFieldKosong()){
-//				$this->MPelamar->addPelamar($data);
-//      		} else {
-//      			redirect('pelamar');
-//      		}
-//      }
+    function validasi($str)
+    {
+    	$this->form_validation->set_message('validasi', 'Data harus diisi dengan benar.');
+    	if($str == 0){
+    		return false;	
+    	} else {
+    		return true;
+    	}
+    }
 
 	function cekFieldKosong(){
 		$this->form_validation->set_rules('nama', 'Nama Lengkap', 'required');
@@ -102,24 +100,87 @@ class Pelamar extends BaseController{
 		else {
 			return true;
 		}
-	}
+	}    
+    
+	function cekValidasiKursus(){
+    	
+    	$this->form_validation->set_rules('nama', 'Nama Kursus', 'required');
+    	$this->form_validation->set_rules('instansi', 'Nama Instansi', 'required');
+    	$this->form_validation->set_rules('tahun', 'Tahun Sertifikat', 'required|numeric');
+//    	$this->form_validation->set_rules('nama', 'Nama Kursus', 'required');
 	
-    function validasi($str)
-    {
-    	$this->form_validation->set_message('validasi', 'Data harus diisi dengan benar.');
-    	if($str == 0){
-    		return false;	
-    	} else {
-    		return true;
-    	}
+    	if($this->form_validation->run()==FALSE){
+			return false;
+		}
+		else {
+			return true;
+		}
     }
-//    function addPengalaman(){
+    
+    function cekValidasiPengalaman(){
+    	
+    	$this->form_validation->set_rules('nama', 'Nama Perusahaan', 'required');
+    	$this->form_validation->set_rules('jabatan', 'Posisi/Jabatan', 'required');
+    	$this->form_validation->set_rules('tglMasuk', 'Tanggal Masuk', 'required');
+    	$this->form_validation->set_rules('tglKeluar', 'Tanggal Keluar', 'required');
+    	$this->form_validation->set_rules('penghasilan', 'Penghasilan', 'numeric');
+//    	$this->form_validation->set_rules('website', 'Website Perusahaan', 'required');
+	
+    	if($this->form_validation->run()==FALSE){
+			return false;
+		}
+		else {
+			return true;
+		}
+    }
+
+    function addPendidikan(){
 //    	$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
-//    	$data['kursus'] = $this->MPelamar->getAllKursus($idpel['idpel']);
-//    	$data['view'] = 'pelamar/v_isi_data_kursus';
-//		$data['title'] = 'Kursus';
-//		$this->load->view('pelamar/main_pelamar', $data);
-//    }
+//    	$data['pengalaman'] = $this->MPelamar->getAllPengalaman($idpel['idpel']);
+    	$data['view'] = 'pelamar/v_isi_data_pendidikan';
+		$data['title'] = 'Riwayat Pendidikan';
+		$this->load->view('pelamar/main_pelamar', $data);
+    }
+    
+    function addPengalaman(){
+    	$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
+    	$data['pengalaman'] = $this->MPelamar->getAllPengalaman($idpel['idpel']);
+    	$data['view'] = 'pelamar/v_isi_data_pengalaman';
+		$data['title'] = 'Pengalaman Kerja';
+		$this->load->view('pelamar/main_pelamar', $data);
+    }
+    
+    function inputPengalaman(){
+    	if($this->pelamarIsExist($this->session->userdata('id_akun'))){
+	    	if($this->cekValidasiPengalaman()){
+	    		$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
+	    		$this->MPelamar->addPengalaman($idpel['idpel']);
+	    		redirect ('pelamar/addPengalaman');
+	    	} else {	
+	    	$data['view'] = 'pelamar/v_input_pengalaman';
+			$data['title'] = 'Tambah Pengalaman';
+			$this->load->view('pelamar/main_pelamar', $data);
+	    	}
+	    } else {
+	 		redirect('pelamar');   	
+	    }
+    }
+    
+    function editPengalaman($idkerja){
+    	if($this->cekValidasiPengalaman()){
+    		$this->MPelamar->editPengalaman($idkerja);
+    		redirect('pelamar/addPengalaman');
+    	}
+    	$data['form'] = $this->MPelamar->getPengalaman($idkerja); 
+    	$data['view'] = 'pelamar/v_input_pengalaman';
+		$data['title'] = 'Edit Pengalaman';
+		$this->load->view('pelamar/main_pelamar', $data);
+    }
+    
+    function deletePengalaman($idkerja){
+    	$this->MPelamar->delPengalaman($idkerja);
+    	redirect ('pelamar/addPengalaman');
+    }
     
     function addKursus(){
     	$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
@@ -149,6 +210,7 @@ class Pelamar extends BaseController{
     function editKursus($idkursus){
     	if($this->cekValidasiKursus()){
     		$this->MPelamar->editKursus($idkursus);
+    		redirect ('pelamar/addKursus');
     	}
     	$data['form'] = $this->MPelamar->getKursus($idkursus); 
     	$data['view'] = 'pelamar/v_input_kursus';
@@ -160,22 +222,7 @@ class Pelamar extends BaseController{
     	$this->MPelamar->delKursus($idkursus);
     	redirect ('pelamar/addKursus');
     }
-    
-    function cekValidasiKursus(){
-    	
-    	$this->form_validation->set_rules('nama', 'Nama Kursus', 'required');
-    	$this->form_validation->set_rules('instansi', 'Nama Instansi', 'required');
-    	$this->form_validation->set_rules('tahun', 'Tahun Sertifikat', 'required|numeric');
-//    	$this->form_validation->set_rules('nama', 'Nama Kursus', 'required');
-	
-    	if($this->form_validation->run()==FALSE){
-			return false;
-		}
-		else {
-			return true;
-		}
-    }
-    
+
     function pelamarIsExist($str)
     {
         $query = $this->db->query("SELECT COUNT(*) AS dupe FROM pelamar WHERE ID_AKUN = '$str'");
