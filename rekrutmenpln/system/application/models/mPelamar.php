@@ -178,19 +178,83 @@ class MPelamar extends Model{
         return $result;
 	}
 	
-	function getAllKursus($id){
+	function getIdPelamar($idakun){
 //		$result = array();
+		$this->db->select('ID_PEL');
+		$this->db->from('pelamar');
+		$this->db->where('ID_AKUN',$idakun);
+		$array_keys_values = $this->db->get();
+        foreach ($array_keys_values->result() as $row)
+        {
+            $result['idpel']= $row->ID_PEL;
+        }
+        return $result;
+	}
+	
+	function getAllPengalaman($id){
+		$this->db->select('*');
+		$this->db->from('pengalamankerja');
+		$this->db->where('ID_PEL', $id);
+		$array_keys_values = $this->db->get();
+        return $array_keys_values;
+	}
+	
+	function getPengalaman($id){
+		$result = array();
+		$this->db->select('*');
+		$this->db->from('pengalamankerja');
+		$this->db->where('ID_KERJA', $id);
+		$array_keys_values = $this->db->get();
+        foreach ($array_keys_values->result() as $row)
+        {
+        	$result['idkerja']= $row->ID_KERJA;
+            $result['nama']= $row->NAMA_PERUSAHAAN;
+            $result['jabatan']= $row->JABATAN;
+            $result['tglMasuk']= $row->TGL_MASUK;
+            $result['tglKeluar']= $row->TGL_KELUAR;
+            $result['penghasilan']= $row->PENGHASILAN;
+            $result['website']= $row->WEBSITE_PERUSAHAAN;
+        }
+        return $result;
+	}
+	
+	function addPengalaman($pel){
+		
+		$data = array(
+				'ID_KERJA'			=> NULL,
+				'ID_PEL'			=> $pel,
+		        'NAMA_PERUSAHAAN'   => $this->input->post('nama'),
+		        'JABATAN'  			=> $this->input->post('jabatan'),
+		        'TGL_MASUK'     => $this->input->post('tglMasuk'),
+		        'TGL_KELUAR' 	=> $this->input->post('tglKeluar'),
+				'PENGHASILAN' 		=> $this->input->post('penghasilan'),
+				'WEBSITE_PERUSAHAAN' 	=> $this->input->post('website')
+		);
+		$this->db->insert('pengalamankerja', $data);
+	}
+	function editPengalaman($idkerja){
+		
+		$data = array(
+		        'NAMA_PERUSAHAAN'   => $this->input->post('nama'),
+		        'JABATAN'  			=> $this->input->post('jabatan'),
+		        'TGL_MASUK'     => $this->input->post('tglMasuk'),
+		        'TGL_KELUAR' 	=> $this->input->post('tglKeluar'),
+				'PENGHASILAN' 		=> $this->input->post('penghasilan'),
+				'WEBSITE_PERUSAHAAN' 	=> $this->input->post('website')
+		);
+		$this->db->where('ID_KERJA',$idkerja);
+		$this->db->update('pengalamankerja', $data);
+	}
+	
+	function delPengalaman($idkerja){
+		$this->db->where('ID_KERJA', $idkerja);
+		$this->db->delete('pengalamankerja');
+	}
+	function getAllKursus($id){
 		$this->db->select('*');
 		$this->db->from('kursus');
 		$this->db->where('ID_PEL', $id);
 		$array_keys_values = $this->db->get();
-//        foreach ($array_keys_values->result() as $row)
-//        {
-//            $result['nama']= $row->NAMAPENDIDIKANINFORMAL;
-//            $result['instansi']= $row->NAMA_INSTANSI;
-//            $result['tahun']= $row->TAHUN_SERTIFIKAT;
-//            $result['berkas']= $row->BERKAS_SERTIFIKAT;
-//        }
         return $array_keys_values;
 	}
 	
@@ -202,23 +266,11 @@ class MPelamar extends Model{
 		$array_keys_values = $this->db->get();
         foreach ($array_keys_values->result() as $row)
         {
+        	$result['idkursus']= $row->ID_KURSUS;
             $result['nama']= $row->NAMAPENDIDIKANINFORMAL;
             $result['instansi']= $row->NAMA_INSTANSI;
             $result['tahun']= $row->TAHUN_SERTIFIKAT;
             $result['berkas']= $row->BERKAS_SERTIFIKAT;
-        }
-        return $result;
-	}
-	
-	function getIdPelamar($idakun){
-//		$result = array();
-		$this->db->select('ID_PEL');
-		$this->db->from('pelamar');
-		$this->db->where('ID_AKUN',$idakun);
-		$array_keys_values = $this->db->get();
-        foreach ($array_keys_values->result() as $row)
-        {
-            $result['idpel']= $row->ID_PEL;
         }
         return $result;
 	}
@@ -239,11 +291,10 @@ class MPelamar extends Model{
 	function editKursus($idkursus){
 		
 		$data = array(
-				'ID_PEL'					=> $pel,
 		        'NAMAPENDIDIKANINFORMAL'    => $this->input->post('nama'),
 		        'NAMA_INSTANSI'  			=> $this->input->post('instansi'),
 		        'TAHUN_SERTIFIKAT'     		=> $this->input->post('tahun'),
-		        'BERKAS_SERTIFIKAT' 		=> $akun['berkas']
+		        'BERKAS_SERTIFIKAT' 		=> $this->input->post('berkas')
 		);
 		$this->db->where('ID_KURSUS', $idkursus);
 		$this->db->update('kursus', $data);
