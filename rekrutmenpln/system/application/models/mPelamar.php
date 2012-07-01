@@ -4,6 +4,54 @@ class MPelamar extends Model{
 		parent::Model();
 	}
 	
+	function getTingkatList($pt){
+		$result = array();
+		$this->db->select('*');
+		$this->db->from('tingkatpendidikan');
+		$this->db->where('STATUS_PT', $pt);
+		$this->db->order_by('NAMA_TINGKAT','ASC');
+		$array_keys_values = $this->db->get();
+        foreach ($array_keys_values->result() as $row)
+        {
+            $result[0]= '-Pilih Tingkat Pendidikan-';
+            $result[$row->ID_TINGKAT]= $row->NAMA_TINGKAT;
+        }
+        
+        return $result;
+	}	
+	
+	function getPTList(){
+		$result = array();
+		$this->db->select('*');
+		$this->db->from('perguruantinggi');
+//		$this->db->where('STATUS_PT', $pt);
+		$this->db->order_by('NAMA_PT','ASC');
+		$array_keys_values = $this->db->get();
+        foreach ($array_keys_values->result() as $row)
+        {
+            $result[0]= '-Pilih Perguruan Tinggi-';
+            $result[$row->ID_PT]= $row->NAMA_PT;
+        }
+        
+        return $result;
+	}
+	
+	function getProgramStudiList(){
+		$result = array();
+		$this->db->select('*');
+		$this->db->from('programstudi');
+//		$this->db->where('STATUS_PT', $pt);
+		$this->db->order_by('NAMA_PS','ASC');
+		$array_keys_values = $this->db->get();
+        foreach ($array_keys_values->result() as $row)
+        {
+            $result[0]= '-Pilih Program Studi-';
+            $result[$row->ID_PS]= $row->NAMA_PS;
+        }
+        
+        return $result;
+	}
+	
 	function getPropinsiList(){
 		$result = array();
 		$this->db->select('*');
@@ -133,7 +181,7 @@ class MPelamar extends Model{
 		        'ID_PERNIKAHAN'  	=> $this->input->post('nikah'),
 		        'ID_KOTA'     		=> $this->input->post('kota_id'),
 		        'KOT_ID_KOTA'     	=> $kota2,
-		        'ID_PROV'  	=> $this->input->post('provinsi_id'),
+		        'ID_PROV'  		=> $this->input->post('provinsi_id'),
 		        'PRO_ID_PROV'	=> $provinsi2,
 				'NAMA_PEL'			=> $this->input->post('nama'),
 				'JK'				=> $this->input->post('jk'),
@@ -191,6 +239,137 @@ class MPelamar extends Model{
         return $result;
 	}
 	
+	function getAllPendidikanNonPT($id){
+		$this->db->select('*');
+		$this->db->from('pendidikanformalnonpt');
+		$this->db->join('tingkatpendidikan','tingkatpendidikan.ID_TINGKAT = pendidikanformalnonpt.ID_TINGKAT');
+		$this->db->where('ID_PEL', $id);
+		$array_keys_values = $this->db->get();
+        return $array_keys_values;
+	}	
+	
+	function getPendidikanNonPT($id){
+		$result = array();
+		$this->db->select('*');
+		$this->db->from('pendidikanformalnonpt');
+		$this->db->where('ID_PENDIDIKAN', $id);
+		$array_keys_values = $this->db->get();
+        foreach ($array_keys_values->result() as $row)
+        {
+        	$result['idPend']= $row->ID_PENDIDIKAN;
+        	$result['tingkat']= $row->ID_TINGKAT;
+            $result['nama']= $row->NAMA_INSTITUSI;
+            $result['tempat']= $row->TEMPAT_INSTITUSI;
+            $result['thnMasuk']= $row->TAHUN_MASUK;
+            $result['thnLulus']= $row->TAHUN_LULUS;
+            $result['berkas']= $row->BERKAS_IJAZAH;
+        }
+        return $result;
+	}
+	
+	function addPendidikanNonPT($pel){	
+		$data = array(
+				'ID_PENDIDIKAN'	=> NULL,
+				'ID_PEL'			=> $pel,
+				'ID_TINGKAT'		=> $this->input->post('tingkat'),
+		        'TAHUN_MASUK'  		=> $this->input->post('thnMasuk'),
+		        'TAHUN_LULUS'    	=> $this->input->post('thnLulus'),
+		        'NAMA_INSTITUSI' 	=> $this->input->post('nama'),
+				'TEMPAT_INSTITUSI' 	=> $this->input->post('tempat'),
+				'BERKAS_IJAZAH' 	=> $this->input->post('berkas')
+		);
+		$this->db->insert('pendidikanformalnonpt', $data);
+	}
+	
+	function editPendidikanNonPT($idPend){	
+		$data = array(
+				'ID_TINGKAT'		=> $this->input->post('tingkat'),
+		        'TAHUN_MASUK'  		=> $this->input->post('thnMasuk'),
+		        'TAHUN_LULUS'    	=> $this->input->post('thnLulus'),
+		        'NAMA_INSTITUSI' 	=> $this->input->post('nama'),
+				'TEMPAT_INSTITUSI' 	=> $this->input->post('tempat'),
+				'BERKAS_IJAZAH' 	=> $this->input->post('berkas')
+		);
+		$this->db->where('ID_PENDIDIKAN', $idPend);
+		$this->db->update('pendidikanformalnonpt', $data);
+	}
+	
+	function delPendidikanNonPT($idPend){
+		$this->db->where('ID_PENDIDIKAN', $idPend);
+		$this->db->delete('pendidikanformalnonpt');
+	}
+	
+	function getAllPendidikanPT($id){
+		$this->db->select('*');
+		$this->db->from('pendidikanformalpt');
+		$this->db->join('tingkatpendidikan','tingkatpendidikan.ID_TINGKAT = pendidikanformalpt.ID_TINGKAT');
+		$this->db->join('programstudi','programstudi.ID_PS = pendidikanformalpt.ID_PS');
+		$this->db->join('perguruantinggi','perguruantinggi.ID_PT = pendidikanformalpt.ID_PT');
+		$this->db->where('ID_PEL', $id);
+		$array_keys_values = $this->db->get();
+        return $array_keys_values;
+	}
+	
+	function getPendidikanPT($id){
+		$result = array();
+		$this->db->select('*');
+		$this->db->from('pendidikanformalpt');
+		$this->db->where('ID_PENDIDIKAN_PT', $id);
+		$array_keys_values = $this->db->get();
+        foreach ($array_keys_values->result() as $row)
+        {
+        	$result['idPend']= $row->ID_PENDIDIKAN_PT;
+        	$result['tingkat']= $row->ID_TINGKAT;
+            $result['pt']= $row->ID_PT;
+            $result['ps']= $row->ID_PS;
+            $result['thnMasuk']= $row->TAHUN_MASUK;
+            $result['thnLulus']= $row->TAHUN_LULUS;
+            $result['konsen']= $row->KONSENTRASI;
+            $result['ipk']= $row->IPK;
+            $result['gelar']= $row->GELAR;
+            $result['berkas']= $row->BERKAS_IJAZAH;
+        }
+        return $result;
+	}
+	
+	function addPendidikanPT($pel){	
+		$data = array(
+				'ID_PENDIDIKAN_PT'	=> NULL,
+				'ID_PEL'			=> $pel,
+				'ID_TINGKAT'		=> $this->input->post('tingkat'),
+				'ID_PT'				=> $this->input->post('pt'),
+		        'ID_PS'   			=> $this->input->post('ps'),
+		        'TAHUN_MASUK'  		=> $this->input->post('thnMasuk'),
+		        'TAHUN_LULUS'    	=> $this->input->post('thnLulus'),
+		        'KONSENTRASI' 		=> $this->input->post('konsen'),
+				'IPK' 				=> $this->input->post('ipk'),
+				'GELAR' 			=> $this->input->post('gelar'),
+				'BERKAS_IJAZAH' 	=> $this->input->post('berkas')
+		);
+		$this->db->insert('pendidikanformalpt', $data);
+	}
+	
+	function editPendidikanPT($idPend){	
+		$data = array(
+				'ID_TINGKAT'		=> $this->input->post('tingkat'),
+				'ID_PT'				=> $this->input->post('pt'),
+		        'ID_PS'   			=> $this->input->post('ps'),
+		        'TAHUN_MASUK'  		=> $this->input->post('thnMasuk'),
+		        'TAHUN_LULUS'    	=> $this->input->post('thnLulus'),
+		        'KONSENTRASI' 		=> $this->input->post('konsen'),
+				'IPK' 				=> $this->input->post('ipk'),
+				'GELAR' 			=> $this->input->post('gelar'),
+				'BERKAS_IJAZAH' 	=> $this->input->post('berkas')
+		);
+		$this->db->where('ID_PENDIDIKAN_PT', $idPend);
+		$this->db->update('pendidikanformalpt', $data);
+	}
+	
+	function delPendidikanPT($idPend){
+		$this->db->where('ID_PENDIDIKAN_PT', $idPend);
+		$this->db->delete('pendidikanformalpt');
+	}
+	
 	function getAllPengalaman($id){
 		$this->db->select('*');
 		$this->db->from('pengalamankerja');
@@ -232,6 +411,7 @@ class MPelamar extends Model{
 		);
 		$this->db->insert('pengalamankerja', $data);
 	}
+	
 	function editPengalaman($idkerja){
 		
 		$data = array(
@@ -250,6 +430,7 @@ class MPelamar extends Model{
 		$this->db->where('ID_KERJA', $idkerja);
 		$this->db->delete('pengalamankerja');
 	}
+	
 	function getAllKursus($id){
 		$this->db->select('*');
 		$this->db->from('kursus');
