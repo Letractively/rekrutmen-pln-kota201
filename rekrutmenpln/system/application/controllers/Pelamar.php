@@ -7,10 +7,11 @@ class Pelamar extends BaseController{
 		$this->load->model('MPelamar');
 		$this->load->helper(array('form','url'));
 		$this->load->library('form_validation');
+		$this->output->enable_profiler(TRUE);
 	}
 	
 	function index(){	
-		$this->output->enable_profiler(TRUE);	
+			
 		$data = array(	'email' 			=> $this->session->userdata('email'),
 	      				'id_akun' 			=> $this->session->userdata('id_akun'),
 						'option_propinsi'	=> $this->MPelamar->getPropinsiList(),
@@ -133,13 +134,127 @@ class Pelamar extends BaseController{
 			return true;
 		}
     }
+    
+   function cekValidasiPendidikanPT(){
+    	
+    	$this->form_validation->set_rules('tingkat', 'Tingkat Pendidikan', 'callback_validasi');
+    	$this->form_validation->set_rules('pt', 'Perguruan Tinggi', 'callback_validasi');
+    	$this->form_validation->set_rules('ps', 'Program Studi', 'callback_validasi');
+//    	$this->form_validation->set_rules('konsen', 'Konsentrasi', 'required');
+    	$this->form_validation->set_rules('ipk', 'IPK', 'required');
+    	$this->form_validation->set_rules('thnMasuk', 'Tahun Masuk', 'callback_validasi');
+    	$this->form_validation->set_rules('thnLulus', 'Tahun Lulus', 'callback_validasi');
+//    	$this->form_validation->set_rules('gelar', 'Gelar', 'numeric');
+//    	$this->form_validation->set_rules('berkas', 'Berkas', 'required');
+	
+    	if($this->form_validation->run()==FALSE){
+			return false;
+		}
+		else {
+			return true;
+		}
+    }
+    
+   function cekValidasiPendidikanNonPT(){
+    	
+    	$this->form_validation->set_rules('tingkat', 'Tingkat Pendidikan', 'callback_validasi');
+    	$this->form_validation->set_rules('nama', 'Nama Sekolah', 'required');
+    	$this->form_validation->set_rules('tempat', 'Tempat/Alamat', 'required');
+    	$this->form_validation->set_rules('thnMasuk', 'Tahun Masuk', 'callback_validasi');
+    	$this->form_validation->set_rules('thnLulus', 'Tahun Lulus', 'callback_validasi');
+//    	$this->form_validation->set_rules('berkas', 'Berkas', 'required');
+	
+    	if($this->form_validation->run()==FALSE){
+			return false;
+		}
+		else {
+			return true;
+		}
+    }
 
     function addPendidikan(){
-//    	$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
-//    	$data['pengalaman'] = $this->MPelamar->getAllPengalaman($idpel['idpel']);
+    	$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
+    	$data['pendPT'] = $this->MPelamar->getAllPendidikanPT($idpel['idpel']);
+    	$data['pendNonPT'] = $this->MPelamar->getAllPendidikanNonPT($idpel['idpel']);
     	$data['view'] = 'pelamar/v_isi_data_pendidikan';
 		$data['title'] = 'Riwayat Pendidikan';
 		$this->load->view('pelamar/main_pelamar', $data);
+    }
+    
+    function inputPendidikanNonPT(){
+	    if($this->pelamarIsExist($this->session->userdata('id_akun'))){
+	    	if($this->cekValidasiPendidikanNonPT()){
+	    		$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
+	    		$this->MPelamar->addPendidikanNonPT($idpel['idpel']);
+	    		redirect ('pelamar/addPendidikan');
+		    } else {
+				$data['option_year'] = $this->setOptionYear();
+				$data['option_tingkat'] = $this->MPelamar->getTingkatList(false);
+		    	$data['view'] = 'pelamar/v_input_pendidikan_nonpt';
+				$data['title'] = 'Riwayat Pendidikan';
+				$this->load->view('pelamar/main_pelamar', $data);
+	    	}
+	    } else{
+	    	redirect('pelamar');
+	    }
+    }
+    
+    function editPendidikanNonPT($idPend){
+    	if($this->cekValidasiPendidikanNonPT()){
+    		$this->MPelamar->editPendidikanNonPT($idPend);
+    		redirect('pelamar/addPendidikan');
+    	}
+    	$data['option_year'] = $this->setOptionYear();
+		$data['option_tingkat'] = $this->MPelamar->getTingkatList(false);
+    	$data['form'] = $this->MPelamar->getPendidikanNonPT($idPend); 
+    	$data['view'] = 'pelamar/v_input_pendidikan_nonpt';
+		$data['title'] = 'Edit Pendidikan Formal Non PT';
+		$this->load->view('pelamar/main_pelamar', $data);
+    }
+    
+    function deletePendidikanNonPT($idPend){
+    	$this->MPelamar->delPendidikanNonPT($idPend);
+    	redirect ('pelamar/addPendidikan');
+    }
+    
+    function inputPendidikanPT(){
+	    if($this->pelamarIsExist($this->session->userdata('id_akun'))){
+	    	if($this->cekValidasiPendidikanPT()){
+	    		$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
+	    		$this->MPelamar->addPendidikanPT($idpel['idpel']);
+	    		redirect ('pelamar/addPendidikan');
+		    } else {
+				$data['option_year'] = $this->setOptionYear();
+				$data['option_tingkat'] = $this->MPelamar->getTingkatList(true);
+				$data['option_pt'] = $this->MPelamar->getPTList();
+				$data['option_ps'] = $this->MPelamar->getProgramStudiList();
+		    	$data['view'] = 'pelamar/v_input_pendidikan_pt';
+				$data['title'] = 'Riwayat Pendidikan';
+				$this->load->view('pelamar/main_pelamar', $data);
+	    	}
+	    } else{
+	    	redirect('pelamar');
+	    }
+    }
+    
+    function editPendidikanPT($idPend){
+    	if($this->cekValidasiPendidikanPT()){
+    		$this->MPelamar->editPendidikanPT($idPend);
+    		redirect('pelamar/addPendidikan');
+    	}
+    	$data['option_year'] = $this->setOptionYear();
+		$data['option_tingkat'] = $this->MPelamar->getTingkatList(true);
+		$data['option_pt'] = $this->MPelamar->getPTList();
+		$data['option_ps'] = $this->MPelamar->getProgramStudiList();
+    	$data['form'] = $this->MPelamar->getPendidikanPT($idPend); 
+    	$data['view'] = 'pelamar/v_input_pendidikan_pt';
+		$data['title'] = 'Edit Pendidikan Formal PT';
+		$this->load->view('pelamar/main_pelamar', $data);
+    }
+    
+    function deletePendidikanPT($idPend){
+    	$this->MPelamar->delPendidikanPT($idPend);
+    	redirect ('pelamar/addPendidikan');
     }
     
     function addPengalaman(){
@@ -228,6 +343,15 @@ class Pelamar extends BaseController{
         $query = $this->db->query("SELECT COUNT(*) AS dupe FROM pelamar WHERE ID_AKUN = '$str'");
         $row = $query->row();
         return ($row->dupe > 0) ? TRUE : FALSE;
+    }
+    
+    function setOptionYear(){
+    	$now = date('Y');
+    	$option[0] = '-pilih tahun-';
+    	for($i = $now; $i >= 1945; $i--){
+    		$option[$i] = $i;
+    	}
+    	return $option;
     }
 }
 ?>
