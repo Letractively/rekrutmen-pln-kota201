@@ -1,7 +1,36 @@
 <?php
 class MPelamar extends Model{
+	var $gallerypath;
+	var $gallery_path_url;
+	
 	function __construct(){
 		parent::Model();
+		$this->gallerypath = realpath(APPPATH.'/../../berkas');
+		$this->gallery_path_url = base_url().'/berkas';
+	}
+	
+	function do_upload($id,$type) {
+		$konfigurasi = array(
+			'allowed_types' =>'jpg|jpeg|gif|png|bmp',
+			'upload_path' 	=> $this->gallerypath.'/'.$type,
+			'file_name'		=> $id,
+			'max_size'		=> 2000
+		);
+		
+		$this->load->library('upload', $konfigurasi);
+		$this->upload->do_upload();
+		$datafile = $this->upload->data();
+	
+		$konfigurasi = array(
+			'source_image' => $datafile['full_path'],
+			'new_image' => $this->gallerypath .'/'.$type.'/thumbnails',
+			'maintain_ration' => true,
+			'width' => 480,
+			'height' =>640
+		);
+
+		$this->load->library('image_lib', $konfigurasi);
+		$this->image_lib->resize();
 	}
 	
 	function getTingkatList($pt){
@@ -344,9 +373,11 @@ class MPelamar extends Model{
 		        'KONSENTRASI' 		=> $this->input->post('konsen'),
 				'IPK' 				=> $this->input->post('ipk'),
 				'GELAR' 			=> $this->input->post('gelar'),
-				'BERKAS_IJAZAH' 	=> $this->input->post('berkas')
+				'BERKAS_IJAZAH' 	=> $pel
 		);
-		$this->db->insert('pendidikanformalpt', $data);
+		if($this->db->insert('pendidikanformalpt', $data)){
+			$this->do_upload($pel,'ijazahPT');
+		}
 	}
 	
 	function editPendidikanPT($idPend){	

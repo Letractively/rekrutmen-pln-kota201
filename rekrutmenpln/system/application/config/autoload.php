@@ -51,7 +51,7 @@ $autoload['libraries'] = array('database','table','encrypt');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('form','url','file');
+$autoload['helper'] = array('form','url','file','html');
 
 
 /*

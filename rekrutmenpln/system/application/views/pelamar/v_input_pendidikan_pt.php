@@ -6,9 +6,9 @@
 
 <body>
 <?php if(isset($form['idPend'])) {
-			echo form_open('pelamar/editPendidikanPT/'.$form['idPend']) ;
+			echo form_open_multipart('pelamar/editPendidikanPT/'.$form['idPend']) ;
 		}else{
-			echo form_open('pelamar/inputPendidikanPT');
+			echo form_open_multipart('pelamar/inputPendidikanPT');
          }?>
 <table width="510" border="0" cellspacing="2" cellpadding="2">
   <tr>
@@ -63,7 +63,7 @@
   </tr>
   <tr>
     <td>Berkas Ijazah</td>
-    <td><input type="text" name="berkas" id="berkas" value="<?php echo set_value('berkas',(isset($form['berkas'])) ? $form['berkas'] : '');?>"/></td>
+    <td><?php echo form_upload('userfile');?></td>
     <td><?php echo form_error('berkas'); ?></td>
   </tr>
   <tr>

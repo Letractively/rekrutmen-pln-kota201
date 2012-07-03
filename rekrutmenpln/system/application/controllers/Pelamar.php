@@ -222,6 +222,7 @@ class Pelamar extends BaseController{
 	    	if($this->cekValidasiPendidikanPT()){
 	    		$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
 	    		$this->MPelamar->addPendidikanPT($idpel['idpel']);
+//	    		$this->MPelamar->do_upload();
 	    		redirect ('pelamar/addPendidikan');
 		    } else {
 				$data['option_year'] = $this->setOptionYear();
