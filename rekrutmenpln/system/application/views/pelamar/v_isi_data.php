@@ -3,12 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>Resume</title>
-  </head>
+    <style type="text/css">
+<!--
+.style3 {font-size: 10px}
+-->
+    </style>
+</head>
   <body>
     <p>
       <!-- page content -->
-      <?php echo form_open('pelamar');?>    </p>
-    <table width="793" height="536" border="0" align="center" cellpadding="2" cellspacing="2">
+      <?php echo form_open_multipart('pelamar');?>    </p>
+    <table width="927" height="536" border="0" align="center" cellpadding="2" cellspacing="2">
+      <tr>
+        <td height="23" colspan="3">Informasi Pribadi</td>
+      </tr>
       <tr>
         <td width="109" height="26">&nbsp;</td>
         <td width="148">Nama Lengkap</td>
@@ -134,13 +142,62 @@
         <td width="310"><?php echo form_error('kodepos2'); ?> </td>
       </tr>
       <tr>
-        <td height="23">&nbsp;</td>
+        <td height="23" colspan="3">Kelengkapan Lain</td>
+      </tr>
+      <tr>
+        <td height="26">&nbsp;</td>
+        <td>Penghasilan Diinginkan</td>
+        <td><input name="penghasilan" type="text" id="penghasilan" value="<?php echo set_value('penghasilan',(isset($form['penghasilan'])) ? $form['penghasilan'] : '');?>" maxlength="9" /></td>
+        <td width="310">&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="26">&nbsp;</td>
+        <td>Pernyataan</td>
+        <td><textarea name="pernyataan" id="pernyataan" cols="45" rows="5" readonly></textarea></td>
+        <td width="310">&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="26">&nbsp;</td>
         <td>&nbsp;</td>
+        <td>
+	<?php 
+	$check = '';
+	$dis = 'disabled';
+	if(isset($form['setuju'])){ 
+		if($form['setuju'] == 1){ 
+			$check = 'checked';
+			$dis = 'enabled';
+		}
+	}
+	
+	?>        
+        <input type="checkbox" name="setuju" id="setuju" <?php echo $check; ?>/>
+Setuju Coy !! </td>
+        <td width="310">&nbsp;</td>
+      </tr>
+       <tr>
+        <td height="26">&nbsp;</td>
         <td>&nbsp;</td>
+        <td><?php echo form_upload('userfile');?>
+          <?php 
+    if (isset($form['foto']))  {?>
+          <a href="<?php echo base_url();?>index.php/pelamar/displayBerkas/foto/<?php echo $form['foto'];?>"> 
+          <img src="<?php echo base_url();?>berkas/foto/thumbnails/<?php echo $form['foto'];?>"/> </a>
+          <?php }?>
+          <br />
+          <span class="style3">filetype: jpg,jpeg,gif,png,bmp; size max:100kb</span></td>
+        <td width="310"><div align="left">
+
+    <?php 
+    if(isset($berkas)){
+	    if($berkas != 'kosong'){
+	    	echo $berkas; }
+    	}?>
+    </div></td>
       </tr>
   </table>
 
-<?php echo form_submit("submit","Submit"); ?>
+<input type="submit" value="Submit" id="submit" <?php echo $dis;?>>
     <?php echo form_close(); ?>
     <script type="text/javascript">
 	  	$("#propinsi_id").change(function(){
@@ -191,6 +248,14 @@
 			    	$("#propinsi_id2").attr("disabled",false);
 			    	$("#kota_id2").attr("disabled",false);
 			    	$("#kodepos2").attr("disabled",false);
+			    }
+			});
+			$("#setuju").change(function () { 
+			    if ($(this).is(":checked")) {			    	
+			    	$("#submit").attr("disabled",false);
+			    }
+			    else {
+			    	$("#submit").attr("disabled",true);
 			    }
 			});
 	   </script>

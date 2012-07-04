@@ -54,6 +54,7 @@
 		{
 			return FALSE;
 		}
+//		echo sha1($password.$qry->row('SALT'));
 
 		if (sha1($password.$qry->row('SALT')) == $qry->row('PASSWORD'))
 		{

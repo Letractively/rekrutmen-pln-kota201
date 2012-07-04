@@ -63,7 +63,7 @@ if(isset($row->ID_PENDIDIKAN)){
       <td><?php echo $row->NAMA_INSTITUSI; ?></td>
       <td><div align="center"><?php echo $row->TAHUN_MASUK; ?></div></td>
       <td><div align="center"><?php echo $row->TAHUN_LULUS; ?></div></td>
-      <td><div align="center"><?php echo anchor('','view') ;?> | <?php echo anchor('pelamar','edit'); ?> | <?php echo anchor('pelamar','delete'); ?>
+      <td><div align="center"><?php echo anchor('','view') ;?> | <?php echo anchor('pelamar/editPendidikanNonPT/'.$row->ID_PENDIDIKAN,'edit'); ?> | <?php echo anchor('pelamar/deletePendidikanNonPT/'.$row->ID_PENDIDIKAN,'delete'); ?>
         </div>
       </div></td>
     </tr>

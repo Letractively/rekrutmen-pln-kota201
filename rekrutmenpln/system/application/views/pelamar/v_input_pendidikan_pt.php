@@ -2,6 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+<!--
+.style3 {font-size: 12px}
+-->
+</style>
 </head>
 
 <body>
@@ -10,23 +15,21 @@
 		}else{
 			echo form_open_multipart('pelamar/inputPendidikanPT');
          }?>
-<table width="510" border="0" cellspacing="2" cellpadding="2">
+<table width="956" border="0" cellspacing="2" cellpadding="2">
   <tr>
-    <td width="147">Tingkat Pendidikan</td>
-    <td width="144">
+    <td width="122">Tingkat Pendidikan</td>
+    <td width="354">
       <div id="tingkat" style="width:200px;float:left;"><?php
     	echo form_dropdown("tingkat",$option_tingkat,set_value('tingkat',(isset($form['tingkat'])) ? $form['tingkat'] : 0),"id='tingkat'");
-    ?>
-    </div>    </td>
-    <td width="199"><?php echo form_error('tingkat'); ?></td>
+    ?>   </td>
+    <td width="460"><?php echo form_error('tingkat'); ?></td>   </div>  
   </tr>
   <tr>
     <td>Perguruan Tinggi</td>
     <td>      <div id="pt" style="width:200px;float:left;"><?php
     	echo form_dropdown("pt",$option_pt,set_value('pt',(isset($form['pt'])) ? $form['pt'] : 0),"id='pt'");
-    ?>
-    </div>  </td>
-    <td><?php echo form_error('pt'); ?></td>
+    ?>  </td>
+    <td><?php echo form_error('pt'); ?></td>   </div> 
   </tr>
   <tr>
     <td>Program Studi</td>
@@ -48,12 +51,12 @@
   </tr>
   <tr>
     <td>Tahun Masuk</td>
-    <td><?php echo form_dropdown('thnMasuk', $option_year,set_value('ipk',(isset($form['thnMasuk'])) ? $form['thnMasuk'] : 0),"'id=thnMasuk'");?></td>
+    <td><?php echo form_dropdown('thnMasuk', $option_year,set_value('thnLulus',(isset($form['thnMasuk'])) ? $form['thnMasuk'] : 0),"'id=thnMasuk'");?></td>
     <td><?php echo form_error('thnMasuk'); ?></td>
   </tr>
   <tr>
     <td>Tahun Lulus</td>
-    <td><?php echo form_dropdown('thnLulus', $option_year,set_value('ipk',(isset($form['thnLulus'])) ? $form['thnLulus'] : 0),"'id=thnLulus'");?></td>
+    <td><?php echo form_dropdown('thnLulus', $option_year,set_value('thnLulus',(isset($form['thnLulus'])) ? $form['thnLulus'] : 0),"'id=thnLulus'");?></td>
     <td><?php echo form_error('thnLulus'); ?></td>
   </tr>
   <tr>
@@ -63,15 +66,30 @@
   </tr>
   <tr>
     <td>Berkas Ijazah</td>
-    <td><?php echo form_upload('userfile');?></td>
-    <td><?php echo form_error('berkas'); ?></td>
+    <td><?php echo form_upload('userfile');?>    
+	<?php 
+    if (isset($form['berkas']))  {?>
+	    <a href="<?php echo base_url();?>index.php/pelamar/displayBerkas/ijazahPT/<?php echo $form['berkas'];?>">
+    	<img src="<?php echo base_url();?>berkas/ijazahPT/thumbnails/<?php echo $form['berkas'];?>"/>        </a>
+    	<?php }?>
+        <br />    
+        <span class="style3">filetype: jpg,jpeg,gif,png,bmp; size max:100kb</span></td>
+    <td><div align="left">
+
+    <?php 
+    if(isset($berkas)){
+	    if($berkas != 'kosong'){
+	    	echo $berkas; }
+    	}?>
+    </div></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
     <td><div align="right"><?php echo form_submit('submit', 'Submit');?></div></td>
-    <td><div align="right"></div></td>
+    <td><div align="left"></div></td>
   </tr>
-</table>
 <?php echo form_close();?>
+</table>
+
 </body>
 </html>

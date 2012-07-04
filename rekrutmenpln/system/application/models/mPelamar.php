@@ -10,27 +10,106 @@ class MPelamar extends Model{
 	}
 	
 	function do_upload($id,$type) {
+
 		$konfigurasi = array(
 			'allowed_types' =>'jpg|jpeg|gif|png|bmp',
 			'upload_path' 	=> $this->gallerypath.'/'.$type,
 			'file_name'		=> $id,
-			'max_size'		=> 2000
+			'max_size'		=> 2048,
+			'max_height'	=> 1000,
+			'max_width'		=> 1000,
+			'overwrite'		=> true,
+			'remove_spaces'	=> true
 		);
 		
 		$this->load->library('upload', $konfigurasi);
-		$this->upload->do_upload();
-		$datafile = $this->upload->data();
+		if(!$this->upload->do_upload()){
+			$error = $this->upload->display_errors();
+			if($_FILES['userfile']['error'] == 4)
+				return 'kosong';
+			else
+				return $error;
+		} else {
+			$datafile = $this->upload->data();
+			$konfigurasi = array(
+				'source_image' => $datafile['full_path'],
+				'new_image' => $this->gallerypath .'/'.$type.'/thumbnails',
+				'maintain_ration' => true,
+				'width' => 50,
+				'height' =>100
+			);
+			$this->load->library('image_lib', $konfigurasi);
+			$this->image_lib->resize();
+			return 'kosong';
+		}
+	}
 	
-		$konfigurasi = array(
-			'source_image' => $datafile['full_path'],
-			'new_image' => $this->gallerypath .'/'.$type.'/thumbnails',
-			'maintain_ration' => true,
-			'width' => 480,
-			'height' =>640
-		);
-
-		$this->load->library('image_lib', $konfigurasi);
-		$this->image_lib->resize();
+//	function editBerkasPelamar($pel){	
+//		$data = array(
+//				'PENGHASILAN_DIINGINKAN'	=> $this->input->post('penghasilan')
+//		);
+//		if($this->input->post('setuju') == 'on'){
+//			$data['KESEDIAAN_PENEMPATAN'] = 1;
+//		}
+//		
+//		if(!$_FILES['userfile1']['error'] == 4){
+//			$filename = basename($_FILES['userfile1']['name']);
+//	  		$ext = strtolower (substr($filename, strrpos($filename, '.') + 1));
+//			$data['FOTO']= $pel . '.' . $ext;
+//		}
+//		if(!$_FILES['userfile2']['error'] == 4){
+//			$filename = basename($_FILES['userfile2']['name']);
+//	  		$ext = strtolower (substr($filename, strrpos($filename, '.') + 1));
+//			$data['BERKAS_KTP']= $pel . '.' . $ext;
+//		}
+//		if(!$_FILES['userfile3']['error'] == 4){
+//			$filename = basename($_FILES['userfile3']['name']);
+//	  		$ext = strtolower (substr($filename, strrpos($filename, '.') + 1));
+//			$data['BERKAS_AKTE']= $pel . '.' . $ext;
+//		}
+//		
+//		$this->db->where("ID_PEL", $pel);
+//		$this->db->update('pelamar', $data);
+//	}
+	
+//	function edit_upload($id,$type,$user){
+//			$konfigurasi = array(
+//			'allowed_types' =>'jpg|jpeg|gif|png|bmp',
+//			'upload_path' 	=> $this->gallerypath.'/'.$type,
+//			'file_name'		=> $id,
+//			'max_size'		=> 2048,
+//			'max_height'	=> 1000,
+//			'max_width'		=> 1000,
+//			'overwrite'		=> true,
+//			'remove_spaces'	=> true
+//		);
+//		
+//		$this->load->library('upload', $konfigurasi);
+//		if(!$this->upload->do_upload()){
+//			$error = $this->upload->display_errors();
+//			if($_FILES[$user]['error'] == 4)
+//				return 'kosong';
+//			else
+//				return $error;
+//		} else {
+//			$datafile = $this->upload->data();
+//			$konfigurasi = array(
+//				'source_image' => $datafile['full_path'],
+//				'new_image' => $this->gallerypath .'/'.$type.'/thumbnails',
+//				'maintain_ration' => true,
+//				'width' => 50,
+//				'height' =>100
+//			);
+//			$this->load->library('image_lib', $konfigurasi);
+//			$this->image_lib->resize();
+//			return 'kosong';
+//		}
+//	}
+	
+	function delete_data($img,$type)
+	{
+	        unlink(realpath('berkas/'.$type.'/'.$img));
+	        unlink(realpath('berkas/'.$type.'/thumbnails/'.$img));
 	}
 	
 	function getTingkatList($pt){
@@ -157,15 +236,20 @@ class MPelamar extends Model{
 			$provinsi2 = $this->input->post('provinsi_id2');
 		}
 		
+		if($this->input->post('setuju') == 'on')
+			$setuju = 1;
+		else
+			$setuju =0;
+		
 		$data = array(
 				'ID_PEL'			=> NULL,
 		        'ID_AGAMA'      	=> $this->input->post('agama'),
 		        'ID_PERNIKAHAN'  	=> $this->input->post('nikah'),
-		        'ID_KOTA'     	=> $this->input->post('kota_id'),
-		        'KOT_ID_KOTA'     => $kota2,
+		        'ID_KOTA'     		=> $this->input->post('kota_id'),
+		        'KOT_ID_KOTA'     	=> $kota2,
 		        'ID_AKUN' 			=> $akun['id_akun'],
-		        'ID_PROV'  	=> $this->input->post('provinsi_id'),
-		        'PRO_ID_PROV'	=> $provinsi2,
+		        'ID_PROV'  			=> $this->input->post('provinsi_id'),
+		        'PRO_ID_PROV'		=> $provinsi2,
 				'NAMA_PEL'			=> $this->input->post('nama'),
 				'JK'				=> $this->input->post('jk'),
 				'TEMPAT_LAHIR'		=> $this->input->post('kotaLahir'),
@@ -177,15 +261,22 @@ class MPelamar extends Model{
 				'EMAIL'				=> $akun['email'],
 				'NO_TELP'			=> $this->input->post('noTelp'),
 				'NO_HP'				=> $this->input->post('noHp'),
-				'PENGHASILAN_DIINGINKAN'	=> 0,
-				'KESEDIAAN_PENEMPATAN'		=> 0,
+				'PENGHASILAN_DIINGINKAN'	=> $this->input->post('penghasilan'),
+				'KESEDIAAN_PENEMPATAN'		=> $setuju,
 				'BERKAS_KTP'		=> NULL,
 				'BERKAS_AKTE'		=> NULL,
 				'STATUS_DAFTAR'		=> 0,
 				'JML_DAFTAR'		=> 0
 		);
-		$this->db->insert('pelamar', $data);
-	}
+		
+		if(!$_FILES['userfile']['error'] == 4){
+			$filename = basename($_FILES['userfile']['name']);
+	  		$ext = strtolower (substr($filename, strrpos($filename, '.') + 1));
+			$data['FOTO']= $akun['id_akun'].'.' . $ext;
+		}
+			
+			$this->db->insert('pelamar', $data);
+		}
 	
 	function editPelamar($akun){
 		
@@ -200,6 +291,12 @@ class MPelamar extends Model{
 			$kodepos2 = $this->input->post('kodepos2'); 
 			$provinsi2 = $this->input->post('provinsi_id2');
 		}
+		
+		if($this->input->post('setuju') == 'on')
+			$setuju = 1;
+		else
+			$setuju =0;
+		
 		$where = array(
 				'email'		=> $akun['email'],
 				'ID_AKUN'	=> $akun['id_akun']
@@ -222,7 +319,16 @@ class MPelamar extends Model{
 				'KODEPOS_SURAT'		=> $kodepos2,
 				'NO_TELP'			=> $this->input->post('noTelp'),
 				'NO_HP'				=> $this->input->post('noHp'),
+				'PENGHASILAN_DIINGINKAN'	=> $this->input->post('penghasilan'),
+				'KESEDIAAN_PENEMPATAN'		=> $setuju
 		);
+		
+		if(!$_FILES['userfile']['error'] == 4){
+			$filename = basename($_FILES['userfile']['name']);
+	  		$ext = strtolower (substr($filename, strrpos($filename, '.') + 1));
+			$data['FOTO']= $akun['id_akun'].'.' . $ext;
+		}
+		
 		$this->db->where($where);
 		$this->db->update('pelamar', $data);
 	}
@@ -251,6 +357,11 @@ class MPelamar extends Model{
             $result['kodepos2']= $row->KODEPOS_SURAT;
             $result['noTelp']= $row->NO_TELP;
             $result['noHp']= $row->NO_HP;
+            $result['penghasilan']= $row->PENGHASILAN_DIINGINKAN;
+            $result['setuju']= $row->KESEDIAAN_PENEMPATAN;
+            $result['foto']= $row->FOTO;
+            $result['ktp']= $row->BERKAS_KTP;
+            $result['akte']= $row->BERKAS_AKTE;
         }
         return $result;
 	}
@@ -264,6 +375,45 @@ class MPelamar extends Model{
         foreach ($array_keys_values->result() as $row)
         {
             $result['idpel']= $row->ID_PEL;
+        }
+        return $result;
+	}
+	
+	function getJmlDaftar($idakun){
+//		$result = array();
+		$this->db->select('JML_DAFTAR');
+		$this->db->from('pelamar');
+		$this->db->where('ID_PEL',$idakun);
+		$array_keys_values = $this->db->get();
+        foreach ($array_keys_values->result() as $row)
+        {
+            $result['jml']= $row->JML_DAFTAR;
+        }
+        return $result;
+	}
+	
+	function getStatusDaftar($idakun){
+//		$result = array();
+		$this->db->select('STATUS_DAFTAR');
+		$this->db->from('pelamar');
+		$this->db->where('ID_PEL',$idakun);
+		$array_keys_values = $this->db->get();
+        foreach ($array_keys_values->result() as $row)
+        {
+            $result['statusDaftar']= $row->STATUS_DAFTAR;
+        }
+        return $result;
+	}
+	
+	function getPersetujuan($idakun){
+//		$result = array();
+		$this->db->select('KESEDIAAN_PENEMPATAN');
+		$this->db->from('pelamar');
+		$this->db->where('ID_PEL',$idakun);
+		$array_keys_values = $this->db->get();
+        foreach ($array_keys_values->result() as $row)
+        {
+            $result['setuju']= $row->KESEDIAAN_PENEMPATAN;
         }
         return $result;
 	}
@@ -304,9 +454,18 @@ class MPelamar extends Model{
 		        'TAHUN_MASUK'  		=> $this->input->post('thnMasuk'),
 		        'TAHUN_LULUS'    	=> $this->input->post('thnLulus'),
 		        'NAMA_INSTITUSI' 	=> $this->input->post('nama'),
-				'TEMPAT_INSTITUSI' 	=> $this->input->post('tempat'),
-				'BERKAS_IJAZAH' 	=> $this->input->post('berkas')
+				'TEMPAT_INSTITUSI' 	=> $this->input->post('tempat')
 		);
+		
+		if(!$_FILES['userfile']['error'] == 4){
+		$filename = basename($_FILES['userfile']['name']);
+  		$ext = strtolower (substr($filename, strrpos($filename, '.') + 1));
+		$data['BERKAS_IJAZAH']= $this->input->post('tingkat').
+								$this->input->post('thnMasuk').
+								$this->input->post('thnLulus').
+								 '.' . $ext;
+	}
+		
 		$this->db->insert('pendidikanformalnonpt', $data);
 	}
 	
@@ -319,6 +478,16 @@ class MPelamar extends Model{
 				'TEMPAT_INSTITUSI' 	=> $this->input->post('tempat'),
 				'BERKAS_IJAZAH' 	=> $this->input->post('berkas')
 		);
+		
+		if(!$_FILES['userfile']['error'] == 4){
+		$filename = basename($_FILES['userfile']['name']);
+  		$ext = strtolower (substr($filename, strrpos($filename, '.') + 1));
+		$data['BERKAS_IJAZAH']= $this->input->post('tingkat').
+								$this->input->post('thnMasuk').
+								$this->input->post('thnLulus').
+								 '.' . $ext;
+	}
+		
 		$this->db->where('ID_PENDIDIKAN', $idPend);
 		$this->db->update('pendidikanformalnonpt', $data);
 	}
@@ -372,12 +541,21 @@ class MPelamar extends Model{
 		        'TAHUN_LULUS'    	=> $this->input->post('thnLulus'),
 		        'KONSENTRASI' 		=> $this->input->post('konsen'),
 				'IPK' 				=> $this->input->post('ipk'),
-				'GELAR' 			=> $this->input->post('gelar'),
-				'BERKAS_IJAZAH' 	=> $pel
+				'GELAR' 			=> $this->input->post('gelar')
 		);
-		if($this->db->insert('pendidikanformalpt', $data)){
-			$this->do_upload($pel,'ijazahPT');
+		if(!$_FILES['userfile']['error'] == 4){
+			$filename = basename($_FILES['userfile']['name']);
+	  		$ext = strtolower (substr($filename, strrpos($filename, '.') + 1));
+			$data['BERKAS_IJAZAH']= $this->input->post('tingkat').
+									$this->input->post('pt').$this->input->post('ps').
+									$this->input->post('thnMasuk').
+									$this->input->post('thnLulus').
+									 '.' . $ext;
 		}
+		$this->db->insert('pendidikanformalpt', $data);
+//		if($this->db->insert('pendidikanformalpt', $data)){
+//			$this->do_upload($pel,'ijazahPT');
+//		}
 	}
 	
 	function editPendidikanPT($idPend){	
@@ -390,8 +568,18 @@ class MPelamar extends Model{
 		        'KONSENTRASI' 		=> $this->input->post('konsen'),
 				'IPK' 				=> $this->input->post('ipk'),
 				'GELAR' 			=> $this->input->post('gelar'),
-				'BERKAS_IJAZAH' 	=> $this->input->post('berkas')
 		);
+		
+		if(!$_FILES['userfile']['error'] == 4){
+			$filename = basename($_FILES['userfile']['name']);
+	  		$ext = strtolower (substr($filename, strrpos($filename, '.') + 1));
+			$data['BERKAS_IJAZAH']= $this->input->post('tingkat').
+									$this->input->post('pt').$this->input->post('ps').
+									$this->input->post('thnMasuk').
+									$this->input->post('thnLulus').
+									 '.' . $ext;
+		}
+		
 		$this->db->where('ID_PENDIDIKAN_PT', $idPend);
 		$this->db->update('pendidikanformalpt', $data);
 	}
@@ -497,6 +685,14 @@ class MPelamar extends Model{
 		        'TAHUN_SERTIFIKAT'     		=> $this->input->post('tahun'),
 		        'BERKAS_SERTIFIKAT' 		=> $this->input->post('berkas')
 		);
+		if(!$_FILES['userfile']['error'] == 4){
+			$filename = basename($_FILES['userfile']['name']);
+	  		$ext = strtolower (substr($filename, strrpos($filename, '.') + 1));
+			$data['BERKAS_SERTIFIKAT']= $this->input->post('nama').
+									$this->input->post('tahun').
+									 '.' . $ext;
+		}
+		
 		$this->db->insert('kursus', $data);
 	}
 	
@@ -508,6 +704,14 @@ class MPelamar extends Model{
 		        'TAHUN_SERTIFIKAT'     		=> $this->input->post('tahun'),
 		        'BERKAS_SERTIFIKAT' 		=> $this->input->post('berkas')
 		);
+		
+		if(!$_FILES['userfile']['error'] == 4){
+			$filename = basename($_FILES['userfile']['name']);
+	  		$ext = strtolower (substr($filename, strrpos($filename, '.') + 1));
+			$data['BERKAS_SERTIFIKAT']= $this->input->post('nama').
+									$this->input->post('tahun').
+									 '.' . $ext;
+		}
 		$this->db->where('ID_KURSUS', $idkursus);
 		$this->db->update('kursus', $data);
 	}

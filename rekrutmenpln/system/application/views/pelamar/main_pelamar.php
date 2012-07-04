@@ -11,7 +11,14 @@
 </head>
 
 <body>
-<?php echo anchor('akunPelamar', 'Registrasi')?> | <?php echo anchor('login', 'Login') ?>| <?php echo anchor('pelamar', 'IsiData')?>| <?php echo anchor('Login/logout', 'Logout')?>| <?php echo anchor('pelamar/addKursus', 'Add Kursus')?>| <?php echo anchor('pelamar/addPengalaman', 'Add Pengalaman Kerja')?>| <?php echo anchor('pelamar/addPendidikan', 'Add Riwayat Pendidikan')?>
+<?php echo anchor('akunPelamar', 'Registrasi')?> | 
+<?php echo anchor('login', 'Login') ?>| 
+<?php echo anchor('pelamar', 'IsiData')?>| 
+<?php echo anchor('pelamar/addKursus', 'Add Kursus')?>| 
+<?php echo anchor('pelamar/addPengalaman', 'Add Pengalaman Kerja')?>| 
+<?php echo anchor('pelamar/addPendidikan', 'Add Riwayat Pendidikan')?>|
+<?php echo anchor('lowongan', 'Lowongan Dibuka')?>|
+<?php echo anchor('Login/logout', 'Logout')?>
 <?php $this->load->view($view);?>
 </body>
 </html>

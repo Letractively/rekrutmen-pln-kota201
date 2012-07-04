@@ -6,19 +6,19 @@
 
 <body>
 <?php if(isset($form['idPend'])) {
-			echo form_open('pelamar/editPendidikanNonPT/'.$form['idPend']) ;
+			echo form_open_multipart('pelamar/editPendidikanNonPT/'.$form['idPend']) ;
 		}else{
-			echo form_open('pelamar/inputPendidikanNonPT');
+			echo form_open_multipart('pelamar/inputPendidikanNonPT');
          }?>
 <table width="606" border="0" cellspacing="2" cellpadding="2">
   <tr>
     <td width="157">Tingkat Pendidikan</td>
-    <td width="200">
+    <td width="286">
       <div id="tingkat" style="width:200px;float:left;"><?php
     	echo form_dropdown("tingkat",$option_tingkat,set_value('tingkat',(isset($form['tingkat'])) ? $form['tingkat'] : 0),"id='tingkat'");
     ?>
     </div>    </td>
-    <td width="229"><?php echo form_error('tingkat'); ?></td>
+    <td width="143"><?php echo form_error('tingkat'); ?></td>
   </tr>
   <tr>
     <td>Nama Sekolah/Institusi</td>
@@ -32,18 +32,32 @@
   </tr>
   <tr>
     <td>Tahun Masuk</td>
-    <td><?php echo form_dropdown('thnMasuk', $option_year,set_value('ipk',(isset($form['thnMasuk'])) ? $form['thnMasuk'] : 0),"'id=thnMasuk'");?></td>
+    <td><?php echo form_dropdown('thnMasuk', $option_year,set_value('thnMasuk',(isset($form['thnMasuk'])) ? $form['thnMasuk'] : 0),"'id=thnMasuk'");?></td>
     <td><?php echo form_error('thnMasuk'); ?></td>
   </tr>
   <tr>
     <td>Tahun Lulus</td>
-    <td><?php echo form_dropdown('thnLulus', $option_year,set_value('ipk',(isset($form['thnLulus'])) ? $form['thnLulus'] : 0),"'id=thnLulus'");?></td>
+    <td><?php echo form_dropdown('thnLulus', $option_year,set_value('thnLulus',(isset($form['thnLulus'])) ? $form['thnLulus'] : 0),"'id=thnLulus'");?></td>
     <td><?php echo form_error('thnLulus'); ?></td>
   </tr>
-  <tr>
+    <tr>
     <td>Berkas Ijazah</td>
-    <td><input type="text" name="berkas" id="berkas" value="<?php echo set_value('berkas',(isset($form['berkas'])) ? $form['berkas'] : '');?>"/></td>
-    <td><?php echo form_error('berkas'); ?></td>
+    <td><?php echo form_upload('userfile');?>    
+	<?php 
+    if (isset($form['berkas']))  {?>
+	    <a href="<?php echo base_url();?>index.php/pelamar/displayBerkas/ijazahNonPT/<?php echo $form['berkas'];?>">
+    	<img src="<?php echo base_url();?>berkas/ijazahNonPT/thumbnails/<?php echo $form['berkas'];?>"/>        </a>
+    	<?php }?>
+        <br />    
+        <span class="style3">filetype: jpg,jpeg,gif,png,bmp; size max:100kb</span></td>
+    <td><div align="left">
+
+    <?php 
+    if(isset($berkas)){
+	    if($berkas != 'kosong'){
+	    	echo $berkas; }
+    	}?>
+    </div></td>
   </tr>
   <tr>
     <td height="23">&nbsp;</td>
