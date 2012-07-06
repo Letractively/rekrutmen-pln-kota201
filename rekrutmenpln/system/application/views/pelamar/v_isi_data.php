@@ -131,7 +131,7 @@
         <td>&nbsp;</td>
         <td>Kota</td>
         <td> <div id="kota2">  	<?php
-    	echo form_dropdown("kota_id2",isset($option_kota2) ? $option_kota2: array('Pilih Kota / Kabupaten'=>'Pilih Propinsi Dahulu'),set_value('kota2',(isset($form['kota2'])) ? $form['kota2'] : 0),'enabled');
+    	echo form_dropdown("kota_id2",isset($option_kota2) ? $option_kota2: array('Pilih Kota / Kabupaten'=>'Pilih Propinsi Dahulu'),set_value('kota2',(isset($form['kota2'])) ? $form['kota2'] : 0),"id='kota_2'");
     ?>   </div></td>
     <td width="310"><?php echo form_error('kota_id2'); ?> </td>
       </tr>
@@ -148,7 +148,7 @@
         <td height="26">&nbsp;</td>
         <td>Penghasilan Diinginkan</td>
         <td><input name="penghasilan" type="text" id="penghasilan" value="<?php echo set_value('penghasilan',(isset($form['penghasilan'])) ? $form['penghasilan'] : '');?>" maxlength="9" /></td>
-        <td width="310">&nbsp;</td>
+        <td width="310"><?php echo form_error('penghasilan'); ?></td>
       </tr>
 <tr>
         <td height="26">&nbsp;</td>
@@ -174,7 +174,13 @@
         <td height="26">&nbsp;</td>
         <td>Pernyataan</td>
         <td>
-        <textarea name="pernyataan" cols="45" rows="5" readonly xml:lang="html" id="pernyataan"><?php echo $option_pernyataan;?></textarea></td>
+        <textarea name="pernyataan" cols="45" rows="5" readonly xml:lang="html" id="pernyataan">Dengan ini saya menyatakan dengan sesungguhnya bahwa :
+
+1. Data yang diisikan pada cv adalah benar, apabila terjadi ketidak cocokan pada saat seleksi administrasi maka dapat berakibat gugurnya kesertaan saya dalam rekrutmen
+
+2. Saya bersedia menjalani OJT(On the Job Training) dan diangkat sebagai pegawai di wilayah PT PLN di manapun, dan tidak akan menuntut untuk ditempatkan di suatu daerah/unit tertentu.
+
+Pernyataan ini saya buat dengan sesungguhnya dalam keadaan sadar dan tanpa tekanan dari pihak manapun.</textarea></td>
         <td width="310">&nbsp;</td>
       </tr>
       <tr>
@@ -243,13 +249,13 @@ Setuju !! </td>
 			    if ($(this).is(":checked")) {			    	
 			    	$("#alamat2").attr("disabled",true);
 			    	$("#propinsi_id2").attr("disabled",true);
-			    	$("#kota_id2").attr("disabled",true);
+			    	$("#kota_2").attr("disabled",true);
 			    	$("#kodepos2").attr("disabled",true);
 			    }
 			    else {
 			    	$("#alamat2").attr("disabled",false);
 			    	$("#propinsi_id2").attr("disabled",false);
-			    	$("#kota_id2").attr("disabled",false);
+			    	$("#kota_2").attr("disabled",false);
 			    	$("#kodepos2").attr("disabled",false);
 			    }
 			});
