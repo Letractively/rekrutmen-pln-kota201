@@ -9,7 +9,17 @@
 |	http://codeigniter.com/user_guide/general/hooks.html
 |
 */
+$hook['pre_controller'][] = array(
 
+'class' => 'MyClasses',
+
+'function' => 'index',
+
+'filename' => 'MyClasses.php',
+
+'filepath' => 'hooks'
+
+);
 
 
 /* End of file hooks.php */
