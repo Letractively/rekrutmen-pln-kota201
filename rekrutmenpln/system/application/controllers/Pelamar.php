@@ -16,7 +16,8 @@ class Pelamar extends BaseController{
 	      				'id_akun' 			=> $this->session->userdata('id_akun'),
 						'option_propinsi'	=> $this->MPelamar->getPropinsiList(),
 						'option_agama'		=> $this->MPelamar->getAgama(),
-						'option_nikah'		=> $this->MPelamar->getPernikahan()
+						'option_nikah'		=> $this->MPelamar->getPernikahan(),
+						'option_pernyataan'	=> $this->MPelamar->getPernyataan()
 		);
 		$data['view'] = 'pelamar/v_isi_data';
 		$data['title'] = 'Isi Data (CV)';
@@ -94,10 +95,10 @@ class Pelamar extends BaseController{
 		$this->form_validation->set_rules('tglLahir', 'Tanggal Lahir', 'trim,required');
 		$this->form_validation->set_rules('jk', 'Jenis Kelamin', 'required|callback_validasi');
 		$this->form_validation->set_rules('agama', 'Agama', 'required|callback_validasi');
-		$this->form_validation->set_rules('noTelp', 'Nomor Telepon', 'required|numeric');
-		$this->form_validation->set_rules('noHp', 'Nomor HP', 'required|numeric');
+		$this->form_validation->set_rules('noTelp', 'Nomor Telepon', 'numeric');
+		$this->form_validation->set_rules('noHp', 'Nomor HP', 'numeric');
 		$this->form_validation->set_rules('nikah', 'Status Pernikahan', 'required|callback_validasi');
-		$this->form_validation->set_rules('alamat', 'Alamat', 'required');
+//		$this->form_validation->set_rules('alamat', 'Alamat', 'required');
 		$this->form_validation->set_rules('provinsi_id', 'Provinsi', 'required|callback_validasi');
 		$this->form_validation->set_rules('kota_id', 'Kota', 'required|callback_validasi');
 		$this->form_validation->set_rules('kodepos', 'Kodepos', 'required|numeric');
@@ -105,7 +106,7 @@ class Pelamar extends BaseController{
 		
 		if($this->input->post('idem') !='on'){
 		
-		$this->form_validation->set_rules('alamat2', 'Alamat', 'required');
+//		$this->form_validation->set_rules('alamat2', 'Alamat', 'required');
 		$this->form_validation->set_rules('provinsi_id2', 'Provinsi', 'required|callback_validasi');
 		$this->form_validation->set_rules('kota_id2', 'Kota', 'required|callback_validasi');
 		$this->form_validation->set_rules('kodepos2', 'Kodepos', 'required|numeric');
@@ -190,12 +191,17 @@ class Pelamar extends BaseController{
     }
 
     function addPendidikan(){
-    	$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
-    	$data['pendPT'] = $this->MPelamar->getAllPendidikanPT($idpel['idpel']);
-    	$data['pendNonPT'] = $this->MPelamar->getAllPendidikanNonPT($idpel['idpel']);
-    	$data['view'] = 'pelamar/v_isi_data_pendidikan';
-		$data['title'] = 'Riwayat Pendidikan';
-		$this->load->view('pelamar/main_pelamar', $data);
+    	if($this->pelamarIsExist($this->session->userdata('id_akun'))){
+	    	$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
+	    	$data['pendPT'] = $this->MPelamar->getAllPendidikanPT($idpel['idpel']);
+	    	$data['pendNonPT'] = $this->MPelamar->getAllPendidikanNonPT($idpel['idpel']);
+	    	$data['view'] = 'pelamar/v_isi_data_pendidikan';
+			$data['title'] = 'Riwayat Pendidikan';
+			$this->load->view('pelamar/main_pelamar', $data);
+    	} else{
+    		$this->session->set_flashdata('error', 'Anda harus mengisi data pribadi terlebih dahulu!');
+	    	redirect('pelamar');
+	    }
     }
     
     function inputPendidikanNonPT(){
@@ -221,6 +227,7 @@ class Pelamar extends BaseController{
 				$this->load->view('pelamar/main_pelamar', $data);
 	    	}
 	    } else{
+	    	$this->session->set_flashdata('error', 'Anda harus mengisi data pribadi terlebih dahulu!');
 	    	redirect('pelamar');
 	    }
     }
@@ -285,6 +292,7 @@ class Pelamar extends BaseController{
 				$this->load->view('pelamar/main_pelamar', $data);
 	    	}
 	    } else{
+	    	$this->session->set_flashdata('error', 'Anda harus mengisi data pribadi terlebih dahulu!');
 	    	redirect('pelamar');
 	    }
     }
@@ -327,11 +335,16 @@ class Pelamar extends BaseController{
     }
     
     function addPengalaman(){
+    	if($this->pelamarIsExist($this->session->userdata('id_akun'))){    	
     	$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
     	$data['pengalaman'] = $this->MPelamar->getAllPengalaman($idpel['idpel']);
     	$data['view'] = 'pelamar/v_isi_data_pengalaman';
 		$data['title'] = 'Pengalaman Kerja';
 		$this->load->view('pelamar/main_pelamar', $data);
+    	} else {
+    		$this->session->set_flashdata('error', 'Anda harus mengisi data pribadi terlebih dahulu!');
+	 		redirect('pelamar');   	
+	    }
     }
     
     function inputPengalaman(){
@@ -367,11 +380,15 @@ class Pelamar extends BaseController{
     }
     
     function addKursus(){
-    	$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
-    	$data['kursus'] = $this->MPelamar->getAllKursus($idpel['idpel']);
-    	$data['view'] = 'pelamar/v_isi_data_kursus';
-		$data['title'] = 'Kursus';
-		$this->load->view('pelamar/main_pelamar', $data);
+    	if($this->pelamarIsExist($this->session->userdata('id_akun'))){
+	    	$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
+	    	$data['kursus'] = $this->MPelamar->getAllKursus($idpel['idpel']);
+	    	$data['view'] = 'pelamar/v_isi_data_kursus';
+			$data['title'] = 'Kursus';
+			$this->load->view('pelamar/main_pelamar', $data);
+	    } else {
+	    	redirect ('pelamar');
+	    }
     }
     
     function inputKursus(){
@@ -379,13 +396,14 @@ class Pelamar extends BaseController{
     		$data['option_year'] = $this->setOptionYear();
     		$data['view'] = 'pelamar/v_input_kursus';
 			$data['title'] = 'Tambah Kursus';
-	    	$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
 	    	if($this->cekValidasiKursus()){
 	    		$uploaded = $this->MPelamar->do_upload(
     			$this->input->post('nama').
     			$this->input->post('tahun'),'sertifikat');
+    			$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
 	    		if($uploaded == 'kosong'){
 		    		$this->MPelamar->addKursus($idpel['idpel']);
+		    		$this->session->set_flashdata('message', 'Data berhasil disimpan!');
 		    		redirect ('pelamar/addKursus');
 	    		} else {
 	    			$data['berkas'] = $uploaded;

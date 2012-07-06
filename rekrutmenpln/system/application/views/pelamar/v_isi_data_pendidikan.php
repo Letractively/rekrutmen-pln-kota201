@@ -30,9 +30,9 @@ if(isset($row->ID_PENDIDIKAN_PT)){
     <td><div align="center"><?php echo $row->IPK; ?></div></td>
     <td><div align="center"><?php echo $row->TAHUN_MASUK; ?></div></td>
     <td><div align="center"><?php echo $row->TAHUN_LULUS; ?></div></td>
-    <td><div align="center"><?php echo anchor('','view') ;?> | <?php echo anchor('pelamar/editPendidikanPT/'.$row->ID_PENDIDIKAN_PT,'edit'); ?> | <?php echo anchor('pelamar/deletePendidikanPT/'.$row->ID_PENDIDIKAN_PT,'delete'); ?>
+    <td><div align="center"><?php echo anchor('','view') ;?> | <?php echo anchor('pelamar/editPendidikanPT/'.$row->ID_PENDIDIKAN_PT,'edit'); ?> | <?php echo anchor('pelamar/deletePendidikanPT/'.$row->ID_PENDIDIKAN_PT,'delete',array('onClick' => "return confirm('Are you sure you want to delete?')")); ?>
         </div>
-    </div></td>
+    </td>
   </tr>
   <?php
   $i++;
@@ -63,9 +63,9 @@ if(isset($row->ID_PENDIDIKAN)){
       <td><?php echo $row->NAMA_INSTITUSI; ?></td>
       <td><div align="center"><?php echo $row->TAHUN_MASUK; ?></div></td>
       <td><div align="center"><?php echo $row->TAHUN_LULUS; ?></div></td>
-      <td><div align="center"><?php echo anchor('','view') ;?> | <?php echo anchor('pelamar/editPendidikanNonPT/'.$row->ID_PENDIDIKAN,'edit'); ?> | <?php echo anchor('pelamar/deletePendidikanNonPT/'.$row->ID_PENDIDIKAN,'delete'); ?>
+      <td><div align="center"><?php echo anchor('','view') ;?> | <?php echo anchor('pelamar/editPendidikanNonPT/'.$row->ID_PENDIDIKAN,'edit'); ?> | <?php echo anchor('pelamar/deletePendidikanNonPT/'.$row->ID_PENDIDIKAN,'delete',array('onClick' => "return confirm('Are you sure you want to delete?')")); ?>
         </div>
-      </div></td>
+      </td>
     </tr>
   <?php
   $i++;

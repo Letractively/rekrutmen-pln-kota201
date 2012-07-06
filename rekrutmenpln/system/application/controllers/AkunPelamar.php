@@ -6,6 +6,7 @@ class AkunPelamar extends Controller{
 		$this->load->library('form_validation');
 		$this -> load -> plugin( 'captcha' );
 		$this->load->model('mAkunPelamar');
+		$this->load->library('session');
 	}
 	
 	function index(){

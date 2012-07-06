@@ -7,6 +7,7 @@
 <body>
 <table width="469" height="119">
 <?php 
+
 $i=0;
 $temp = 0;
 foreach($lowongan->result() as $row){

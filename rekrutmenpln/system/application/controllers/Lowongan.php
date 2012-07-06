@@ -28,22 +28,22 @@
 			$data['error'] = '';
 			$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
 			$jmlDaftar = $this->MPelamar->getJmlDaftar($idpel['idpel']);
-			if($jmlDaftar['jml'] > 2){
-				echo "gabole daftar";
+			if($jmlDaftar['jml'] > 2){				
 				$data['error'] = 'Anda Sudah mendaftar sebanyak 3x!';
+				echo $data['error'];
 			} else {
 				$setuju = $this->MPelamar->getPersetujuan($idpel['idpel']);
 				if($setuju['setuju'] == 0){
-					echo "gabole daftar juga";
 					$data['error'] = 'Gagal Melamar pekerjaan, pernyataan belum disetujui!';
+					echo $data['error'];
 				} else {
 					if(!$this->MLowongan->cekProgramStudi($idpel['idpel'], $rekrut, $bdg)){
-						echo "ini juga gabole daftar";
 						$data['error'] = 'Program Studi anda tidak sesuai dengan bidang yang dilamar!';
+						echo $data['error'];
 					} else {	
-						echo "bole daftar";
 						$this->MLowongan->addPeserta($idpel['idpel'], $rekrut, $bdg);
 						$data['succes'] = 'Berhasil. Lamaran telah diajukan!';
+						echo $data['succes'];
 					}
 				}
 			}

@@ -5,6 +5,7 @@
     <title>Home</title>
 </head>
 <body>
+
 <form id="form1" name="form1" method="post" action="AkunPelamar">
   <div align="left">
     <table width="598" border="0" align="left" cellpadding="2" cellspacing="2">

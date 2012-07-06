@@ -150,10 +150,31 @@
         <td><input name="penghasilan" type="text" id="penghasilan" value="<?php echo set_value('penghasilan',(isset($form['penghasilan'])) ? $form['penghasilan'] : '');?>" maxlength="9" /></td>
         <td width="310">&nbsp;</td>
       </tr>
+<tr>
+        <td height="26">&nbsp;</td>
+        <td>Upload Foto</td>
+        <td><?php echo form_upload('userfile');?>
+          <?php 
+    if (isset($form['foto']))  {?>
+          <a href="<?php echo base_url();?>index.php/pelamar/displayBerkas/foto/<?php echo $form['foto'];?>"> 
+          <img src="<?php echo base_url();?>berkas/foto/thumbnails/<?php echo $form['foto'];?>"/> </a>
+          <?php }?>
+          <br />
+          <span class="style3">filetype: jpg,jpeg,gif,png,bmp; size max:100kb</span></td>
+        <td width="310"><div align="left">
+
+    <?php 
+    if(isset($berkas)){
+	    if($berkas != 'kosong'){
+	    	echo $berkas; }
+    	}?>
+    </div></td>
+      </tr>
       <tr>
         <td height="26">&nbsp;</td>
         <td>Pernyataan</td>
-        <td><textarea name="pernyataan" id="pernyataan" cols="45" rows="5" readonly></textarea></td>
+        <td>
+        <textarea name="pernyataan" cols="45" rows="5" readonly xml:lang="html" id="pernyataan"><?php echo $option_pernyataan;?></textarea></td>
         <td width="310">&nbsp;</td>
       </tr>
       <tr>
@@ -172,29 +193,11 @@
 	
 	?>        
         <input type="checkbox" name="setuju" id="setuju" <?php echo $check; ?>/>
-Setuju Coy !! </td>
+Setuju !! </td>
         <td width="310">&nbsp;</td>
       </tr>
        <tr>
-        <td height="26">&nbsp;</td>
-        <td>&nbsp;</td>
-        <td><?php echo form_upload('userfile');?>
-          <?php 
-    if (isset($form['foto']))  {?>
-          <a href="<?php echo base_url();?>index.php/pelamar/displayBerkas/foto/<?php echo $form['foto'];?>"> 
-          <img src="<?php echo base_url();?>berkas/foto/thumbnails/<?php echo $form['foto'];?>"/> </a>
-          <?php }?>
-          <br />
-          <span class="style3">filetype: jpg,jpeg,gif,png,bmp; size max:100kb</span></td>
-        <td width="310"><div align="left">
-
-    <?php 
-    if(isset($berkas)){
-	    if($berkas != 'kosong'){
-	    	echo $berkas; }
-    	}?>
-    </div></td>
-      </tr>
+       
   </table>
 
 <input type="submit" value="Submit" id="submit" <?php echo $dis;?>>

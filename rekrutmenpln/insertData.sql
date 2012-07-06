@@ -1,6 +1,6 @@
 INSERT INTO `tingkatpendidikan` (`ID_TINGKAT`, `NAMA_TINGKAT`, `STATUS_TINGKAT`) VALUES
-(1, 'D4/S1', 1),
-(2, 'D3', 1);
+(1, 'D4/S1', 1,1),
+(2, 'D3', 1,1);
 
 INSERT INTO `provinsi` (`ID_PROV`, `NAMA_PROV`, `STATUS_PROV`) VALUES
 (1, 'Aceh', 1),
@@ -3750,3 +3750,13 @@ INSERT INTO `statuspernikahan` (`ID_PERNIKAHAN`, `NAMA_PERNIKAHAN`, `STATUS_PERN
 (1, 'Single', 1),
 (2, 'Menikah', 1),
 (3, 'Bercerai', 1);
+
+	  CREATE TABLE IF NOT EXISTS  `ci_sessions` (
+	session_id varchar(40) DEFAULT '0' NOT NULL,
+	ip_address varchar(45) DEFAULT '0' NOT NULL,
+	user_agent varchar(120) NOT NULL,
+	last_activity int(10) unsigned DEFAULT 0 NOT NULL,
+	user_data text NOT NULL,
+	PRIMARY KEY (session_id),
+	KEY `last_activity_idx` (`last_activity`)
+)type = InnoDB;

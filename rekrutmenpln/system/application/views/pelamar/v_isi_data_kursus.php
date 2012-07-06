@@ -5,6 +5,7 @@
 <title></title>
 </head>
 <body>
+
 <table width=100% height="70" border="1" cellpadding="2" cellspacing="2" bordercolor="#000000">
   <tr>
     <td width="56" ><div align="center">No</div></td>
@@ -23,7 +24,7 @@ if(isset($row->ID_KURSUS)){
     <td><div align="left"><?php echo $row->NAMAPENDIDIKANINFORMAL; ?></div></td>
     <td><div align="left"><?php echo $row->NAMA_INSTANSI; ?></div></td>
     <td width="118"><div align="center"><?php echo $row->TAHUN_SERTIFIKAT;?></div></td>    
-    <td width="128"><div align="center"><?php echo anchor('','view') ;?> | <?php echo anchor('pelamar/editKursus/'.$row->ID_KURSUS,'edit'); ?> | <?php echo anchor('pelamar/deleteKursus/'.$row->ID_KURSUS,'delete'); ?></div></td>    
+    <td width="128"><div align="center"><?php echo anchor('','view') ;?> | <?php echo anchor('pelamar/editKursus/'.$row->ID_KURSUS,'edit'); ?> | <?php echo anchor('pelamar/deleteKursus/'.$row->ID_KURSUS,'delete',array('onClick' => "return confirm('Are you sure you want to delete?')")); ?></div></td>    
   </tr>
   <?php
   $i++;

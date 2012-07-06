@@ -128,6 +128,20 @@ class MPelamar extends Model{
         return $result;
 	}	
 	
+	function getPernyataan(){
+		$result = '';
+		$this->db->select('DESKRIPSI');
+		$this->db->from('templaterekrutmen');
+		$this->db->where('ID_TEMPLATE', 1);
+		$array_keys_values = $this->db->get();
+        foreach ($array_keys_values->result() as $row)
+        {
+            $result= $row->DESKRIPSI;
+        }
+        
+        return $result;
+	}
+	
 	function getPTList(){
 		$result = array();
 		$this->db->select('*');
@@ -367,7 +381,7 @@ class MPelamar extends Model{
 	}
 	
 	function getIdPelamar($idakun){
-//		$result = array();
+		$result = array();
 		$this->db->select('ID_PEL');
 		$this->db->from('pelamar');
 		$this->db->where('ID_AKUN',$idakun);
@@ -682,8 +696,7 @@ class MPelamar extends Model{
 				'ID_PEL'					=> $pel,
 		        'NAMAPENDIDIKANINFORMAL'    => $this->input->post('nama'),
 		        'NAMA_INSTANSI'  			=> $this->input->post('instansi'),
-		        'TAHUN_SERTIFIKAT'     		=> $this->input->post('tahun'),
-		        'BERKAS_SERTIFIKAT' 		=> $this->input->post('berkas')
+		        'TAHUN_SERTIFIKAT'     		=> $this->input->post('tahun')
 		);
 		if(!$_FILES['userfile']['error'] == 4){
 			$filename = basename($_FILES['userfile']['name']);
