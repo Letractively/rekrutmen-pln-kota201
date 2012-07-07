@@ -316,7 +316,6 @@ class MPelamar extends Model{
 				'ID_AKUN'	=> $akun['id_akun']
 		);
 		$data = array(
-				'ID_PEL'			=> NULL,
 		        'ID_AGAMA'      	=> $this->input->post('agama'),
 		        'ID_PERNIKAHAN'  	=> $this->input->post('nikah'),
 		        'ID_KOTA'     		=> $this->input->post('kota_id'),
