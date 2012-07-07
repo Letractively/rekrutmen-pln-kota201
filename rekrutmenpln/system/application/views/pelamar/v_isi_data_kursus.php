@@ -1,12 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title></title>
-</head>
-<body>
-
-<table width=100% height="70" border="1" cellpadding="2" cellspacing="2" bordercolor="#000000">
+<div class="isidata">
+<table>
   <tr>
     <td width="56" ><div align="center">No</div></td>
     <td width="387" ><div align="center">Nama Kursus</div></td>
@@ -35,5 +28,4 @@ if(isset($row->ID_KURSUS)){
   <div align="right">
   <?php echo anchor ('pelamar', '<< Sebelumnya');?> |   <?php echo anchor ('pelamar', "Berikutnya >>");?>
   </div>
-</body>
-</html>
+</div>

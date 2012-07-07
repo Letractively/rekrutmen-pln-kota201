@@ -1,12 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-</head>
-
-<body>
 <p>Riwayat Pendidikan Formal Perguruan Tinggi</p>
-<table width="100%" border="1" cellspacing="2" cellpadding="2">
+<table  class="isidata">
   <tr>
     <td width="4%"><div align="center">No</div></td>
     <td width="13%"><div align="center">Tingkat Pendidikan</div></td>
@@ -43,7 +36,7 @@ if(isset($row->ID_PENDIDIKAN_PT)){
 <?php echo anchor ('pelamar/inputPendidikanPT', '[+]Tambah Pendidikan PT');?>
 <p>&nbsp;</p>
 <p>Riwayat Pendidikan Formal Non Perguruan Tinggi</p>
-<table width="100%" border="1" cellspacing="2" cellpadding="2">
+<table class="isidata">
     <tr>
       <td width="4%"><div align="center">No</div></td>
       <td width="15%"><div align="center">Tingkat Pendidikan</div></td>
@@ -79,5 +72,4 @@ if(isset($row->ID_PENDIDIKAN)){
   <?php echo anchor ('pelamar', '<< Sebelumnya');?> |   <?php echo anchor ('pelamar', "Berikutnya >>");?>
   </div>
   <p>&nbsp;</p>
-</body>
-</html>
+

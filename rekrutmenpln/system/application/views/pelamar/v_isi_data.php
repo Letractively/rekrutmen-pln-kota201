@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Resume</title>
-    <style type="text/css">
-<!--
-.style3 {font-size: 10px}
--->
-    </style>
-</head>
-  <body>
     <p>
       <!-- page content -->
       <?php echo form_open_multipart('pelamar');?>    </p>
@@ -174,7 +162,7 @@
         <td height="26">&nbsp;</td>
         <td>Pernyataan</td>
         <td>
-        <textarea name="pernyataan" cols="45" rows="5" readonly xml:lang="html" id="pernyataan">Dengan ini saya menyatakan dengan sesungguhnya bahwa :
+        <textarea name="pernyataan" cols="45" rows="5" readonly  id="pernyataan">Dengan ini saya menyatakan dengan sesungguhnya bahwa :
 
 1. Data yang diisikan pada cv adalah benar, apabila terjadi ketidak cocokan pada saat seleksi administrasi maka dapat berakibat gugurnya kesertaan saya dalam rekrutmen
 
@@ -268,5 +256,3 @@ Setuju !! </td>
 			    }
 			});
 	   </script>
-  </body>
-</html>

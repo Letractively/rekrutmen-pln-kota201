@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<table width="469" height="119">
+<table width="469" height="119" class="isidata">
 <?php 
 
 $i=0;

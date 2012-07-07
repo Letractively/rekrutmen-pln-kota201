@@ -15,7 +15,11 @@ foreach ($detail->result() as $row){
 <p>Nama Bidang : <?php echo $row->NAMA_BID?></p>
 <p>Deskripsi :<?php echo $row->DESKRIPSI?></p>
 <p>&nbsp;</p>
-<p>Max usia : <?php echo $row->USIA_PELAMAR_MAX;?></p>
+<p>Jenis Studi : <?php echo $row->NAMA_JS;?></p>
+<p>Tingkat Pendidikan : <?php echo $row->NAMA_TINGKAT;?></p>
+<p>Min IPK : <?php echo $row->MIN_IPK;?></p>
+<p>Max usia : <?php echo $row->USIA_PELAMAR_MAX.' tahun';?></p>
+<p>&nbsp;</p>
 <p>Program Studi :</p>
 <ul>
 
