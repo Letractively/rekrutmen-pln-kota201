@@ -3,6 +3,7 @@
 		parent::Controller(); 
 		$this->load->model('MLowongan');
 		$this->load->model('MPelamar');
+		$this->load->model('MPeserta');
 		$this->load->library('session');
 		$this->output->enable_profiler(TRUE);
 	}
@@ -41,7 +42,10 @@
 						$data['error'] = 'Program Studi anda tidak sesuai dengan bidang yang dilamar!';
 						echo $data['error'];
 					} else {	
-						$this->MLowongan->addPeserta($idpel['idpel'], $rekrut, $bdg);
+						
+						$test = $this->MPeserta->generateNoTest($idpel['idpel'], $rekrut, $bdg);
+						if($test!='')
+							$this->MPeserta->addPeserta($idpel['idpel'], $rekrut, $bdg, $test);
 						$data['succes'] = 'Berhasil. Lamaran telah diajukan!';
 						echo $data['succes'];
 					}
@@ -51,5 +55,6 @@
 			redirect('pelamar/login');
 		}
 	}
+	
 }
 ?>

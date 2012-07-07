@@ -10,7 +10,7 @@ class AkunPelamar extends Controller{
 	}
 	
 	function index(){
-		$this->output->enable_profiler(TRUE);
+//		$this->output->enable_profiler(TRUE);
 		$this->displayFormRegister();
 //$this->load->view('pelamar/v_isi_data');
 	}
