@@ -5,12 +5,15 @@ class MTest extends Model{
 		parent::Model();
 	}
 	
-	function insertPsikotest(){
-		
-		
-		
-		
-	}
+  function insertTest($data){
+  	
+  	$this->db->query($data);
+  	return $this->db->_error_message();
+  }
+  
+  function coutPesertaTest($test,$data){
+  	
+  }
 	
 //	function getPassingGrade($id){
 //		$pg = 0;
