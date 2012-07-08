@@ -1,0 +1,137 @@
+/* Resetter */
+
+*{margin:0;padding:0;}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
+:focus { outline: 0; }
+ol, ul { list-style: none; }
+table { border-collapse: collapse; border-spacing: 0; }
+caption, th, td { text-align: left; font-weight: normal; vertical-align:middle;}
+blockquote:before, blockquote:after,
+q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+a img, a:hover img { border:none; } 
+h1,h2,h3,h4,h5,h6 { margin:0px 0px 10px 0px; padding:0px; font-weight:normal; }
+a { text-decoration:none; cursor:pointer; outline:none;color:black;}
+a:hover { text-decoration:none; }
+.clear { clear:both; margin:0px; padding:0px; height:0px; line-height:0; font-size:0; }
+.left { float:left; width:auto; border:none; }
+.aright { float:right; }
+.center { text-align:center; }
+strong{font-weight:bold;}
+small{font-size:10px; color:white;}
+
+.clearfix:after {content: "."; display: block; height:0; clear:both; visibility:hidden; } 
+.clearfix { display: inline-block; } 
+* html .clearfix { height:1%; } 
+.clearfix { display:block; } 
+
+.clear {
+  clear: both;
+}
+
+.kotak {
+  margin-bottom: 20px;
+}
+
+.body{
+  background: url('../images/bg2.png') repeat-x;
+	padding-top: 20px;
+	-moz-border-radius: 5px;
+}
+
+.background{
+	background: #ffffff;
+}
+
+#header{
+	padding: 0 20px;
+}
+
+#header .logo{
+	padding: 20px;
+}
+#header .logo p{
+	color: #007bb8;
+	float: left;
+	font-size: 50px;
+	margin-left: 20px;
+}
+
+#header .logo img{
+	width: 41px;
+	height: 51px;
+	float: left;
+	padding: 5px;
+}
+
+#content{
+	padding: 0px 35px 40px;
+}
+.login{
+	float: right;
+}
+#menu{
+  height: 25px;
+  padding: 10px;
+}
+
+#menu ul{
+  list-style-type: none;
+}
+
+#menu ul li{
+  padding: 5px 20px;
+	border-bottom-width: 5px;
+	border-bottom-style: solid;
+	border-color: #dfdfdf;
+}
+
+#menu ul li a{
+  text-decoration: none;
+  color: #000;
+	margin: 0 4px;
+  display: block;
+  text-align: center;
+}
+#menu ul li:hover{
+  background: #dfdfdf;
+	-moz-border-radius: 4px;
+}
+
+#menu .last{
+  border-right: 0;
+}
+
+.right{
+	float: right;
+	border: 5px solid #dfdfdf;
+	-moz-border-radius: 4px;
+	background: #b9b8b8;
+}
+
+.left{
+ float: left;
+}
+#content .isidata tr{
+	border: 3px solid #888888;
+	padding: 2px;
+}
+
+#content a:hover{
+	color: #A8A8A8;
+	text-decoration: underline;
+}
+
+#content td.lowongan-dibuka{
+	text-align: center;
+}
+.small {line-height:165%;}
+
+#footer{
+	background: #000;
+	padding: 20px;
+}
+
+#footer p{
+	color: #fff;
+}
