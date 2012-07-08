@@ -17,7 +17,6 @@ Class generate_report extends Controller {
 	function generate_akademik(){
 	$datestring = "%d/%m/%Y";
 
-
 	$data = mdate($datestring);
 	$this->cezpdf->ezText('Tanggal '.$data,8,array('justification' => 'left'));
 	$this->cezpdf->ezText('',10,array('justification' => 'center'));
