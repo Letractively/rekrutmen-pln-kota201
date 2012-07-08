@@ -261,6 +261,9 @@ class peserta_test extends Controller {
                 $objPHPExcel->setActiveSheetIndex(0);
 				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Daftar Peserta Test Akademik');
 				$objPHPExcel->getActiveSheet()->SetCellValue('D2',"Ceksound");
+				$objPHPExcel->getActiveSheet()->SetCellValue('A6',"ID Rekrutmen");
+				$objPHPExcel->getActiveSheet()->SetCellValue('B6',"ID_BID");
+				$objPHPExcel->getActiveSheet()->SetCellValue('C6',"ID_PELAMAR");
 				$objPHPExcel->getActiveSheet()->SetCellValue('D6',"No.");
 				$objPHPExcel->getActiveSheet()->SetCellValue('E6',"Nama Peserta");
 				$objPHPExcel->getActiveSheet()->SetCellValue('F6',"No Test");
@@ -387,6 +390,9 @@ class peserta_test extends Controller {
                 $objPHPExcel->setActiveSheetIndex(0);
 				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Daftar Peserta Test GAT');
 				$objPHPExcel->getActiveSheet()->SetCellValue('D2',"Ceksound");
+				$objPHPExcel->getActiveSheet()->SetCellValue('A6',"ID Rekrutmen");
+				$objPHPExcel->getActiveSheet()->SetCellValue('B6',"ID_BID");
+				$objPHPExcel->getActiveSheet()->SetCellValue('C6',"ID_PELAMAR");
 				$objPHPExcel->getActiveSheet()->SetCellValue('D6',"No.");
 				$objPHPExcel->getActiveSheet()->SetCellValue('E6',"Nama Peserta");
 				$objPHPExcel->getActiveSheet()->SetCellValue('F6',"No Test");
@@ -507,12 +513,15 @@ class peserta_test extends Controller {
 						),
 					'A6:I6'
 				);
-				$objPHPExcel->getActiveSheet()->getStyle('A6:H6')->getBorders()->getAllBorders()->setColor(new PHPExcel_Style_Color(PHPExcel_Style_Color::COLOR_BLACK));
+				$objPHPExcel->getActiveSheet()->getStyle('A6:I6')->getBorders()->getAllBorders()->setColor(new PHPExcel_Style_Color(PHPExcel_Style_Color::COLOR_BLACK));
                 
                 // Add some data
                 $objPHPExcel->setActiveSheetIndex(0);
 				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Daftar Peserta Test Kesehatan');
 				$objPHPExcel->getActiveSheet()->SetCellValue('D2',"Ceksound");
+				$objPHPExcel->getActiveSheet()->SetCellValue('A6',"ID Rekrutmen");
+				$objPHPExcel->getActiveSheet()->SetCellValue('B6',"ID_BID");
+				$objPHPExcel->getActiveSheet()->SetCellValue('C6',"ID_PELAMAR");
 				$objPHPExcel->getActiveSheet()->SetCellValue('D6',"No.");
 				$objPHPExcel->getActiveSheet()->SetCellValue('E6',"Nama Peserta");
 				$objPHPExcel->getActiveSheet()->SetCellValue('F6',"No Test");
@@ -553,10 +562,7 @@ class peserta_test extends Controller {
 					$row++;
 					$no++;					
 		 		}
-		 		$objPHPExcel->getActiveSheet()->setCellValue('D9', "Cell B3 and B5 contain data validation...");
-				$objPHPExcel->getActiveSheet()->setCellValue('D10', "Number:");
-				$objPHPExcel->getActiveSheet()->setCellValue('D11', "10");
-
+		 	
 				//HTTP Header untuk download         
                 header('Content-type: application/ms-excel');
                 header('Content-Disposition:  inline; attachment; filename=peserta_test_kesehatan.xls');
