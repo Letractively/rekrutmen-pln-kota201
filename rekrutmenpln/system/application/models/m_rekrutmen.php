@@ -72,6 +72,7 @@ class m_rekrutmen extends Model {
 		$data = $this->db->get('bidangjabatan');
 		return $data->result();
 	}
+
 	function getListRekrutmen() {
 		$data = $this->db->select('*');
 		$data = $this->db->from('rekrutmen');
