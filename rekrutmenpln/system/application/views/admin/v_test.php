@@ -91,14 +91,14 @@
 					if($count_gat[$i]!=0)
 				echo "<img src=".base_url()."assets/checklist_icon.gif width=30 height=30 align='center'>";
 					else
-					echo anchor('admin/peserta_test/template_testkesehatan/'.$rows->ID_REKRUTMEN, 'Generate');
+					echo anchor('admin/peserta_test/template_testgat/'.$rows->ID_REKRUTMEN, 'Generate');
 				echo "</td>";
 				echo "<td align='center'>";
 					if($count_kesehatan[$i]!=0)
 				echo "<img src=".base_url()."assets/checklist_icon.gif width=30 height=30 align='center'>";
 					else
-					echo anchor('admin/peserta_test/template_testgat/'.$rows->ID_REKRUTMEN, 'Generate');
-				echo "</td>";
+				echo anchor('admin/peserta_test/template_testkesehatan/'.$rows->ID_REKRUTMEN, 'Generate');
+					echo "</td>";
 				echo "<td align='center'>";
 					if($count_wawancara[$i]!=0)
 				echo "<img src=".base_url()."assets/checklist_icon.gif width=30 height=30 align='center'>";
