@@ -75,33 +75,33 @@
 				echo "<td>";
 				echo $rows->TGL_TUTUP;
 				echo "</td>";
-				echo "<td>";
+				echo "<td align='center'>";
 					if($count_psikotes[$i]!=0)
-				echo "Sudah";
+				echo "<img src=".base_url()."assets/checklist_icon.gif width=30 height=30 align='center'>";
 					else
 					echo anchor('admin/peserta_test/template_psikotes/'.$rows->ID_REKRUTMEN, 'Generate');
 				echo "</td>";
-				echo "<td>";
+				echo "<td align='center'>";
 					if($count_akademik[$i]!=0)
-					echo "Sudah";
+				echo "<img src=".base_url()."assets/checklist_icon.gif width=30 height=30 align='center'>";
 					else
 					echo anchor('admin/peserta_test/template_testakademik/'.$rows->ID_REKRUTMEN, 'Generate');
 				echo "</td>";
-				echo "<td>";
-					if($count_kesehatan[$i]!=0)
-					echo "Sudah";
-					else
-					echo anchor('admin/peserta_test/template_testgat/'.$rows->ID_REKRUTMEN, 'Generate');
-				echo "</td>";
-				echo "<td>";
+				echo "<td align='center'>";
 					if($count_gat[$i]!=0)
-					echo "Sudah";
+				echo "<img src=".base_url()."assets/checklist_icon.gif width=30 height=30 align='center'>";
 					else
 					echo anchor('admin/peserta_test/template_testkesehatan/'.$rows->ID_REKRUTMEN, 'Generate');
 				echo "</td>";
-				echo "<td>";
+				echo "<td align='center'>";
+					if($count_kesehatan[$i]!=0)
+				echo "<img src=".base_url()."assets/checklist_icon.gif width=30 height=30 align='center'>";
+					else
+					echo anchor('admin/peserta_test/template_testgat/'.$rows->ID_REKRUTMEN, 'Generate');
+				echo "</td>";
+				echo "<td align='center'>";
 					if($count_wawancara[$i]!=0)
-					echo "Sudah";
+				echo "<img src=".base_url()."assets/checklist_icon.gif width=30 height=30 align='center'>";
 					else
 					echo anchor('admin/peserta_test/template_wawancara/'.$rows->ID_REKRUTMEN, 'Generate');
 				echo "</td>";
@@ -110,7 +110,8 @@
 			}
 			}
 		?>
-	</table>	
+	</table>
+	Catatan : <img src="<?php echo base_url();?>assets/checklist_icon.gif" width=30 height=30 align='center'></img> Sudah dilakukan Tahapan Seleksi
 <?php echo form_close(); ?>
 </body>
 </html>	
