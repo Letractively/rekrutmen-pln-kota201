@@ -6,57 +6,18 @@ class m_test extends Model {
 		$this->CI =& get_instance();
 	}
 	
-	function countAkademik($data){
+	function countTest($data,$table){
 		
 		$i=0;
+		$num = array();
 		foreach($data['rekrutmen'] as $rows){
 			$this->db->where('ID_REKRUTMEN',$rows->ID_REKRUTMEN);
-			$num[$i] = $this->db->count_all_results('testakademik');
-			$i++;
-		}
-		return $num;
-	}
-	function countPsikotest($data){
-		
-		$i=0;
-		foreach($data['rekrutmen'] as $rows){
-			$this->db->where('ID_REKRUTMEN',$rows->ID_REKRUTMEN);
-			$num[$i] = $this->db->count_all_results('psikotest');
-			$i++;
-		}
-		return $num;
-	}
-	function countKesehatan($data){
-		
-		$i=0;
-		foreach($data['rekrutmen'] as $rows){
-			$this->db->where('ID_REKRUTMEN',$rows->ID_REKRUTMEN);
-			$num[$i] = $this->db->count_all_results('testkesehatan');
-			$i++;
-		}
-		return $num;
-	}
-	function countGat($data){
-		
-		$i=0;
-		foreach($data['rekrutmen'] as $rows){
-			$this->db->where('ID_REKRUTMEN',$rows->ID_REKRUTMEN);
-			$num[$i] = $this->db->count_all_results('testgat');
+			$num[$i] = $this->db->count_all_results($table);
 			$i++;
 		}
 		return $num;
 	}
 	
-	function countwawancara($data){
-		
-		$i=0;
-		foreach($data['rekrutmen'] as $rows){
-			$this->db->where('ID_REKRUTMEN',$rows->ID_REKRUTMEN);
-			$num[$i] = $this->db->count_all_results('wawancara');
-			$i++;
-		}
-		return $num;
-	}
 	function getPeserta($id){
 		$data = $this->db->select('*');
 		$data = $this->db->from('pesertalulus');
