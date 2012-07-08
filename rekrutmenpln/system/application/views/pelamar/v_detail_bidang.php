@@ -5,7 +5,11 @@
 </head>
 
 <body>
-<?php echo form_open('lowongan/daftarkanpelamar/'.$idRekrutmen.'/'.$idBid);?>
+<?php 
+if(isset($pesan)){
+	echo $pesan;
+}
+echo form_open('lowongan/daftarkanpelamar/'.$idRekrutmen.'/'.$idBid);?>
 <?php 
 $i = 1;
 foreach ($detail->result() as $row){
