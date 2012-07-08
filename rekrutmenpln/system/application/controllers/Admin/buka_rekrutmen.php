@@ -7,6 +7,7 @@ class buka_rekrutmen extends Controller {
 		$this->load->helper(array('form','url'));
 		$this->load->library('form_validation');
 		$this->load->model('m_rekrutmen');
+		$this->load->model('mPelamar');
 	}
 	
 	function index() {
@@ -88,6 +89,12 @@ class buka_rekrutmen extends Controller {
 	}
 	function delete($id) {
 		$this->m_rekrutmen->delete($id);
+		$data = $this->m_rekrutmen->getPeserta($id);
+		$this->mPelamar->update_status_daftar($data);
+		redirect('admin/buka_rekrutmen');
+	}
+	function close($id) {
+		$this->m_rekrutmen->close($id);
 		redirect('admin/buka_rekrutmen');
 	}
 	function edit($id){
