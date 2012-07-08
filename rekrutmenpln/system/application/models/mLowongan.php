@@ -33,7 +33,7 @@ class Mlowongan extends Model {
   
   function getDetailBidang($idRekrut, $idBdg){
   	$qry = 
-  		"select a.ID_BID, bj.KODE_BID, bj. NAMA_BID, bj.DESKRIPSI, ps.NAMA_PS, bu.USIA_PELAMAR_MAX, tp.NAMA_TINGKAT, js.NAMA_JS, js.MIN_IPK from bidangjabatandibuka a 
+  		"select a.ID_BID, bj.KODE_BID, bj. NAMA_BID, bj.DESKRIPSI,ps.ID_PS, ps.NAMA_PS, bu.USIA_PELAMAR_MAX,tp.ID_TINGKAT, tp.NAMA_TINGKAT, js.NAMA_JS, js.MIN_IPK from bidangjabatandibuka a 
 		inner join bidangjabatan bj on bj.ID_BID = a.ID_BID
 		inner join programstudiperbidang psb on psb.ID_BID = a.ID_BID
 		inner join programstudi ps on ps.ID_PS = psb.ID_PS
@@ -55,6 +55,30 @@ class Mlowongan extends Model {
 				where b.ID_PS = a.ID_PS AND b.ID_REKRUTMEN = '$rekrut' AND b.ID_BID = '$bid');");
         $row = $query->row();
         return ($row->dupe > 0) ? TRUE : FALSE;
+  }
+  
+  function cekPersyaratanUmum($idpel, $ipk, $tingkat, $usia, $rekrut, $bid){
+  	if($this->cekUsia($usia,$idpel)){
+  	    $query = 
+        	$this->db->query(
+        		"select count(a.ID_PS) as dupe from pendidikanformalpt a 
+				where a.ID_PEL = '$idpel' and a.ID_TINGKAT = '$tingkat' and IPK = '$ipk' and
+				EXISTS 
+				( select * from programstudiperbidang b 
+				where b.ID_PS = a.ID_PS AND b.ID_REKRUTMEN = '$rekrut' AND b.ID_BID = '$bid');");
+        $row = $query->row();
+        return ($row->dupe > 0) ? TRUE : FALSE;
+  	} else {
+  		return FALSE;
+  	}
+  }
+  
+  function cekUsia($usia,$idpel){
+  	$query = 
+  		$this->db->query("SELECT  EXTRACT(YEAR FROm CURRENT_DATE()) - 
+  						EXTRACT(YEAR FROM TGL_LAHIR) as umur from pelamar where ID_PEL = '$idpel'");
+  	$row = $query->row();
+  	return ($row->umur > $usia) ? FALSE : TRUE;
   }
   
 //  function addPeserta($idPel, $rekrut, $bid){
