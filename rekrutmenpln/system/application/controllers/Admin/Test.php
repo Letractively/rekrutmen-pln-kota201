@@ -201,8 +201,8 @@ class Test extends Controller{
 	function importTestKesehatan(){
 			include_once ( APPPATH."libraries/excel_reader.php");
 	    	$data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
-	    	$pgGAT= $this->MTest->getPassingGrade(4);
-		    $qry = "INSERT INTO testkesehatan (ID_REKRUTMEN ,ID_BID ,ID_PEL ,INTELEGENSI,ABSTRAKSI,VERBAL,NUMERIK,NILAIAKHIR ,STATUSLULUS) VALUES ";
+//	    	$pgGAT= $this->MTest->getPassingGrade(4);
+		    $qry = "INSERT INTO testkesehatan (ID_KATEGORI_SEHAT ,ID_REKRUTMEN ,ID_BID ,ID_PEL ,PENYAKITDIDERITA ,CATATAN ,STATUSLULUS) VALUES ";
 		    $j = -1;
 		    for ($i=7; $i <= ($data->rowcount($sheet_index=0)); $i++){ 
 		      $j++;
@@ -210,22 +210,29 @@ class Test extends Controller{
 		      $bid[$j]   = $data->val($i, 2);
 		      $pel[$j]   = $data->val($i, 3);
 //		      $noTest[$j]  = $data->val($i, 6);
-				$intelegensi[$j]= $data->val($i, 7);
-				$abstraksi[$j]= $data->val($i, 8);
-				$verbal[$j]= $data->val($i, 9);
-				$numerik[$j]= $data->val($i, 10);
-				$nilaiakhir[$j]= $data->val($i, 11);
+				$penyakit[$j]= $data->val($i, 7);
+				$catatan[$j]= $data->val($i, 8);
+				$nilaiakhir[$j]= $data->val($i, 9);
 		      
-		      if($nilaiakhir[$j] >= $pgGAT)
+		      if($nilaiakhir[$j] == 'B'){
+		      	$kategori = 1;
 		      	$status = 1;
-		      else
+		      }else if($nilaiakhir[$j] == 'CB'){
+		      	$kategori = 2;
+		      	$status = 1;
+		      }else if($nilaiakhir[$j] == 'TBA'){
+		      	$kategori = 3;
 		      	$status = 0;
+		      }else if($nilaiakhir[$j] == 'TBB'){
+		      	$kategori = 4;
+		      	$status = 0;
+		      }	
 			
-		      $qry = $qry."('$rekrut[$j]', '$bid[$j]', '$pel[$j]', '$intelegensi[$j]','$abstraksi[$j]','$verbal[$j]','$numerik[$j]','$nilaiakhir[$j]','$status')";
+		      $qry = $qry."('$kategori','$rekrut[$j]', '$bid[$j]', '$pel[$j]', '$penyakit[$j]','$catatan[$j]','$status')";
 		      
 		    	if($i % 500 == 0 && $i != $data->rowcount($sheet_index=0)){
 		    		$error = $this->MTest->insertTest($qry);
-		    		$qry = "INSERT INTO testkesehatan (ID_REKRUTMEN ,ID_BID ,ID_PEL ,INTELEGENSI,ABSTRAKSI,VERBAL,NUMERIK ,NILAIAKHIR ,STATUSLULUS) VALUES ";
+		    		$qry = "INSERT INTO testkesehatan (ID_KATEGORI_SEHAT ,ID_REKRUTMEN ,ID_BID ,ID_PEL ,PENYAKITDIDERITA ,CATATAN ,STATUSLULUS) VALUES ";
 		    	} else
 		    	if($i < $data->rowcount($sheet_index=0) ){
 		      			$qry = $qry.',';
@@ -240,7 +247,7 @@ class Test extends Controller{
 		    $this->load->view('admin/main_admin', $xdata);
 		}
 	
-	function filterLulusBerkas($idpel,$idbid,$rekrutmen){
+	function inputGagalSeleksiBerkas($idpel,$idbid,$rekrutmen){
 		
 	}
 	
