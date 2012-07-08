@@ -657,6 +657,9 @@ class peserta_test extends Controller {
                 $objPHPExcel->setActiveSheetIndex(0);
 				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Daftar Peserta Wawancara');
 				$objPHPExcel->getActiveSheet()->SetCellValue('D2',"Ceksound");
+				$objPHPExcel->getActiveSheet()->SetCellValue('A6',"ID Rekrutmen");
+				$objPHPExcel->getActiveSheet()->SetCellValue('B6',"ID_BID");
+				$objPHPExcel->getActiveSheet()->SetCellValue('C6',"ID_PELAMAR");
 				$objPHPExcel->getActiveSheet()->SetCellValue('D6',"No.");
 				$objPHPExcel->getActiveSheet()->SetCellValue('E6',"Nama Peserta");
 				$objPHPExcel->getActiveSheet()->SetCellValue('F6',"No Test");
