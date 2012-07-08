@@ -15,7 +15,7 @@ class Mlowongan extends Model {
 		AND a.ID_REKRUTMEN IN 
 		(SELECT b.ID_REKRUTMEN
 		FROM rekrutmen b
-		WHERE b.TGL_TUTUP > now( ))";
+		WHERE b.TGL_TUTUP > now( ) AND now( ) >= b.TGL_BUKA)";
   	$result = $this->db->query($qry);
 //  	$i = 1;
 //  	foreach($array_keys_values->result() as $row()){

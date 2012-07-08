@@ -5,36 +5,26 @@ class MPeserta extends Model{
 		parent::Model();
 	}
 	
-  function addPeserta($idPel, $rekrut, $bid, $test){
+  function addPeserta($idPel, $rekrut, $bid, $test, $jenis){
   	$data = array(
   		'ID_REKRUTMEN'	=> $rekrut,
   		'ID_PEL'		=> $idPel,
   		'ID_BID'		=> $bid,
   		'TGL_DAFTAR'	=> date('Y-m-d'),
   		'NO_TEST'		=> $test
-  		
   	);
   	
-  	$this->db->insert('peserta', $data);
-  }
-  
-  function addPesertaTidakLulus($idPel, $rekrut, $bid, $test, $ket){
-  	$data = array(
-  		'ID_REKRUTMEN'	=> $rekrut,
-  		'ID_PEL'		=> $idPel,
-  		'ID_BID'		=> $bid,
-  		'TGL_DAFTAR'	=> date('Y-m-d'),
-  		'NO_TEST'		=> $test,
-  		'KETERANGAN'	=> $ket
-  		
-  	);
-  	
-  	$this->db->insert('peserta', $data);
+  	if($jenis == 0)
+	  	$this->db->insert('peserta', $data);
+	  	else if ($jenis == 1)
+	  		$this->db->insert('pesertalulus', $data);
+	  		else 
+	  			$this->db->insert('pesertatidaklulus', $data);
   }
   
   function pesertaCount($idrekrut)
   {
-        $query = $this->db->query("SELECT COUNT(*) AS dupe FROM peserta WHERE ID_REKRUTMEN = '$idrekrut'");
+        $query = $this->db->query("SELECT COUNT(*) AS dupe FROM pesertalulus WHERE ID_REKRUTMEN = '$idrekrut'");
         $row = $query->row();
         return $row->dupe;
   }

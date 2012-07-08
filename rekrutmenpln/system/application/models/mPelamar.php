@@ -381,6 +381,7 @@ class MPelamar extends Model{
             $result['foto']= $row->FOTO;
             $result['ktp']= $row->BERKAS_KTP;
             $result['akte']= $row->BERKAS_AKTE;
+            $result['statusDaftar'] = $row->STATUS_DAFTAR; 
         }
         return $result;
 	}
