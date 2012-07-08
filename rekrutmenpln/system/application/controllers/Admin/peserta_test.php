@@ -1,8 +1,8 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class test extends Controller {
+class peserta_test extends Controller {
 
-	function test() {
+	function peserta_test() {
 		parent::Controller();	
 		$this->load->helper(array('form','url'));
 		require_once 'PHPExcel.php';
