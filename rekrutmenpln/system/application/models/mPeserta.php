@@ -16,7 +16,20 @@ class MPeserta extends Model{
   	);
   	
   	$this->db->insert('peserta', $data);
+  }
+  
+  function addPesertaTidakLulus($idPel, $rekrut, $bid, $test, $ket){
+  	$data = array(
+  		'ID_REKRUTMEN'	=> $rekrut,
+  		'ID_PEL'		=> $idPel,
+  		'ID_BID'		=> $bid,
+  		'TGL_DAFTAR'	=> date('Y-m-d'),
+  		'NO_TEST'		=> $test,
+  		'KETERANGAN'	=> $ket
+  		
+  	);
   	
+  	$this->db->insert('peserta', $data);
   }
   
   function pesertaCount($idrekrut)
