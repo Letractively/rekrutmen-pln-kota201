@@ -12,7 +12,8 @@
 		<a href='<?php echo site_url('admin/user/crud')?>'>Administrator</a> |	
 	</div>
 	<div>
-		<a href='<?php echo site_url('admin/test')?>'>Generate Peserta Test</a> |	
+		<a href='<?php echo site_url('admin/test')?>'>Generate Peserta Test</a> |
+		<a href='<?php echo site_url('admin/generate_report')?>'>Generate Report</a> |		
 	</div>
     <div>
 		<a href='<?php echo site_url('admin/tingkat_pendidikan/crud')?>'>Tingkat Pendidikan</a> |
