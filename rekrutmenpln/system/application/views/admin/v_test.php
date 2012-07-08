@@ -79,39 +79,38 @@
 					if($count_psikotes[$i]!=0)
 				echo "Sudah";
 					else
-					echo anchor('admin/test/template_psikotes/'.$rows->ID_REKRUTMEN, 'Generate');
+					echo anchor('admin/peserta_test/template_psikotes/'.$rows->ID_REKRUTMEN, 'Generate');
 				echo "</td>";
 				echo "<td>";
 					if($count_akademik[$i]!=0)
 					echo "Sudah";
 					else
-					echo anchor('admin/test/template_testakademik/'.$rows->ID_REKRUTMEN, 'Generate');
+					echo anchor('admin/peserta_test/template_testakademik/'.$rows->ID_REKRUTMEN, 'Generate');
 				echo "</td>";
 				echo "<td>";
 					if($count_kesehatan[$i]!=0)
 					echo "Sudah";
 					else
-					echo anchor('admin/test/template_testgat/'.$rows->ID_REKRUTMEN, 'Generate');
+					echo anchor('admin/peserta_test/template_testgat/'.$rows->ID_REKRUTMEN, 'Generate');
 				echo "</td>";
 				echo "<td>";
 					if($count_gat[$i]!=0)
 					echo "Sudah";
 					else
-					echo anchor('admin/test/template_testkesehatan/'.$rows->ID_REKRUTMEN, 'Generate');
+					echo anchor('admin/peserta_test/template_testkesehatan/'.$rows->ID_REKRUTMEN, 'Generate');
 				echo "</td>";
 				echo "<td>";
 					if($count_wawancara[$i]!=0)
 					echo "Sudah";
 					else
-					echo anchor('admin/test/template_wawancara/'.$rows->ID_REKRUTMEN, 'Generate');
+					echo anchor('admin/peserta_test/template_wawancara/'.$rows->ID_REKRUTMEN, 'Generate');
 				echo "</td>";
 				echo "</tr>";
 				$i++;	
 			}
 			}
 		?>
-	</table>
-</div>	
+	</table>	
 <?php echo form_close(); ?>
 </body>
 </html>	
