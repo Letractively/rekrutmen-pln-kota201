@@ -42,12 +42,23 @@
 						$data['error'] = 'Program Studi anda tidak sesuai dengan bidang yang dilamar!';
 						echo $data['error'];
 					} else {	
+						$hasil = true;
+						$hasil = $this->MLowongan->cekPersyaratanUmum($idpel['idpel'], 
+									$this->input->post('ipk'), 
+									$this->input->post('tingkat'), 
+									$this->input->post('usia'),
+									$rekrut, 
+									$bdg);
+						if($hasil == true){
+							$test = $this->MPeserta->generateNoTest($idpel['idpel'], $rekrut, $bdg);
+							if($test!='')
+								$this->MPeserta->addPeserta($idpel['idpel'], $rekrut, $bdg, $test);
+							$data['succes'] = 'Berhasil. Lamaran telah diajukan!';
+							echo $data['succes'];
+						}else {
+							echo "gagal bos";
+						}
 						
-						$test = $this->MPeserta->generateNoTest($idpel['idpel'], $rekrut, $bdg);
-						if($test!='')
-							$this->MPeserta->addPeserta($idpel['idpel'], $rekrut, $bdg, $test);
-						$data['succes'] = 'Berhasil. Lamaran telah diajukan!';
-						echo $data['succes'];
 					}
 				}
 			}
