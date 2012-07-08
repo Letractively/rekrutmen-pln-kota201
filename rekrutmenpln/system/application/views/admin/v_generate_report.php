@@ -28,7 +28,7 @@
 		<a href='<?php echo site_url('admin/jenis_rekrutmen/crud')?>'>Jenis Rekrutmen</a> |
 		<a href='<?php echo site_url('admin/status_pernikahan/crud')?>'>Status Pernikahan</a> |
 	</div>
-<?php echo form_open('admin\generate_report',array('method' => 'get'));?>
+<?php echo form_open('admin/generate_report',array('method' => 'get'));?>
 <fieldset>
 	<legend>Filter Report</legend>
 	<table>
