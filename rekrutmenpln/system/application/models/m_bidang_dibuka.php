@@ -74,20 +74,7 @@ class m_bidang_dibuka extends Model {
 		return $data->result();
 	}
 	
-	function getJenisRekrut() {
-		$result = array();
-		$this->db->select('*');
-		$this->db->from('jenisrekrutmen');
-//		$this->db->order_by('NAMA_AGAMA','ASC');
-		$array_keys_values = $this->db->get();
-        foreach ($array_keys_values->result() as $row)
-        {
-            $result[0]= '-Pilih Jenis Rekrutmen-';
-            $result[$row->ID_JENIS_REKRUT]= $row->NAMA_JENIS_REKRUT;
-        }
-        
-        return $result;
-	}
+
 	
 	function countDataProdi($idrekrutmen,$idbidang){
 		$query = $this->db->query("SELECT COUNT(*) AS dupe FROM programstudiperbidang WHERE ID_REKRUTMEN = '$idrekrutmen' AND ID_BID = '$idbidang'");
@@ -99,26 +86,7 @@ class m_bidang_dibuka extends Model {
         $row = $query->row();
         return $row->dupe;
 	}
-	function getPelaksana() {
-		$result = array();
-		$this->db->select('*');
-		$this->db->from('pelaksana');
-//		$this->db->order_by('NAMA_AGAMA','ASC');
-		$array_keys_values = $this->db->get();
-        foreach ($array_keys_values->result() as $row)
-        {
-            $result[0]= '-Pilih Pelaksana-';
-            $result[$row->ID_PELAKSANA]= $row->NAMA_PELAKSANA;
-        }
-        
-        return $result;	
-	}
 	
-	function getTingkat() {
-	$data = $this->db->where('STATUS_PT',1);
-	$data = $this->db->get('tingkatpendidikan');
-	return $data->result();
-	}
 	
 	function update($idrekrutmen,$idbidang){
 		$this->db->where('ID_REKRUTMEN', $idrekrutmen);

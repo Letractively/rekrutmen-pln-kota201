@@ -235,7 +235,13 @@ class MPelamar extends Model{
         
         return $result;
 	}
-	
+	function update_status_daftar($data){
+		foreach($data as $rows){
+			$data = array('STATUS_DAFTAR'	=> 1);
+			$this->db->where('ID_PEL',$rows->ID_PEL);
+			$this->db->update('pelamar', $data);
+		}
+	}
 	function addPelamar($akun){
 		
 		if ($this->input->post('idem') == 'on'){

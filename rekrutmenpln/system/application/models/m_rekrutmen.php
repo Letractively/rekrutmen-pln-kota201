@@ -4,6 +4,7 @@ class m_rekrutmen extends Model {
 	function m_rekrutmen() {
 		parent::Model();
 		$this->CI =& get_instance();
+		$this->load->helper('date');
 	}
 	function getRekrutmen($id) {
 		$result = array();
@@ -51,8 +52,10 @@ class m_rekrutmen extends Model {
         return $row->dupe;
 	}
 	function getAllRekrutmen(){
+		
 		$result = array();
 		$this->db->select('*');
+		$this->db->where('STATUS_REKRUTMEN',1);
 		$this->db->from('rekrutmen');
 //		$this->db->order_by('NAMA_AGAMA','ASC');
 		$array_keys_values = $this->db->get();
@@ -61,6 +64,7 @@ class m_rekrutmen extends Model {
             $result[0]= '-Pilih Rekrutmen-';
             $result[$row->ID_REKRUTMEN]= $row->NAMA_REKRUTMEN;
         }
+        
         
         return $result;
 	}
@@ -75,6 +79,17 @@ class m_rekrutmen extends Model {
 		$data = $this->db->join('lokasi','lokasi.ID_LOKASI = rekrutmen.ID_LOKASI');
 		$data = $this->db->join('jenisrekrutmen','jenisrekrutmen.ID_JENIS_REKRUT = rekrutmen.ID_JENIS_REKRUT');
 		$data = $this->db->join('Pelaksana','pelaksana.ID_PELAKSANA = rekrutmen.ID_PELAKSANA');
+		$data = $this->db->get();
+		return $data->result();
+	}
+	
+	function getRekrutmenSeleksi(){
+		$data = $this->db->select('*');
+		$data = $this->db->from('rekrutmen');
+		$data = $this->db->join('lokasi','lokasi.ID_LOKASI = rekrutmen.ID_LOKASI');
+		$data = $this->db->join('jenisrekrutmen','jenisrekrutmen.ID_JENIS_REKRUT = rekrutmen.ID_JENIS_REKRUT');
+		$data = $this->db->join('Pelaksana','pelaksana.ID_PELAKSANA = rekrutmen.ID_PELAKSANA');
+		$data = $this->db->where('TGL_TUTUP <', date("Y-m-d", strtotime("now")));
 		$data = $this->db->get();
 		return $data->result();
 	}
@@ -120,7 +135,11 @@ class m_rekrutmen extends Model {
         
         return $result;	
 	}
-	
+	function getPeserta($idRekrut){
+		$data = $this->db->where('ID_REKRUTMEN',$idRekrut);
+		$data = $this->db->get('peserta');
+		return $data->result();
+	}
 	function getTingkat() {
 	$data = $this->db->where('STATUS_PT',1);
 	$data = $this->db->get('tingkatpendidikan');
@@ -161,7 +180,8 @@ class m_rekrutmen extends Model {
 			        'ID_PELAKSANA'     	=> $this->input->post('pelaksana'),
 			        'NAMA_REKRUTMEN'    => $this->input->post('nama_rekrutmen'),
 			        'TGL_BUKA' 			=> $this->input->post('tgl_buka'),
-			        'TGL_TUTUP' 	        => $this->input->post('tgl_tutup')
+			        'TGL_TUTUP' 	    => $this->input->post('tgl_tutup'),
+					'STATUS_REKRUTMEN'  => 1,
 			);
 		$this->db->insert('rekrutmen', $data);
 		$query = $this->db->query('SELECT LAST_INSERT_ID()');
@@ -186,6 +206,11 @@ class m_rekrutmen extends Model {
 	function delete($id){
 	$this->db->where('ID_REKRUTMEN',$id);
 	$this->db->delete('rekrutmen');	
+	}
+	function close($id){
+		$data = array('STATUS_REKRUTMEN'	=> 0);
+		$this->db->where('ID_REKRUTMEN',$id);
+		$this->db->update('rekrutmen', $data);
 	}
 }
 ?>
