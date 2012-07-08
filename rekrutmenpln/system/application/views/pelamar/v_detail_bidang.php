@@ -5,12 +5,14 @@
 </head>
 
 <body>
+<?php echo form_open('lowongan/daftarkanpelamar/'.$idRekrutmen.'/'.$idBid);?>
 <?php 
 $i = 1;
 foreach ($detail->result() as $row){
 ?>
 <?php if($i == 1){
 ?>
+
 <p>Kode Bidang : <?php echo $row->KODE_BID?></p>
 <p>Nama Bidang : <?php echo $row->NAMA_BID?></p>
 <p>Deskripsi :<?php echo $row->DESKRIPSI?></p>
@@ -21,14 +23,16 @@ foreach ($detail->result() as $row){
 <p>Max usia : <?php echo $row->USIA_PELAMAR_MAX.' tahun';?></p>
 <p>&nbsp;</p>
 <p>Program Studi :</p>
+<input type="hidden" name="usia" id="usia" value="<?php echo $row->USIA_PELAMAR_MAX;?>" />
+<input type="hidden" name="tingkat" id="tingkat" value="<?php echo $row->ID_TINGKAT;?>" />
+<input type="hidden" name="ipk" id="ipk" value="<?php echo $row->MIN_IPK;?>" />
 <ul>
 
     <?php }?> 
     <li>  <?php echo $row->NAMA_PS;?>  </li>
     <?php 
 $i++;}?>
-<?php echo form_open('lowongan/daftarkanpelamar/'.$idRekrutmen.'/'.$idBid);?>
-<?php echo form_submit('submit', "Melamar")?>
 </ul>
+<?php echo form_submit('submit', "Melamar")?>
 </body>
 </html>
