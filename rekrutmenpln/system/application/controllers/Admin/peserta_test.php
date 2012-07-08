@@ -14,11 +14,11 @@ class peserta_test extends Controller {
 		
 	function index(){
 		$data['rekrutmen']  		= $this->m_rekrutmen->getRekrutmenSeleksi();
-		$data['count_akademik']		= $this->m_test->countAkademik($data);
-		$data['count_psikotes']		= $this->m_test->countPsikotest($data);
-		$data['count_kesehatan']	= $this->m_test->countKesehatan($data);
-		$data['count_gat']			= $this->m_test->countGat($data);
-		$data['count_wawancara']	= $this->m_test->countWawancara($data);
+		$data['count_akademik']		= $this->m_test->countTest($data,"testakademik");
+		$data['count_psikotes']		= $this->m_test->countTest($data,"psikotest");
+		$data['count_kesehatan']	= $this->m_test->countTest($data,"testkesehatan");
+		$data['count_gat']			= $this->m_test->countTest($data,"testgat");
+		$data['count_wawancara']	= $this->m_test->countTest($data,"wawancara");
 		
 		$this->load->view('admin/v_test',$data);
 	}
@@ -287,9 +287,10 @@ class peserta_test extends Controller {
 					$row++;
 					$no++;
 		 		}
-				//HTTP Header untuk download         
+				//HTTP Header untuk download  
+				$nama="peserta_test_akademik_"."";       
                 header('Content-type: application/ms-excel');
-                header('Content-Disposition:  inline; attachment; filename=peserta_test_akademik.xls');
+                header('Content-Disposition:  inline; attachment; filename=peserta_test_akademik".xls');
                 flush();
                 //Dumping data to HTTP
                 $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
