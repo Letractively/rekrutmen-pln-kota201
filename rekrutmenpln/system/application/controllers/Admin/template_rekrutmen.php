@@ -37,6 +37,9 @@ class template_rekrutmen extends Controller {
 			$crud->display_as('NAMA_TEMPLATE','NAMA TEMPLATE');
 			$crud->display_as('DESKRIPSI','ISI');
 			$crud->set_rules('NAMA_TEMPLATE','TEMPLATE','required');
+			$crud->edit_fields('DESKRIPSI');
+			$crud->unset_add();
+			$crud->unset_delete();
 			//$crud->set_rules('DESKRIPSI','ISI','required');
 			//$this->form_validation->set_rules('emailaddress','Email Address','required|valid_email|unique[users.email]');
 			$crud->required_fields('NAMA_TEMPLATE','DESKRIPSI');
