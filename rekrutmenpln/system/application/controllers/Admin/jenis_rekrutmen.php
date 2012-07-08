@@ -33,10 +33,11 @@ class jenis_rekrutmen extends Controller {
 			$crud->set_table('jenisrekrutmen');
 			$crud->set_subject('Jenis Rekrutmen');
 			$crud->display_as('NAMA_JENIS_REKRUT','NAMA JENIS REKRUTMEN');
+			$crud->display_as('KODE_JENIS_REKRUT','KODE JENIS REKRUTMEN');
 			$crud->display_as('STATUS_JENIS_REKRUT','STATUS');
 			
 			$crud->set_rules('NAMA_JENIS_REKRUT','NAMA JENIS REKRUTMEN','required');
-			$crud->required_fields('NAMA_JENIS_REKRUT','STATUS_JENIS_REKRUT');
+			$crud->required_fields('NAMA_JENIS_REKRUT','KODE_JENIS_REKRUT','STATUS_JENIS_REKRUT');
 			
 			//$crud->callback_add_field('CONFIRM',array($this,'_confirm_edit'));
 			
