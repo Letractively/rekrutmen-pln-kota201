@@ -35,6 +35,9 @@ class passing_grade extends Controller {
 			$crud->set_rules('NAMATEST','NAMA TEST','alpha|required');
 			$crud->set_rules('NILAI','NILAI','is_natural_no_zero|required');
 			$crud->required_fields('NAMATEST','NILAI');
+			$crud->edit_fields('NILAI');
+			$crud->unset_add();
+			$crud->unset_delete();
 			$output = $crud->render();
 			$this->_example_output($output);
 			
