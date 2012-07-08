@@ -1,5 +1,6 @@
 <html>
 <head>
+	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/grocery_crud/themes/flexigrid/css/flexigrid.css" />
 	<link rel="stylesheet" href="<?php echo base_url();?>assets/multiselect/css/jquery.multiselect2side.css" type="text/css" media="screen" />
 	<script type="text/javascript" src="<?php echo base_url();?>assets/multiselect/js/jquery.js" ></script>
 	<script type="text/javascript" src="<?php echo base_url();?>assets/multiselect/js/jquery.multiselect2side.js" ></script>
@@ -15,6 +16,9 @@
 	</div>
 	<div>
 		<a href='<?php echo site_url('admin/user/crud')?>'>Administrator</a> |	
+	</div>
+	<div>
+		<a href='<?php echo site_url('admin/test')?>'>Generate Peserta Test</a> |	
 	</div>
     <div>
 		<a href='<?php echo site_url('admin/tingkat_pendidikan/crud')?>'>Tingkat Pendidikan</a> |
@@ -35,16 +39,22 @@
 		<a href='<?php echo site_url('admin/status_pernikahan/crud')?>'>Status Pernikahan</a> |
 	</div>
 <!-- End of header-->
-<?php if(isset($form['rekrutmen'])) {
-			echo form_open('admin/bidang_dibuka/edit/'.$form['rekrutmen'].'/'.$form['bidang']) ;
-			echo "<h3> Form Edit Bidang Dibuka</h3>";
-			
-		}else{
-			echo form_open('admin/bidang_dibuka/add');
-			echo "<h3> Form Bidang Dibuka</h3>";
-         }
-         ?>
-	
+<div class="flexigrid crud-form" style='width: 100%;'>
+	<div class="mDiv">
+		<div class="ftitle">
+			<div class='ftitle-left'>		
+				<?php if(isset($form['rekrutmen'])) {
+						echo form_open('admin/bidang_dibuka/edit/'.$form['rekrutmen'].'/'.$form['bidang']) ;
+						echo "Form Edit Bidang Dibuka";
+						}else{
+							echo form_open('admin/bidang_dibuka/add');
+							echo "Form Bidang Dibuka";
+				         }
+		         ?>
+			</div>
+			<div class='clear'></div>
+		</div>
+	</div>
 	<fieldset>
 		<legend>Bidang Dibuka</legend>
 			<table>
@@ -52,6 +62,9 @@
 					<td class="td">Rekrutmen </td>                                   
 					<td class="td"> : </td>                                     
 					<td><?php
+						if($option_rekrutmen==NULL)
+    					echo "<input type='text' value='Isi Rekrutmen Dahulu' disabled='disabled'>";
+    					else
     					echo form_dropdown("rekrutmen",$option_rekrutmen,set_value('rekrutmen',(isset($form['rekrutmen'])) ? $form['rekrutmen'] : 0),"id='rekrutmen'");
    						 ?>    
 					</td>
@@ -106,13 +119,21 @@
 								
 						
 		</fieldset>
-			
+		
+		
+<div class="pDiv">
+			<div class='form-button-box'>			
+			<?php echo form_submit("submit","Simpan"); ?>
+			</div>
+			<div class='form-button-box'>		
+			<?php echo form_submit("submit","Batal"); ?>
+			</div>
+</div>
+</div>
 </body>
-</html>			
-			
-<?php echo form_submit("submit","Simpan"); ?>
-<?php echo form_submit("submit","Batal"); ?>
+
 <?php echo form_close(); ?>
+
 <script type="text/javascript" language="javascript">
 	
 	$().ready(function() {
@@ -136,3 +157,4 @@
 	//$('#third').multiselect2side('destroy');
 	});
 </script>
+</html>	

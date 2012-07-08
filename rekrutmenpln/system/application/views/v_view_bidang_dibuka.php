@@ -1,5 +1,6 @@
 <html>
 <head>
+	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/grocery_crud/themes/flexigrid/css/flexigrid.css" />
 	<link rel="stylesheet" href="<?php echo base_url();?>assets/multiselect/css/jquery.multiselect2side.css" type="text/css" media="screen" />
 	<script type="text/javascript" src="<?php echo base_url();?>assets/multiselect/js/jquery.js" ></script>
 	<script type="text/javascript" src="<?php echo base_url();?>assets/multiselect/js/jquery.multiselect2side.js" ></script>
@@ -15,6 +16,9 @@
 	</div>
 	<div>
 		<a href='<?php echo site_url('admin/user/crud')?>'>Administrator</a> |	
+	</div>
+	<div>
+		<a href='<?php echo site_url('admin/test')?>'>Generate Peserta Test</a> |	
 	</div>
     <div>
 		<a href='<?php echo site_url('admin/tingkat_pendidikan/crud')?>'>Tingkat Pendidikan</a> |
@@ -35,8 +39,30 @@
 		<a href='<?php echo site_url('admin/status_pernikahan/crud')?>'>Status Pernikahan</a> |
 	</div>
 <!-- End of header-->
-	<h3> Data Bidang Dibuka</h3>
-	<?php echo anchor('admin/bidang_dibuka/add', '[+] Tambah Bidang Dibuka');?>
+<div class="flexigrid" style='width: 100%;'>
+	<div class="mDiv">
+		<div class="ftitle">
+			Data Bidang Dibuka
+		</div>
+	</div>
+	<div id='main-table-box'>
+		<div class="tDiv">
+			<div class="tDiv2">
+	        	<div class="fbutton">
+					<div>
+						<span class="add">
+						<?php echo anchor('admin/bidang_dibuka/add', 'Tambah Bidang Dibuka');?>
+						</span>
+					</div>
+				</div>
+	
+				<div class="btnseparator">
+				</div>
+			</div>
+				<div class='clear'></div>
+		</div>
+	</div>
+	
 	<table border="1">
 		<tr>
 			<td>Nama Rekrutmen</td>
@@ -47,7 +73,7 @@
 			<td>Quota</td>
 			<td>Program Studi</td>
 			<td>Action</td>
-		<tr>
+		</tr>
 		<?php
 		 
 			foreach($bidangjabatandibuka as $rows){
@@ -74,12 +100,22 @@
 				echo $rows->nama_ps;
 				echo "</td>";
 				echo "<td>";
-				echo anchor('bidang_dibuka/edit/'.$rows->ID_REKRUTMEN.'/'.$rows->ID_BID, 'Edit')."|".anchor('bidang_dibuka/delete/'.$rows->ID_REKRUTMEN.'/'.$rows->ID_BID.'/'.$rows->ID_PS, 'Delete');
+				echo anchor('admin/bidang_dibuka/delete/'.$rows->ID_REKRUTMEN.'/'.$rows->ID_BID.'/'.$rows->ID_PS, "<span class='delete-icon'></span>");
+				echo anchor('admin/bidang_dibuka/edit/'.$rows->ID_REKRUTMEN.'/'.$rows->ID_BID, "<span class='edit-icon'></span>");
 				echo "</td>";
 			}
 		?>
 	</table>
-			
-</body>
-</html>			
+	<div class="pDiv">
+		<div class="pDiv2">
+		<div class="btnseparator">
+		</div>
+		<div style="clear: both;">
+		</div>
+	</div>		
+
 <?php echo form_close(); ?>
+</div>
+</div>
+</body>	
+</html>	

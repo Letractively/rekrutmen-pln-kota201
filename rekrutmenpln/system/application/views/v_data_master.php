@@ -39,6 +39,9 @@ a:hover
 	<div>
 		<a href='<?php echo site_url('admin/user/crud')?>'>Administrator</a> |	
 	</div>
+	<div>
+		<a href='<?php echo site_url('admin/test')?>'>Generate Peserta Test</a> |	
+	</div>
     <div>
 		<a href='<?php echo site_url('admin/tingkat_pendidikan/crud')?>'>Tingkat Pendidikan</a> |
 		<a href='<?php echo site_url('admin/perguruan_tinggi/crud')?>'>Perguruan Tinggi</a> |

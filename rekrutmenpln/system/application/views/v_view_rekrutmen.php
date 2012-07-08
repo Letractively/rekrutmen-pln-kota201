@@ -1,5 +1,6 @@
 <html>
 <head>
+	<link type="text/css" rel="stylesheet" href="<?php echo base_url();?>assets/grocery_crud/themes/flexigrid/css/flexigrid.css" />
 	<link rel="stylesheet" href="<?php echo base_url();?>assets/multiselect/css/jquery.multiselect2side.css" type="text/css" media="screen" />
 	<script type="text/javascript" src="<?php echo base_url();?>assets/multiselect/js/jquery.js" ></script>
 	<script type="text/javascript" src="<?php echo base_url();?>assets/multiselect/js/jquery.multiselect2side.js" ></script>
@@ -15,6 +16,9 @@
 	</div>
 	<div>
 		<a href='<?php echo site_url('admin/user/crud')?>'>Administrator</a> |	
+	</div>
+	<div>
+		<a href='<?php echo site_url('admin/test')?>'>Generate Peserta Test</a> |	
 	</div>
     <div>
 		<a href='<?php echo site_url('admin/tingkat_pendidikan/crud')?>'>Tingkat Pendidikan</a> |
@@ -35,8 +39,29 @@
 		<a href='<?php echo site_url('admin/status_pernikahan/crud')?>'>Status Pernikahan</a> |
 	</div>
 <!-- End of header-->
-	<h3> Data Rekrutmen</h3>
-	<?php echo anchor('admin/buka_rekrutmen/add', '[+] Buka Rekrutmen Baru');?>
+<div class="flexigrid" style='width: 100%;'>
+	<div class="mDiv">
+		<div class="ftitle">
+			Data Rekrutmen
+		</div>
+	</div>
+	<div id='main-table-box'>
+		<div class="tDiv">
+			<div class="tDiv2">
+	        	<div class="fbutton">
+					<div>
+						<span class="add">
+						<?php echo anchor('admin/buka_rekrutmen/add', 'Buka Rekrutmen Baru');?></span>
+					</div>
+				</div>
+	
+				<div class="btnseparator">
+				</div>
+			</div>
+				<div class='clear'></div>
+		</div>
+	</div>
+	
 	<table border="1">
 		<tr>
 			<td>Lokasi</td>
@@ -45,12 +70,13 @@
 			<td>Nama Rekrutmen</td>
 			<td>Tanggal Buka</td>
 			<td>Tanggal Tutup</td>
+			<td>Status Rekrutmen</td>
 			<?php 
 				foreach ($tingkat as $row){
 				echo "<td>Batas Usia Max $row->NAMA_TINGKAT</td>";
 			}
 			?>
-			<td>Action</td>
+			<td align="center">Action</td>
 		</tr>
 		<?php
 		$i = 1; 
@@ -77,6 +103,12 @@
 				echo "</td>";
 				echo "<td>";
 				echo $rekrutmen[1]->TGL_TUTUP;
+				echo "</td>";
+				echo "<td align='center'>";
+				if($rekrutmen[1]->STATUS_REKRUTMEN==1)
+				echo "Buka";
+				else
+				echo "Tutup";
 				echo "</td>";
 				echo "<td>";
 				echo $rekrutmen[1]->USIA_PELAMAR_MAX." Tahun";
@@ -105,6 +137,12 @@
 				echo "<td>";
 				echo $rekrutmen[$j]->TGL_TUTUP;
 				echo "</td>";
+				echo "<td align='center'>";
+				if($rekrutmen[$j]->STATUS_REKRUTMEN==1)
+				echo "Buka";
+				else
+				echo "Tutup";
+				echo "</td>";
 				echo "<td>";
 				echo $rekrutmen[$j]->USIA_PELAMAR_MAX." Tahun";
 				echo "</td>";
@@ -114,7 +152,11 @@
 				echo $rekrutmen[$j]->USIA_PELAMAR_MAX." Tahun";
 				echo "</td>";
 				echo "<td>";
-				echo anchor('admin/buka_rekrutmen/edit/'.$rekrutmen[$j]->ID_REKRUTMEN, 'Edit')."|".anchor('admin/buka_rekrutmen/delete/'.$rekrutmen[$j]->ID_REKRUTMEN, 'Delete',array('onClick' => "return confirm('Are you sure you want to delete?')"));
+				echo anchor('admin/buka_rekrutmen/delete/'.$rekrutmen[$j]->ID_REKRUTMEN,"<span class='delete-icon'></span>",array('onClick' => "return confirm('Apakah anda yakin untuk menghapus?')"));
+				echo anchor('admin/buka_rekrutmen/edit/'.$rekrutmen[$j]->ID_REKRUTMEN,"<span class='edit-icon'></span>");
+					if($rekrutmen[$j]->STATUS_REKRUTMEN==1){
+					echo anchor('admin/buka_rekrutmen/close/'.$rekrutmen[$j]->ID_REKRUTMEN, 'Close',array('onClick' => "return confirm('Apakah anda yakin ingin menutup rekrutmen ini?')"));
+					 }				
 				echo "</td>";
 				echo "</tr>";	
 				}	
@@ -122,7 +164,15 @@
 		}
 		?>
 	</table>
-			
-</body>
-</html>			
+	<div class="pDiv">
+		<div class="pDiv2">
+		<div class="btnseparator">
+		</div>
+		<div style="clear: both;">
+		</div>
+	</div>	
+	</div>			
+</div>		
 <?php echo form_close(); ?>
+</body>
+</html>	
