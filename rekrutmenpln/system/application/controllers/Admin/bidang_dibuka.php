@@ -7,13 +7,11 @@ class bidang_dibuka extends Controller {
 		$this->load->library('form_validation');
 		$this->load->model('m_rekrutmen');
 		$this->load->model('m_bidang_dibuka');
+		$this->load->model('MLowongan');
 	}
 	
 	function index() {
-		$data['bidangjabatandibuka']  = $this->m_bidang_dibuka->getListBidangJabatanDibuka();
-		$data['count']      = $this->m_bidang_dibuka->getTotalBidangDibuka();
-		//$data['batas_usia'] = $this->rekrutmen->getListBatasUsia();
- 		$this->load->view('v_view_bidang_dibuka',$data);
+		redirect('admin/buka_rekrutmen');
 	}
 	function cekFieldKosong(){
 		$this->form_validation->set_rules('rekrutmen', 'Rekrutmen', 'required|callback_validasi');
@@ -70,30 +68,41 @@ class bidang_dibuka extends Controller {
     		return true;
     	}
     }
-	function add(){
-		$data = array(	'option_rekrutmen' 			=> $this->m_rekrutmen->getAllRekrutmen(),
+	function add($id){
+		$data = array(	'option_rekrutmen' 			=> $this->m_rekrutmen->getOnlyRekrutmen($id),
 	      				'option_bidang' 			=> $this->m_bidang_dibuka->getBidang(),
 						'total_prodi'				=> $this->m_bidang_dibuka->totalProdi(),
 	      				'option_program_studi'      => $this->m_bidang_dibuka->getProdi()
 		);
 		if($this->input->post('submit')=="Batal")
-		redirect ('admin/bidang_dibuka');
+		redirect ('admin/buka_rekrutmen');
 		else if($this->cekFieldKosong()){
 				$this->m_bidang_dibuka->insert();
-				redirect ('admin/bidang_dibuka');
+				redirect ('admin/buka_rekrutmen');
 		}else {
-				$this->load->view('v_input_bidang_dibuka',$data);
+			$data['id'] = $id;
+			$data['title'] = "Form Buka Rekrutmen";
+       		$data['tampil'] = "v_input_bidang_dibuka.php";
+    		$this->load->view('admin/template_admin',$data);	
 		}
 		
 	}
-	function delete($idrekrutmen,$idbidang,$idtingkat) {
-		$this->m_bidang_dibuka->delete($idrekrutmen,$idbidang,$idtingkat);
-		redirect('admin/bidang_dibuka');
+	function delete($idrekrutmen,$idbidang) {
+		$this->m_bidang_dibuka->delete($idrekrutmen,$idbidang);
+		redirect('admin/buka_rekrutmen');
+	}
+	function detailBidang($rekrut, $bdg){
+		$data['detail'] = $this->MLowongan->getDetailBidang($rekrut, $bdg);
+		$data['idRekrutmen'] = $rekrut;
+		$data['idBid'] = $bdg;
+		$data['tampil'] = 'admin/v_detail_bidang_dibuka.php';
+		$data['title'] = 'Lowongan Dibuka';
+		$this->load->view('admin/template_admin',$data);
 	}
 	function edit($idrekrutmen,$idbidang){
 		$data = array(	'form_prodi'				=> $this->m_bidang_dibuka->getDataExisting($idrekrutmen,$idbidang),
 						'total'						=> $this->m_bidang_dibuka->countDataProdi($idrekrutmen,$idbidang),
-						'option_rekrutmen' 			=> $this->m_rekrutmen->getAllRekrutmen(),
+						'option_rekrutmen' 			=> $this->m_rekrutmen->getOnlyRekrutmen($idrekrutmen),
 	      				'option_bidang' 				=> $this->m_bidang_dibuka->getBidang(),
 						'option_program_studi'      => $this->m_bidang_dibuka->getProdi(),
 						'total_prodi'				=> $this->m_bidang_dibuka->totalProdi(),
@@ -101,12 +110,15 @@ class bidang_dibuka extends Controller {
 						
 		);
 		if($this->input->post('submit')=="Batal")
-		redirect ('admin/bidang_dibuka');
+		redirect ('admin/buka_rekrutmen');
 		else if($this->cekField()){
 				$this->m_bidang_dibuka->update($idrekrutmen,$idbidang);
-				redirect ('admin/bidang_dibuka');
+				redirect ('admin/buka_rekrutmen');
 		}else {
-				$this->load->view('v_input_bidang_dibuka',$data);
+			$data['id'] = $idrekrutmen;
+			$data['title'] = "Form Edit Rekrutmen";
+       		$data['tampil'] = "v_input_bidang_dibuka.php";
+    		$this->load->view('admin/template_admin',$data);	
 		}
     }
 }

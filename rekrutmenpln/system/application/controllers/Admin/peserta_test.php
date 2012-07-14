@@ -19,8 +19,9 @@ class peserta_test extends Controller {
 		$data['count_kesehatan']	= $this->m_test->countTest($data,"testkesehatan");
 		$data['count_gat']			= $this->m_test->countTest($data,"testgat");
 		$data['count_wawancara']	= $this->m_test->countTest($data,"wawancara");
-		
-		$this->load->view('admin/v_test',$data);
+		$data['title'] = "Generate Peserta Test";
+		$data['view'] = "admin/v_test.php";
+		$this->load->view('admin/template_admin',$data);
 	}
 		
 	function template_psikotes($id)
@@ -121,9 +122,13 @@ class peserta_test extends Controller {
                 $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setVisible(false);
                 $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setVisible(false);
                 // Add some data
+                $field = $this->m_rekrutmen->getFieldRekrutmen($id);
                 $objPHPExcel->setActiveSheetIndex(0);
-				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Daftar Peserta Psikotest');
-				$objPHPExcel->getActiveSheet()->SetCellValue('D2',"Ceksound");
+				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'DAFTAR PESERTA PSIKOTEST');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D2',$field[0]->NAMA_REKRUTMEN." ".$field[0]->NAMA_LOKASI." ".$field[0]->TGL_BUKA."-".$field[0]->TGL_TUTUP);
+				$objPHPExcel->getActiveSheet()->SetCellValue('D3', 'TANGGAL');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D4', 'PELAKSANA');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D5', 'LOKASI');
 				$objPHPExcel->getActiveSheet()->SetCellValue('A6',"ID Rekrutmen");
 				$objPHPExcel->getActiveSheet()->SetCellValue('B6',"ID_BID");
 				$objPHPExcel->getActiveSheet()->SetCellValue('C6',"ID_PELAMAR");
@@ -258,9 +263,13 @@ class peserta_test extends Controller {
 				);
 				$objPHPExcel->getActiveSheet()->getStyle('A6:I6')->getBorders()->getAllBorders()->setColor(new PHPExcel_Style_Color(PHPExcel_Style_Color::COLOR_BLACK));
                 // Add some data
+                 $field = $this->m_rekrutmen->getFieldRekrutmen($id);
                 $objPHPExcel->setActiveSheetIndex(0);
-				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Daftar Peserta Test Akademik');
-				$objPHPExcel->getActiveSheet()->SetCellValue('D2',"Ceksound");
+				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'DAFTAR PESERTA TEST AKADEMIK');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D2',$field[0]->NAMA_REKRUTMEN." ".$field[0]->NAMA_LOKASI." ".$field[0]->TGL_BUKA."-".$field[0]->TGL_TUTUP);
+				$objPHPExcel->getActiveSheet()->SetCellValue('D3', 'TANGGAL');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D4', 'PELAKSANA');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D5', 'LOKASI');
 				$objPHPExcel->getActiveSheet()->SetCellValue('A6',"ID Rekrutmen");
 				$objPHPExcel->getActiveSheet()->SetCellValue('B6',"ID_BID");
 				$objPHPExcel->getActiveSheet()->SetCellValue('C6',"ID_PELAMAR");
@@ -385,11 +394,14 @@ class peserta_test extends Controller {
 					'D6:K6'
 				);
 				$objPHPExcel->getActiveSheet()->getStyle('A6:K6')->getBorders()->getAllBorders()->setColor(new PHPExcel_Style_Color(PHPExcel_Style_Color::COLOR_BLACK));
-                
+                 $field = $this->m_rekrutmen->getFieldRekrutmen($id);
                 // Add some data
                 $objPHPExcel->setActiveSheetIndex(0);
-				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Daftar Peserta Test GAT');
-				$objPHPExcel->getActiveSheet()->SetCellValue('D2',"Ceksound");
+				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'DAFTAR PESERTA TEST GAT');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D2',$field[0]->NAMA_REKRUTMEN." ".$field[0]->NAMA_LOKASI." ".$field[0]->TGL_BUKA."-".$field[0]->TGL_TUTUP);
+				$objPHPExcel->getActiveSheet()->SetCellValue('D3', 'TANGGAL');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D4', 'PELAKSANA');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D5', 'LOKASI');
 				$objPHPExcel->getActiveSheet()->SetCellValue('A6',"ID Rekrutmen");
 				$objPHPExcel->getActiveSheet()->SetCellValue('B6',"ID_BID");
 				$objPHPExcel->getActiveSheet()->SetCellValue('C6',"ID_PELAMAR");
@@ -514,11 +526,14 @@ class peserta_test extends Controller {
 					'A6:I6'
 				);
 				$objPHPExcel->getActiveSheet()->getStyle('A6:I6')->getBorders()->getAllBorders()->setColor(new PHPExcel_Style_Color(PHPExcel_Style_Color::COLOR_BLACK));
-                
+                 $field = $this->m_rekrutmen->getFieldRekrutmen($id);
                 // Add some data
                 $objPHPExcel->setActiveSheetIndex(0);
-				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Daftar Peserta Test Kesehatan');
-				$objPHPExcel->getActiveSheet()->SetCellValue('D2',"Ceksound");
+				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'DAFTAR PESERTA TEST KESEHATAN');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D2',$field[0]->NAMA_REKRUTMEN." ".$field[0]->NAMA_LOKASI." ".$field[0]->TGL_BUKA."-".$field[0]->TGL_TUTUP);
+				$objPHPExcel->getActiveSheet()->SetCellValue('D3', 'TANGGAL');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D4', 'PELAKSANA');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D5', 'LOKASI');
 				$objPHPExcel->getActiveSheet()->SetCellValue('A6',"ID Rekrutmen");
 				$objPHPExcel->getActiveSheet()->SetCellValue('B6',"ID_BID");
 				$objPHPExcel->getActiveSheet()->SetCellValue('C6',"ID_PELAMAR");
@@ -658,11 +673,14 @@ class peserta_test extends Controller {
 					'A6:L6'
 				);
 				$objPHPExcel->getActiveSheet()->getStyle('A6:L6')->getBorders()->getAllBorders()->setColor(new PHPExcel_Style_Color(PHPExcel_Style_Color::COLOR_BLACK));
-                
+                 $field = $this->m_rekrutmen->getFieldRekrutmen($id);
                 // Add some data
                 $objPHPExcel->setActiveSheetIndex(0);
-				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Daftar Peserta Wawancara');
-				$objPHPExcel->getActiveSheet()->SetCellValue('D2',"Ceksound");
+				$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'DAFTAR PESERTA WAWANCARA');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D2',$field[0]->NAMA_REKRUTMEN." ".$field[0]->NAMA_LOKASI." ".$field[0]->TGL_BUKA."-".$field[0]->TGL_TUTUP);
+				$objPHPExcel->getActiveSheet()->SetCellValue('D3', 'TANGGAL');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D4', 'PELAKSANA');
+				$objPHPExcel->getActiveSheet()->SetCellValue('D5', 'LOKASI');
 				$objPHPExcel->getActiveSheet()->SetCellValue('A6',"ID Rekrutmen");
 				$objPHPExcel->getActiveSheet()->SetCellValue('B6',"ID_BID");
 				$objPHPExcel->getActiveSheet()->SetCellValue('C6',"ID_PELAMAR");

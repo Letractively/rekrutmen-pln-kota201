@@ -49,7 +49,11 @@ class passing_grade extends Controller {
     function _example_output($output = null)
  
     {
-        $this->load->view('v_data_master.php',$output);    
+        $data = array();
+    	$data['output'] = $output;
+        $data['title'] = "Daftar Passing Grade";
+        $data['view'] = "v_data_master.php";
+    	$this->load->view('admin/template_admin',$data);    
     }
     
 	public function nama_unique($str)

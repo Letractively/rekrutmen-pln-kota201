@@ -52,7 +52,11 @@ class BidangJabatan extends Controller {
     function _example_output($output = null)
  
     {
-        $this->load->view('our_template.php',$output);    
+        $data = array();
+    	$data['output'] = $output;
+        $data['title'] = "Daftar Bidang Jabatan";
+        $data['view'] = "v_data_master.php";
+    	$this->load->view('admin/template_admin',$data);    
     }
 }
  

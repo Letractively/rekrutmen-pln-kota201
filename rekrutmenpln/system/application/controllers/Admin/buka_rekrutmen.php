@@ -15,7 +15,11 @@ class buka_rekrutmen extends Controller {
 		$data['rekrutmen']  = $this->m_rekrutmen->getListRekrutmen();
 		$data['count']      = $this->m_rekrutmen->getTotalRekrutmen();
 		//$data['batas_usia'] = $this->rekrutmen->getListBatasUsia();
- 		$this->load->view('v_view_rekrutmen',$data);
+		
+        $data['title'] = "Daftar Rekrutmen";
+        $data['tampil'] = "v_view_rekrutmen.php";
+    	$this->load->view('admin/template_admin',$data);
+ 		//$this->load->view('v_view_rekrutmen',$data);
 	}
 
 	function cekFieldKosong(){
@@ -32,7 +36,7 @@ class buka_rekrutmen extends Controller {
 			return false;
 		}
 		else{ 
-			if($this->rekrutmenIsExist()!=1)	
+			//if($this->rekrutmenIsExist()!=1)	
 		return true;
 		}	
 		
@@ -83,7 +87,9 @@ class buka_rekrutmen extends Controller {
 				$this->m_rekrutmen->insert();
 				redirect ('admin/buka_rekrutmen');
 		}else {
-				$this->load->view('v_input_rekrutmen',$data);
+			$data['title'] = "Form Buka Rekrutmen";
+       		$data['tampil'] = "v_input_rekrutmen.php";
+    		$this->load->view('admin/template_admin',$data);	
 		}
 		
 	}
@@ -93,8 +99,8 @@ class buka_rekrutmen extends Controller {
 		$this->mPelamar->update_status_daftar($data);
 		redirect('admin/buka_rekrutmen');
 	}
-	function close($id) {
-		$this->m_rekrutmen->close($id);
+	function close($id,$stat) {
+		$this->m_rekrutmen->close($id,$stat);
 		redirect('admin/buka_rekrutmen');
 	}
 	function edit($id){
@@ -111,7 +117,9 @@ class buka_rekrutmen extends Controller {
 				redirect ('admin/buka_rekrutmen');
 				
 		}else {
-				$this->load->view('v_input_rekrutmen',$data);
+				$data['title'] = "Form Edit Rekrutmen";
+       			$data['tampil'] = "v_input_rekrutmen.php";
+    			$this->load->view('admin/template_admin',$data);
 		}
     }
 }
