@@ -21,6 +21,7 @@ class Pelamar extends BaseController{
 		);
 		$data['view'] = 'pelamar/v_isi_data';
 		$data['title'] = 'Isi Data (CV)';
+		$data['kelengkapan'] = 1;
 		if($this->pelamarIsExist($this->session->userdata('id_akun'))){
 			$this->editData($data);
 		} else {
@@ -28,14 +29,16 @@ class Pelamar extends BaseController{
 				$uploaded = $this->MPelamar->do_upload($this->session->userdata('id_akun'),'foto');
 	    		if($uploaded == 'kosong'){
 		    		$this->MPelamar->addPelamar($data);
-		    		redirect ('pelamar');
+		    		$this->session->set_flashdata('message', 'Data Berhasil Disimpan.');
+		    		redirect ('pelamar/addPendidikan');
 	    		} else {
 	    			$data['berkas'] = $uploaded;
 					$this->load->view('pelamar/main_pelamar', $data);
 	    		}
 				
 			}else {
-				$this->load->view('pelamar/main_pelamar', $data);
+			$data['view'] = 'pelamar/v_isi_data';
+			$this->load->view('pelamar/main_pelamar', $data);
 			}
 		}
 	}
@@ -48,12 +51,15 @@ class Pelamar extends BaseController{
 			$idem = $this->input->post('idem');
 			$data['view'] = 'pelamar/v_isi_data';
 			$data['title'] = 'Isi Data (CV)';
+			$data['kelengkapan'] = 1;
 			if($this->cekFieldKosong()){
 
 				$uploaded = $this->MPelamar->do_upload($this->session->userdata('id_akun'),'foto');
 	    		if($uploaded == 'kosong'){
 		    		$this->MPelamar->editPelamar($data);
-		    		redirect ('pelamar');
+		    		$this->session->set_flashdata('message_type', 'information');
+        			$this->session->set_flashdata('message', 'Data Berhasil Diubah.');
+		    		redirect ('pelamar/addPendidikan');
 	    		} else {
 	    			$data['berkas'] = $uploaded;
 					$this->load->view('pelamar/main_pelamar', $data);
@@ -98,7 +104,7 @@ class Pelamar extends BaseController{
 		$this->form_validation->set_rules('noTelp', 'Nomor Telepon', 'numeric');
 		$this->form_validation->set_rules('noHp', 'Nomor HP', 'numeric');
 		$this->form_validation->set_rules('nikah', 'Status Pernikahan', 'required|callback_validasi');
-//		$this->form_validation->set_rules('alamat', 'Alamat', 'required');
+		$this->form_validation->set_rules('alamat', 'Alamat', 'required');
 		$this->form_validation->set_rules('provinsi_id', 'Provinsi', 'required|callback_validasi');
 		$this->form_validation->set_rules('kota_id', 'Kota', 'required|callback_validasi');
 		$this->form_validation->set_rules('kodepos', 'Kodepos', 'required|numeric');
@@ -106,7 +112,7 @@ class Pelamar extends BaseController{
 		
 		if($this->input->post('idem') !='on'){
 		
-//		$this->form_validation->set_rules('alamat2', 'Alamat', 'required');
+		$this->form_validation->set_rules('alamat2', 'Alamat', 'required');
 		$this->form_validation->set_rules('provinsi_id2', 'Provinsi', 'required|callback_validasi');
 		$this->form_validation->set_rules('kota_id2', 'Kota', 'required|callback_validasi');
 		$this->form_validation->set_rules('kodepos2', 'Kodepos', 'required|numeric');
@@ -125,7 +131,7 @@ class Pelamar extends BaseController{
     	
     	$this->form_validation->set_rules('nama', 'Nama Kursus', 'required');
     	$this->form_validation->set_rules('instansi', 'Nama Instansi', 'required');
-    	$this->form_validation->set_rules('tahun', 'Tahun Sertifikat', 'required|numeric');
+    	$this->form_validation->set_rules('tahun', 'Tahun Sertifikat', 'required|numeric|callback_validasi');
 //    	$this->form_validation->set_rules('nama', 'Nama Kursus', 'required');
 	
     	if($this->form_validation->run()==FALSE){
@@ -197,6 +203,7 @@ class Pelamar extends BaseController{
 	    	$data['pendNonPT'] = $this->MPelamar->getAllPendidikanNonPT($idpel['idpel']);
 	    	$data['view'] = 'pelamar/v_isi_data_pendidikan';
 			$data['title'] = 'Riwayat Pendidikan';
+			$data['kelengkapan'] = 1;
 			$this->load->view('pelamar/main_pelamar', $data);
     	} else{
     		$this->session->set_flashdata('error', 'Anda harus mengisi data pribadi terlebih dahulu!');
@@ -210,6 +217,7 @@ class Pelamar extends BaseController{
 			$data['option_tingkat'] = $this->MPelamar->getTingkatList(false);
 	    	$data['view'] = 'pelamar/v_input_pendidikan_nonpt';
 			$data['title'] = 'Riwayat Pendidikan';
+			$data['kelengkapan'] = 1;
 			$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
 	    	if($this->cekValidasiPendidikanNonPT()){	
 	    	    $uploaded = $this->MPelamar->do_upload(
@@ -218,6 +226,7 @@ class Pelamar extends BaseController{
     			$this->input->post('thnLulus'),'ijazahNonPT');
 	    		if($uploaded == 'kosong'){
 		    		$this->MPelamar->addPendidikanNonPT($idpel['idpel']);
+		    		$this->session->set_flashdata('message', 'Data Berhasil Disimpan.');
 		    		redirect ('pelamar/addPendidikan');
 	    		} else {
 	    			$data['berkas'] = $uploaded;
@@ -238,6 +247,7 @@ class Pelamar extends BaseController{
     	$data['form'] = $this->MPelamar->getPendidikanNonPT($idPend); 
     	$data['view'] = 'pelamar/v_input_pendidikan_nonpt';
 		$data['title'] = 'Edit Pendidikan Formal Non PT';
+		$data['kelengkapan'] = 1;
 		if($this->cekValidasiPendidikanNonPT()){
     		$uploaded = $this->MPelamar->do_upload(
     		$this->input->post('tingkat').
@@ -245,6 +255,7 @@ class Pelamar extends BaseController{
     		$this->input->post('thnLulus'),'ijazahNonPT');
 	    	if($uploaded == 'kosong'){
 	    		$this->MPelamar->editPendidikanNonPT($idPend);
+	    		$this->session->set_flashdata('message', 'Data Berhasil Diubah.');
 	    		redirect('pelamar/addPendidikan');
 	    	} else {
 	    		$data['berkas'] = $uploaded;
@@ -261,6 +272,7 @@ class Pelamar extends BaseController{
     		$this->MPelamar->delete_data($form['berkas'],'ijazahNonPT');
     	}
     	$this->MPelamar->delPendidikanNonPT($idPend);
+    	$this->session->set_flashdata('message', 'Data Berhasil Dihapus.');
     	redirect ('pelamar/addPendidikan');
     }
     
@@ -272,6 +284,7 @@ class Pelamar extends BaseController{
 			$data['option_ps'] = $this->MPelamar->getProgramStudiList();
 		    $data['view'] = 'pelamar/v_input_pendidikan_pt';
 			$data['title'] = 'Riwayat Pendidikan';	    	
+			$data['kelengkapan'] = 1;
 	    	$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
 	    	if($this->cekValidasiPendidikanPT()){
     			$uploaded = $this->MPelamar->do_upload(
@@ -281,6 +294,7 @@ class Pelamar extends BaseController{
     			$this->input->post('thnMasuk').
     			$this->input->post('thnLulus'),'ijazahPT');
 	    		if($uploaded == 'kosong'){
+	    			$this->session->set_flashdata('message', 'Data Berhasil Disimpan.');
 	    			$this->MPelamar->addPendidikanPT($idpel['idpel']);
 //	    			$this->MPelamar->do_upload();
 	    			redirect ('pelamar/addPendidikan');
@@ -305,6 +319,7 @@ class Pelamar extends BaseController{
     	$data['form'] = $this->MPelamar->getPendidikanPT($idPend); 
     	$data['view'] = 'pelamar/v_input_pendidikan_pt';
 		$data['title'] = 'Edit Pendidikan Formal PT';
+		$data['kelengkapan'] = 1;
     	if($this->cekValidasiPendidikanPT()){
 //	    			$form = $this->MPelamar->getAllPendidikanPT();
     		$uploaded = $this->MPelamar->do_upload(
@@ -315,6 +330,7 @@ class Pelamar extends BaseController{
     		$this->input->post('thnLulus'),'ijazahPT');
 	    	if($uploaded == 'kosong'){
 	    		$this->MPelamar->editPendidikanPT($idPend);
+	    		$this->session->set_flashdata('message', 'Data Berhasil Diubah.');
 	    		redirect('pelamar/addPendidikan');
 	    	} else {
 	    		$data['berkas'] = $uploaded;
@@ -331,6 +347,7 @@ class Pelamar extends BaseController{
     		$this->MPelamar->delete_data($form['berkas'],'ijazahPT');
     	}
     	$this->MPelamar->delPendidikanPT($idPend);
+    	$this->session->set_flashdata('message', 'Data Berhasil Dihapus.');
     	redirect ('pelamar/addPendidikan');
     }
     
@@ -340,6 +357,7 @@ class Pelamar extends BaseController{
     	$data['pengalaman'] = $this->MPelamar->getAllPengalaman($idpel['idpel']);
     	$data['view'] = 'pelamar/v_isi_data_pengalaman';
 		$data['title'] = 'Pengalaman Kerja';
+		$data['kelengkapan'] = 1;
 		$this->load->view('pelamar/main_pelamar', $data);
     	} else {
     		$this->session->set_flashdata('error', 'Anda harus mengisi data pribadi terlebih dahulu!');
@@ -352,10 +370,12 @@ class Pelamar extends BaseController{
 	    	if($this->cekValidasiPengalaman()){
 	    		$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
 	    		$this->MPelamar->addPengalaman($idpel['idpel']);
+	    		$this->session->set_flashdata('message', 'Data Berhasil Disimpan.');
 	    		redirect ('pelamar/addPengalaman');
 	    	} else {	
 	    	$data['view'] = 'pelamar/v_input_pengalaman';
 			$data['title'] = 'Tambah Pengalaman';
+			$data['kelengkapan'] = 1;
 			$this->load->view('pelamar/main_pelamar', $data);
 	    	}
 	    } else {
@@ -366,16 +386,19 @@ class Pelamar extends BaseController{
     function editPengalaman($idkerja){
     	if($this->cekValidasiPengalaman()){
     		$this->MPelamar->editPengalaman($idkerja);
+    		$this->session->set_flashdata('message', 'Data Berhasil Diubah.');
     		redirect('pelamar/addPengalaman');
     	}
     	$data['form'] = $this->MPelamar->getPengalaman($idkerja); 
     	$data['view'] = 'pelamar/v_input_pengalaman';
 		$data['title'] = 'Edit Pengalaman';
+		$data['kelengkapan'] = 1;
 		$this->load->view('pelamar/main_pelamar', $data);
     }
     
     function deletePengalaman($idkerja){
     	$this->MPelamar->delPengalaman($idkerja);
+    	$this->session->set_flashdata('message', 'Data Berhasil Dihapus.');
     	redirect ('pelamar/addPengalaman');
     }
     
@@ -385,8 +408,10 @@ class Pelamar extends BaseController{
 	    	$data['kursus'] = $this->MPelamar->getAllKursus($idpel['idpel']);
 	    	$data['view'] = 'pelamar/v_isi_data_kursus';
 			$data['title'] = 'Kursus';
+			$data['kelengkapan'] = 1;
 			$this->load->view('pelamar/main_pelamar', $data);
 	    } else {
+	    	$this->session->set_flashdata('error', 'Anda harus mengisi data pribadi terlebih dahulu!');
 	    	redirect ('pelamar');
 	    }
     }
@@ -396,6 +421,7 @@ class Pelamar extends BaseController{
     		$data['option_year'] = $this->setOptionYear();
     		$data['view'] = 'pelamar/v_input_kursus';
 			$data['title'] = 'Tambah Kursus';
+			$data['kelengkapan'] = 1;
 	    	if($this->cekValidasiKursus()){
 	    		$uploaded = $this->MPelamar->do_upload(
     			$this->input->post('nama').
@@ -422,11 +448,13 @@ class Pelamar extends BaseController{
     	$data['option_year'] = $this->setOptionYear();
     	$data['view'] = 'pelamar/v_input_kursus';
 		$data['title'] = 'Tambah Kursus';
+		$data['kelengkapan'] = 1;
     	if($this->cekValidasiKursus()){
     		$uploaded = $this->MPelamar->do_upload(
     			$this->input->post('nama').
     			$this->input->post('tahun'),'sertifikat');
 	    	if($uploaded == 'kosong'){
+	    		$this->session->set_flashdata('message', 'Data Berhasil Diubah.');
 	    		$this->MPelamar->editKursus($idkursus);
     			redirect ('pelamar/addKursus');
 	    	} else {
@@ -444,6 +472,7 @@ class Pelamar extends BaseController{
     		$this->MPelamar->delete_data($form['berkas'],'sertifikat');
     	}
     	$this->MPelamar->delKursus($idkursus);
+    	$this->session->set_flashdata('message', 'Data Berhasil Dihapus.');
     	redirect ('pelamar/addKursus');
     }
     

@@ -5,7 +5,7 @@
 		$this->load->model('MPelamar');
 		$this->load->model('MPeserta');
 		$this->load->library('session');
-		$this->output->enable_profiler(TRUE);
+//		$this->output->enable_profiler(TRUE);
 	}
 	
 	function index(){
@@ -28,34 +28,45 @@
 		if($this->session->userdata('id_akun')){
 			$data['pesan'] = '';
 			$idpel = $this->MPelamar->getIdPelamar($this->session->userdata("id_akun"));
-			$jmlDaftar = $this->MPeserta->jmlPesertaGagal($idpel['idpel']);
-			if($jmlDaftar['jml'] >= 3){				
-				$data['pesan'] = 'Anda Sudah Gagal sebanyak 3x!';
-			} else {
-				$setuju = $this->MPelamar->getPersetujuan($idpel['idpel']);
-				if($setuju['setuju'] == 0){
-					$data['pesan'] = 'Gagal Melamar pekerjaan, pernyataan belum disetujui!';
-				} else {	
-						$test = '';
-						$hasil = false;
-						$hasil = $this->MLowongan->cekPersyaratanUmum($idpel['idpel'], 
-									$this->input->post('ipk'), 
-									$this->input->post('tingkat'), 
-									$this->input->post('usia'),
-									$rekrut, 
-									$bdg);
-						if($hasil == true){
-							$test = $this->MPeserta->generateNoTest($idpel['idpel'], $rekrut, $bdg);
-							if($test!=''){
-								$this->MPeserta->addPeserta($idpel['idpel'], $rekrut, $bdg, $test, 0);
-								$this->MPeserta->addPeserta($idpel['idpel'], $rekrut, $bdg, $test,1);
+			if(isset($idpel['idpel'])){
+				if($this->MLowongan->studiPelamar($idpel['idpel'])){
+					$jmlDaftar = $this->MPeserta->jmlPesertaGagal($idpel['idpel']);
+					if($jmlDaftar['jml'] >= 3){				
+						$data['pesan'] = 'Anda Sudah Gagal sebanyak 3x!';
+					} else {
+						$setuju = $this->MPelamar->getPersetujuan($idpel['idpel']);
+						if($setuju['setuju'] == 0){
+							$data['pesan'] = 'Gagal Melamar pekerjaan, pernyataan belum disetujui!';
+						} else {	
+								$test = '';
+								$hasil = false;
+								$hasil = $this->MLowongan->cekPersyaratanUmum($idpel['idpel'], 
+											$this->input->post('ipk'), 
+											$this->input->post('tingkat'), 
+											$this->input->post('usia'),
+											$rekrut, 
+											$bdg);
+								if($hasil == true){
+									$test = $this->MPeserta->generateNoTest($idpel['idpel'], $rekrut, $bdg);
+									if($test!=''){
+										$this->MPeserta->addPeserta($idpel['idpel'], $rekrut, $bdg, $test, 0);
+										$this->MPeserta->addPeserta($idpel['idpel'], $rekrut, $bdg, $test,1);
+									}
+								}else {
+										$this->MPeserta->addPeserta($idpel['idpel'], $rekrut, $bdg, $test, 0);
+										$this->MPeserta->addPeserta($idpel['idpel'], $rekrut, $bdg, $test, 2);
+								}	
+								$this->session->set_flashdata('message', 'Lamaran telah diajukan');
+								redirect('lowongan');
 							}
-						}else {
-								$this->MPeserta->addPeserta($idpel['idpel'], $rekrut, $bdg, $test, 0);
-								$this->MPeserta->addPeserta($idpel['idpel'], $rekrut, $bdg, $test, 2);
-						}	
-						$data['pesan'] = 'Berhasil. Lamaran telah diajukan!';
-					}
+					} 
+					}else {
+						$this->session->set_flashdata('warning', 'Lengkapi data pendidikan PT untuk mengajukan Lamaran');
+						redirect ('pelamar/addPendidikan');
+				}
+			} else {
+				$this->session->set_flashdata('warning', 'Lengkapi data Pribadi untuk mengajukan Lamaran');
+				redirect('pelamar');
 			}
 				$data['detail'] = $this->MLowongan->getDetailBidang($rekrut, $bdg);
 				$data['idRekrutmen'] = $rekrut;
@@ -64,7 +75,7 @@
 				$data['title'] = 'Lowongan Dibuka';
 				$this->load->view('pelamar/main_pelamar', $data);
 		} else {
-			redirect('pelamar/login');
+			redirect('lowongan');
 		}
 	}
 	

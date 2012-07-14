@@ -2,7 +2,7 @@
 class AkunPelamar extends Controller{
 	function AkunPelamar(){
 		parent::Controller();
-		$this->load->helper(array('form','url'));
+		$this->load->helper(array('form','url','flash_message'));
 		$this->load->library('form_validation');
 		$this -> load -> plugin( 'captcha' );
 		$this->load->model('mAkunPelamar');

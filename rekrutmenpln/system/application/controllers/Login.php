@@ -5,7 +5,7 @@
 	}
 	function index()
 	{
-		$this->output->enable_profiler(TRUE);
+//		$this->output->enable_profiler(TRUE);
 		$this->load->helper(array('url', 'form'));
 		$this->load->library('form_validation');
 
@@ -17,26 +17,21 @@
 		$data = array(
             'login_error' => FALSE,
 		);
-		$data['title'] = 'Form Login';
+		$data['title'] = 'Lowongan';
 		if ($this->form_validation->run())
 		{
 			$username = $this->input->post('email');
 			$password = $this->input->post('password');
 
 			if (FALSE !== ($user = $this->log_in($username, $password)))
-			{			
-				$data['view'] = 'pelamar/v_loginsukses';
-				$data['title'] = 'Akun Pelamar';
-				$data['email'] = $this->session->userdata('email');
-				$this->load->view('pelamar/main_pelamar', $data);
+			{	
+				$this->session->set_flashdata('message', 'Anda Login sebagai'. $this->session->userdata('email'));
+				redirect('lowongan');
 			} else {
-				$data['login_error'] = TRUE;
-				$data['view'] = 'pelamar/v_member_login';
-				$this->load->view('pelamar/main_pelamar', $data);
+				redirect('lowongan');
 			}
 		} else {
-			$data['view'] = 'pelamar/v_member_login';
-			$this->load->view('pelamar/main_pelamar', $data);
+			redirect('lowongan');
 		}
 
 		
@@ -75,6 +70,7 @@
 	}
 
 	function logout() {
-		$this->session->sess_destroy(); echo "Anda telah keluar (logout)";
+		$this->session->sess_destroy(); 
+		redirect ('lowongan');
 	}
 } ?>
