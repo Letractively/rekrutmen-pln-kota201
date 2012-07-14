@@ -7,15 +7,21 @@ class m_test extends Model {
 	}
 	
 	function getHasilTestPsikotest($rekrutmen,$test,$status){
-		$data = $this->db->query("select pelamar.nama_pel, peserta.no_test, bidangjabatan.kode_bid, lokasi.nama_lokasi, rekrutmen.nama_rekrutmen
-								  from  psikotest,pelamar,peserta,bidangjabatan,rekrutmen,lokasi
-								  where psikotest.id_pel = pelamar.id_pel and
-								        psikotest.id_pel = peserta.id_pel and 
-								        psikotest.id_bid = bidangjabatan.id_bid and
-								        rekrutmen.id_rekrutmen = '$rekrutmen' and
-								        lokasi.id_lokasi = rekrutmen.id_lokasi and 
-								        psikotest.statuslulus = '$status' and 
-								        psikotest.id_rekrutmen ='$rekrutmen' ");
+		$data = $this->db->query("select pel.nama_pel, b.no_test, c.kode_bid from psikotest a 
+inner join peserta b on a.ID_PEL = b.ID_PEL AND a.ID_REKRUTMEN = b.ID_REKRUTMEN
+inner join pelamar pel on pel.ID_PEL = b.ID_PEL
+inner join bidangjabatan c on c.ID_BID = a.ID_BID
+where a.ID_REKRUTMEN = '$rekrutmen' AND a.STATUSLULUS = '$status'");
+//		$data = $this->db->query("SELECT rekrutmen.nama_rekrutmen, lokasi.nama_lokasi, pelamar.nama_pel, peserta.no_test, bidangjabatan.kode_bid 
+//									FROM rekrutmen 
+//									LEFT JOIN lokasi on lokasi.ID_LOKASI = rekrutmen.ID_LOKASI
+//									LEFT JOIN psikotest on psikotest.ID_REKRUTMEN = rekrutmen.ID_REKRUTMEN  
+//									LEFT JOIN pelamar on pelamar.ID_PEL = psikotest.ID_PEL
+//									LEFT JOIN peserta on peserta.ID_PEL = psikotest.ID_PEL
+//									LEFT JOIN bidangjabatan on bidangjabatan.ID_BID = psikotest.ID_BID
+//									where psikotest.statuslulus = '$status' and
+//										  psikotest.id_rekrutmen = '$rekrutmen'
+//									");
 		return $data->result();
 	}
 	

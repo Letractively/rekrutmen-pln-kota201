@@ -94,8 +94,6 @@ class m_bidang_dibuka extends Model {
 		$this->db->delete('programstudiperbidang');
 		
 		$data = array(
-			        'ID_REKRUTMEN'      	=> $this->input->post('rekrutmen'),
-			        'ID_BID'  				=> $this->input->post('bidang'),
 			        'QUOTA'     			=> $this->input->post('quota'),
 			     );
 		$this->db->update('bidangjabatandibuka', $data);
@@ -138,22 +136,11 @@ class m_bidang_dibuka extends Model {
 		}
 	}
 	
-	function delete($idrekrutmen,$idbidang,$idtingkat){
-	
-	
-	$query = $this->db->query("SELECT COUNT(*) AS dupe FROM programstudiperbidang WHERE ID_REKRUTMEN = '$idrekrutmen' AND ID_BID = '$idbidang'");
-        $row = $query->row();
-        $total = $row->dupe;
-       if($total==1){
-       		$this->db->where('ID_REKRUTMEN',$idrekrutmen);
-			$this->db->where('ID_BID',$idbidang);
-			$this->db->delete('bidangjabatandibuka');
-       }else{
+	function delete($idrekrutmen,$idbidang){
        	$this->db->where('ID_REKRUTMEN',$idrekrutmen);
 		$this->db->where('ID_BID',$idbidang);
-		$this->db->where('ID_PS',$idtingkat);
-		$this->db->delete('programstudiperbidang');
-       }
+		$this->db->delete('bidangjabatandibuka');	
+
 	}
 }
 ?>

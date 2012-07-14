@@ -15,7 +15,7 @@ class Mlowongan extends Model {
 		AND a.ID_REKRUTMEN IN 
 		(SELECT b.ID_REKRUTMEN
 		FROM rekrutmen b
-		WHERE b.TGL_TUTUP > now( ) AND now( ) >= b.TGL_BUKA)";
+		WHERE b.TGL_BUKA <= CURRENT_DATE() AND b.STATUS_REKRUTMEN = 1 AND b.TGL_TUTUP >= CURRENT_DATE())";
   	$result = $this->db->query($qry);
 //  	$i = 1;
 //  	foreach($array_keys_values->result() as $row()){
@@ -57,12 +57,20 @@ class Mlowongan extends Model {
         return ($row->dupe > 0) ? TRUE : FALSE;
   }
   
+  function studiPelamar($idPel){
+        $query = 
+        	$this->db->query(
+        		"select count(a.ID_PS) as dupe from pendidikanformalpt a where a.ID_PEL = '$idPel'");
+        $row = $query->row();
+        return ($row->dupe > 0) ? TRUE : FALSE;
+  }
+  
   function cekPersyaratanUmum($idpel, $ipk, $tingkat, $usia, $rekrut, $bid){
   	if($this->cekUsia($usia,$idpel)){
   	    $query = 
         	$this->db->query(
         		"select count(a.ID_PS) as dupe from pendidikanformalpt a 
-				where a.ID_PEL = '$idpel' and a.ID_TINGKAT = '$tingkat' and IPK = '$ipk' and
+				where a.ID_PEL = '$idpel' and a.ID_TINGKAT = '$tingkat' and IPK >= '$ipk' and
 				EXISTS 
 				( select * from programstudiperbidang b 
 				where b.ID_PS = a.ID_PS AND b.ID_REKRUTMEN = '$rekrut' AND b.ID_BID = '$bid');");

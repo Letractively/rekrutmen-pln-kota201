@@ -55,7 +55,6 @@ class m_rekrutmen extends Model {
 		
 		$result = array();
 		$this->db->select('*');
-		$this->db->where('STATUS_REKRUTMEN',1);
 		$this->db->from('rekrutmen');
 //		$this->db->order_by('NAMA_AGAMA','ASC');
 		$array_keys_values = $this->db->get();
@@ -68,20 +67,59 @@ class m_rekrutmen extends Model {
         
         return $result;
 	}
+	
+	function getOnlyRekrutmen($id){
+		
+		$data = $this->db->select('NAMA_REKRUTMEN');
+		$data = $this->db->from('rekrutmen');
+//		$this->db->order_by('NAMA_AGAMA','ASC');
+		$data  = $this->db->where('ID_REKRUTMEN',$id);
+		$data  =  $this->db->get();
+        return $data->result();
+	}
 	function getBidang(){
 		$data = $this->db->get('bidangjabatan');
 		return $data->result();
 	}
-
-	function getListRekrutmen() {
+	
+	function getFieldRekrutmen($id){
 		$data = $this->db->select('*');
 		$data = $this->db->from('rekrutmen');
-		$data = $this->db->join('batasusia','batasusia.ID_REKRUTMEN = rekrutmen.ID_REKRUTMEN');
-		$data = $this->db->join('lokasi','lokasi.ID_LOKASI = rekrutmen.ID_LOKASI');
-		$data = $this->db->join('jenisrekrutmen','jenisrekrutmen.ID_JENIS_REKRUT = rekrutmen.ID_JENIS_REKRUT');
-		$data = $this->db->join('Pelaksana','pelaksana.ID_PELAKSANA = rekrutmen.ID_PELAKSANA');
-		$data = $this->db->get();
+		$data = $this->db->join('lokasi', 'lokasi.id_lokasi = rekrutmen.id_lokasi');
+		$data = $this->db->get('');
 		return $data->result();
+	}
+	function getListRekrutmen() {
+//		$data = $this->db->select('*');
+//		$data = $this->db->from('rekrutmen');
+//		$data = $this->db->join('batasusia','batasusia.ID_REKRUTMEN = rekrutmen.ID_REKRUTMEN');
+//		$data = $this->db->join('lokasi','lokasi.ID_LOKASI = rekrutmen.ID_LOKASI');
+//		$data = $this->db->join('jenisrekrutmen','jenisrekrutmen.ID_JENIS_REKRUT = rekrutmen.ID_JENIS_REKRUT');
+//		$data = $this->db->join('Pelaksana','pelaksana.ID_PELAKSANA = rekrutmen.ID_PELAKSANA');
+//		$data = $this->db->get();
+//		return $data->result();
+	$qry = 
+		"SELECT rk.NAMA_REKRUTMEN, p.NAMA_PELAKSANA,jr.NAMA_JENIS_REKRUT,date_format(rk.TGL_BUKA,'%d %M %Y') as TGL_BUKA, date_format(rk.TGL_TUTUP,'%d %M %Y')as TGL_TUTUP, rk.ID_REKRUTMEN,rk.STATUS_REKRUTMEN, a.ID_BID, bd.NAMA_BID, bd.KODE_BID, lok.NAMA_LOKASI
+		FROM rekrutmen rk 
+		LEFT JOIN bidangjabatandibuka a on rk.ID_REKRUTMEN = a.ID_REKRUTMEN 
+		LEFT JOIN jenisrekrutmen jr on rk.ID_JENIS_REKRUT = jr.ID_JENIS_REKRUT AND jr.KODE_JENIS_REKRUT = 'JF'
+		LEFT JOIN bidangjabatan bd on bd.ID_BID = a.ID_BID
+		LEFT JOIN lokasi lok on lok.ID_LOKASI = rk.ID_LOKASI
+		LEFT JOIN pelaksana p on p.ID_PELAKSANA = rk.ID_PELAKSANA 
+		ORDER BY(rk.ID_REKRUTMEN) DESC";		
+  	$result = $this->db->query($qry);
+//  	$i = 1;
+//  	foreach($array_keys_values->result() as $row()){
+//  		$result[$i] = $row->ID_REKRUTMEN;
+//  		$result[$i] = $row->NAMA_REKRUTMEN;
+//  		$result[$i] = $row->TGL_BUKA;
+//  		$result[$i] = $row->TGL_TUTUP;
+//  		$result[$i] = $row->ID_BID;
+//  		$result[$i] = $row->NAMA_BID;
+//  		$result[$i] = $row->KODE_BID;
+//  		$result[$i] = $row->NAMA_LOKASI;
+//  	}
+  	return $result->result();
 	}
 	
 	function getRekrutmenSeleksi(){
@@ -182,7 +220,7 @@ class m_rekrutmen extends Model {
 			        'NAMA_REKRUTMEN'    => $this->input->post('nama_rekrutmen'),
 			        'TGL_BUKA' 			=> $this->input->post('tgl_buka'),
 			        'TGL_TUTUP' 	    => $this->input->post('tgl_tutup'),
-					'STATUS_REKRUTMEN'  => 1,
+					'STATUS_REKRUTMEN'  => 0,
 			);
 		$this->db->insert('rekrutmen', $data);
 		$query = $this->db->query('SELECT LAST_INSERT_ID()');
@@ -208,8 +246,8 @@ class m_rekrutmen extends Model {
 	$this->db->where('ID_REKRUTMEN',$id);
 	$this->db->delete('rekrutmen');	
 	}
-	function close($id){
-		$data = array('STATUS_REKRUTMEN'	=> 0);
+	function close($id, $stat){
+		$data = array('STATUS_REKRUTMEN'	=> $stat);
 		$this->db->where('ID_REKRUTMEN',$id);
 		$this->db->update('rekrutmen', $data);
 	}
