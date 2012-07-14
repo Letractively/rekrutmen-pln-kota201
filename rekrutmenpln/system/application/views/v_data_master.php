@@ -32,35 +32,7 @@ a:hover
 </head>
 <body>
 <!-- Beginning header -->
-    <div>
-		<a href='<?php echo site_url('admin/buka_rekrutmen/')?>'>Buka Rekrutment</a> |
-		<a href='<?php echo site_url('admin/bidang_dibuka/')?>'>Bidang Jabatan Dibuka</a> |
-	</div>
-	<div>
-		<a href='<?php echo site_url('admin/user/crud')?>'>Administrator</a> |	
-	</div>
-	<div>
-		<a href='<?php echo site_url('admin/peserta_test')?>'>Generate Peserta Test</a> |
-		<a href='<?php echo site_url('admin/generate_report')?>'>Generate Report</a> |		
-	</div>
-    <div>
-		<a href='<?php echo site_url('admin/tingkat_pendidikan/crud')?>'>Tingkat Pendidikan</a> |
-		<a href='<?php echo site_url('admin/perguruan_tinggi/crud')?>'>Perguruan Tinggi</a> |
-		<a href='<?php echo site_url('admin/program_studi/crud')?>'>Program Studi</a> |
-		<a href='<?php echo site_url('admin/template_rekrutmen/crud')?>'>Template Rekrkutmen</a> |
-		<a href='<?php echo site_url('admin/jabatan/crud')?>'>Jabatan</a> |
-		<a href='<?php echo site_url('admin/lokasi/crud')?>'>Lokasi</a> |
-	</div>
-	<div>
-		<a href='<?php echo site_url('admin/agama/crud')?>'>Agama</a> |
-		<a href='<?php echo site_url('admin/pelaksana/crud')?>'>Pelaksana</a> |
-		<a href='<?php echo site_url('admin/jenis_studi/crud')?>'>Jenis Studi</a> |
-		<a href='<?php echo site_url('admin/kota_kabupaten/crud')?>'>Kota Kabupaten</a> |
-		<a href='<?php echo site_url('admin/passing_grade/crud')?>'>Passing Grade</a> |
-		<a href='<?php echo site_url('admin/provinsi/crud')?>'>Provinsi</a> |
-		<a href='<?php echo site_url('admin/jenis_rekrutmen/crud')?>'>Jenis Rekrutmen</a> |
-		<a href='<?php echo site_url('admin/status_pernikahan/crud')?>'>Status Pernikahan</a> |
-	</div>
+   
 <!-- End of header-->
     <div style='height:20px;'></div>  
     <div>
