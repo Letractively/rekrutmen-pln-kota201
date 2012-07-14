@@ -14,6 +14,7 @@
     <td width="131" height="26">Nama Kursus</td>
     <td width="287"> 
       <input type="text" name="nama" id="nama" value="<?php echo set_value('nama',(isset($form['nama'])) ? $form['nama'] : '');?>"/>
+      *
     </td>
     <td width="94"><?php echo form_error('nama'); ?></td>
   </tr>
@@ -21,12 +22,13 @@
     <td>Nama Instansi</td>
     <td>
       <input type="text" name="instansi" id="instansi" value="<?php echo set_value('instansi',(isset($form['instansi'])) ? $form['instansi'] : '');?>"/>
+      *
     </td>
     <td><?php echo form_error('instansi'); ?></td>
   </tr>
   <tr>
     <td>Tahun Sertifikat</td>
-    <td><?php echo form_dropdown('tahun', $option_year,set_value('tahun',(isset($form['tahun'])) ? $form['tahun'] : 0),"'id=tahun'");?></td>
+    <td><?php echo form_dropdown('tahun', $option_year,set_value('tahun',(isset($form['tahun'])) ? $form['tahun'] : 0),"'id=tahun'");?>*</td>
     <td><?php echo form_error('tahun'); ?></td>
   </tr>
   <tr>

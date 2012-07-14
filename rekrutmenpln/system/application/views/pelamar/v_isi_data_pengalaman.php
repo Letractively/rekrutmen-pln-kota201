@@ -1,4 +1,4 @@
-<table class="isidata">
+<table class="listing" cellpadding="0" cellspacing="0">
   <tr>
     <td width="5%"><div align="center">No</div></td>
     <td width="18%"><div align="center">Nama Perusahaan</div></td>
@@ -28,7 +28,12 @@ foreach($pengalaman->result() as $row){ ?>
   }
  }?>
 </table>
-<?php echo anchor ('pelamar/inputPengalaman', '[+]Tambah Pengalaman Kerja');?>
+<div id="linkButton">
+<?php echo anchor ('pelamar/inputPengalaman', '[+] Tambah Pengalaman Kerja');?>
+</div>
+<br />
+<br />
+<br />
   <div align="right">
-  <?php echo anchor ('pelamar', '<< Sebelumnya');?> |   <?php echo anchor ('pelamar', "Berikutnya >>");?>
+  <?php echo anchor ('pelamar/addPendidikan', '<< Sebelumnya');?> |   <?php echo anchor ('pelamar/addKursus', "Berikutnya >>");?>
   </div>

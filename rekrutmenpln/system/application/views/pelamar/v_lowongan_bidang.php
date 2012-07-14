@@ -5,21 +5,21 @@
 </head>
 
 <body>
-<table width="469" height="119" class="isidata">
-<?php 
 
+<table class="listing" cellpadding="0" cellspacing="0">
+<?php 
+if(isset($lowongan)){
 $i=0;
 $temp = 0;
 foreach($lowongan->result() as $row){
 	$idRekrutmen[$i] = $row->ID_REKRUTMEN;
 	if($i == 0){
 		$temp = $row->ID_REKRUTMEN;?>
-<tr><td colspan="4">
+<th colspan="4">
 		<?php 
 		echo $row->NAMA_REKRUTMEN.' '.$row->NAMA_LOKASI.' '.$row->TGL_BUKA.' - '.$row->TGL_TUTUP;
 		?>
-		</td>
-</tr>
+</th>
 	<?php }
 	if($temp == $row->ID_REKRUTMEN){
 		?>
@@ -32,11 +32,11 @@ foreach($lowongan->result() as $row){
 		<?php 
 	} else {
 		$temp = $row->ID_REKRUTMEN;?>
-				<tr><td colspan="4">
+				<th colspan="4">
 		<?php 
 		echo $row->NAMA_REKRUTMEN.' '.$row->NAMA_LOKASI.' '.$row->TGL_BUKA.' - '.$row->TGL_TUTUP;
 		?>
-		</td></tr>
+		</th>
 		<tr>
 		<td width="55"></td>
 		<td width="55"><?php echo $row->KODE_BID;?></td>
@@ -46,6 +46,9 @@ foreach($lowongan->result() as $row){
 		
 <?php 	}
 	$i++;
+}
+} else {
+	echo "Tidak Ada Lowongan Dibuka";
 }
 ?>
 </table>

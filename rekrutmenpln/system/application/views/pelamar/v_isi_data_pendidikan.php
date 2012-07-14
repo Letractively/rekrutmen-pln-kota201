@@ -1,5 +1,5 @@
 <p>Riwayat Pendidikan Formal Perguruan Tinggi</p>
-<table  class="isidata">
+ <table class="listing" cellpadding="0" cellspacing="0">
   <tr>
     <td width="4%"><div align="center">No</div></td>
     <td width="13%"><div align="center">Tingkat Pendidikan</div></td>
@@ -33,10 +33,15 @@ if(isset($row->ID_PENDIDIKAN_PT)){
  }
   ?>
 </table>
-<?php echo anchor ('pelamar/inputPendidikanPT', '[+]Tambah Pendidikan PT');?>
+
+<div id="linkButton">
+<?php echo anchor ('pelamar/inputPendidikanPT', '[+] Tambah Pendidikan PT');?>
+</div>
+<br />
+<br />
 <p>&nbsp;</p>
 <p>Riwayat Pendidikan Formal Non Perguruan Tinggi</p>
-<table class="isidata">
+ <table class="listing" cellpadding="0" cellspacing="0">
     <tr>
       <td width="4%"><div align="center">No</div></td>
       <td width="15%"><div align="center">Tingkat Pendidikan</div></td>
@@ -66,10 +71,12 @@ if(isset($row->ID_PENDIDIKAN)){
  }
   ?>
   </table>
-  <p><?php echo anchor ('pelamar/inputPendidikanNonPT', '[+]Tambah Pendidikan Non PT');?>  </p>
+  <div id="linkButton">
+  <?php echo anchor ('pelamar/inputPendidikanNonPT', '[+] Tambah Pendidikan Non PT');?> 
+  </div>
   <p>&nbsp;</p>
   <div align="right">
-  <?php echo anchor ('pelamar', '<< Sebelumnya');?> |   <?php echo anchor ('pelamar', "Berikutnya >>");?>
+  <?php echo anchor ('pelamar', '<< Sebelumnya');?> |   <?php echo anchor ('pelamar/addPengalaman', "Berikutnya >>");?>
   </div>
   <p>&nbsp;</p>
 

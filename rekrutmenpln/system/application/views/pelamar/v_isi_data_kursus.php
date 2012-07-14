@@ -1,5 +1,4 @@
-<div class="isidata">
-<table>
+<table class="listing" cellpadding="0" cellspacing="0">
   <tr>
     <td width="56" ><div align="center">No</div></td>
     <td width="387" ><div align="center">Nama Kursus</div></td>
@@ -24,8 +23,12 @@ if(isset($row->ID_KURSUS)){
   }
  } ?>
 </table>
-<?php echo anchor ('pelamar/inputKursus', '[+]Tambah Kursus');?>
-  <div align="right">
-  <?php echo anchor ('pelamar', '<< Sebelumnya');?> |   <?php echo anchor ('pelamar', "Berikutnya >>");?>
-  </div>
+<div id="linkButton">
+<?php echo anchor ('pelamar/inputKursus', '[+] Tambah Kursus');?>
 </div>
+<br />
+<br />
+<br />
+  <div align="right">
+  <?php echo anchor ('pelamar/addPengalaman', '<< Sebelumnya');?> |   <?php echo anchor ('lowongan', "Berikutnya >>");?>
+  </div>
